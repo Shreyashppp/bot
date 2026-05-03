@@ -9,4 +9,4 @@ client.once('ready', () => {
 });
 
 // 🔥 REPLACE THIS LINE ONLY
-client.login("MTUwMDUzOTc0MzE2MTgxMTAxNQ.GRZeM8.OLNERe7jTcpZoPYl-4_1RlZNf-jUUQpJHt4Tag");
+client.login(process.env.TOKEN);
