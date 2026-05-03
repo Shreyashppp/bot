@@ -8,7 +8,5 @@ client.once('ready', () => {
   console.log("Bot Online");
 });
 
-// ✅ correct debug
-console.log("TOKEN:", process.env.TOKEN);
-
-client.login(process.env.TOKEN);
+// 🔥 REPLACE THIS LINE ONLY
+client.login("MTUwMDUzOTc0MzE2MTgxMTAxNQ.GRZeM8.OLNERe7jTcpZoPYl-4_1RlZNf-jUUQpJHt4Tag");
