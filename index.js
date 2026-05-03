@@ -1,42 +1,49 @@
-const { Client, GatewayIntentBits, REST, Routes, SlashCommandBuilder } = require('discord.js');
-
-const client = new Client({
-  intents: [GatewayIntentBits.Guilds]
-});
-
-// 🔥 Create command
 const commands = [
   new SlashCommandBuilder()
     .setName('ping')
-    .setDescription('Replies with Pong!')
+    .setDescription('Replies with Pong!'),
+
+  new SlashCommandBuilder()
+    .setName('kick')
+    .setDescription('Kick a user')
+    .addUserOption(option =>
+      option.setName('user')
+        .setDescription('User to kick')
+        .setRequired(true)
+    ),
+
+  new SlashCommandBuilder()
+    .setName('ban')
+    .setDescription('Ban a user')
+    .addUserOption(option =>
+      option.setName('user')
+        .setDescription('User to ban')
+        .setRequired(true)
+    )
 ].map(cmd => cmd.toJSON());
 
-// 🔥 Register command (runs once on start)
-const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
+    client.on('interactionCreate', async interaction => {if (!interaction.isChatInputCommand()) return;
 
-(async () => {
-  try {
-    console.log('Registering commands...');
-    await rest.put(
-      Routes.applicationCommands("1500539743161811015"),
-      { body: commands }
-    );
-    console.log('Commands registered!');
-  } catch (error) {
-    console.error(error);
-  }
-})();
+if (interaction.commandName === 'ping') {
+  await interaction.reply('🏓 Pong!');
+}
 
-client.on('interactionCreate', async interaction => {
-  if (!interaction.isChatInputCommand()) return;
+if (interaction.commandName === 'kick') {
+  const user = interaction.options.getUser('user');
+  const member = interaction.guild.members.cache.get(user.id);
 
-  if (interaction.commandName === 'ping') {
-    await interaction.reply('🏓 Pong!');
-  }
-});
+  if (!member) return interaction.reply("User not found");
 
-client.on('clientReady', () => {
-  console.log(`Logged in as ${client.user.tag}`);
-});
+  await member.kick();
+  await interaction.reply(`${user.tag} kicked 👢`);
+}
 
-client.login(process.env.TOKEN);
+if (interaction.commandName === 'ban') {
+  const user = interaction.options.getUser('user');
+  const member = interaction.guild.members.cache.get(user.id);
+
+  if (!member) return interaction.reply("User not found");
+
+  await member.ban();
+  await interaction.reply(`${user.tag} banned 🔨`);
+}
