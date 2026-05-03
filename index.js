@@ -8,12 +8,7 @@ client.once('ready', () => {
   console.log("Bot Online");
 });
 
-client.on('interactionCreate', async interaction => {
-  if (!interaction.isChatInputCommand()) return;
-
-  if (interaction.commandName === "ping") {
-    await interaction.reply("Pong 🏓");
-  }
-});
+// 👇 ADD THIS LINE HERE
+console.log("MTUwMDUzOTc0MzE2MTgxMTAxNQ.GRZeM8.OLNERe7jTcpZoPYl-4_1RlZNf-jUUQpJHt4Tag:", process.env.TOKEN);
 
 client.login(process.env.TOKEN);
