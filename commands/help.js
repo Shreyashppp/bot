@@ -1,4 +1,5 @@
 const {
+  SlashCommandBuilder,
   EmbedBuilder,
   ActionRowBuilder,
   StringSelectMenuBuilder,
@@ -8,124 +9,208 @@ const {
 
 const commandCatalog = require('../command-catalog');
 
-const MENU_CONFIG = {
-  main: {
-    title: 'Main Menu',
-    categories: [{ key: 'moderation', label: 'Moderation', emoji: '🔨' }]
+const CATEGORY_META = {
+  moderation: {
+    label: 'Moderation',
+    emoji: '🛡️',
+    color: 0xed4245,
+    summary: 'Keep your server safe with member management and cleanup tools.'
   },
-  other: {
-    title: 'Other Menu',
-    categories: [{ key: 'utility', label: 'Utility', emoji: '⚙️' }]
+  utility: {
+    label: 'Utility',
+    emoji: '⚙️',
+    color: 0x5865f2,
+    summary: 'Core utility commands for status checks and navigation.'
   }
 };
 
-const ALL_CATEGORIES = [...MENU_CONFIG.main.categories, ...MENU_CONFIG.other.categories];
+function prettyCategoryName(category) {
+  const known = CATEGORY_META[category];
+  if (known) {
+    return `${known.emoji} ${known.label}`;
+  }
 
-function buildOverviewEmbed() {
-  return new EmbedBuilder()
-    .setColor(0x2b2d42)
-    .setTitle('🤖 Professional Help Center')
-    .setDescription('Browse commands below')
-    .addFields(
-      {
-        name: 'Main',
-        value: MENU_CONFIG.main.categories.map(c => `${c.emoji} ${c.label}`).join('\n'),
-        inline: true
-      },
-      {
-        name: 'Other',
-        value: MENU_CONFIG.other.categories.map(c => `${c.emoji} ${c.label}`).join('\n'),
-        inline: true
-      }
-    );
+  return category.charAt(0).toUpperCase() + category.slice(1);
 }
 
-function buildCategoryEmbed(category) {
-  const cmds = commandCatalog.filter(c => c.category === category);
-
-  return new EmbedBuilder()
-    .setColor(0x5865f2)
-    .setTitle(`${category.toUpperCase()} Commands`)
-    .setDescription(cmds.map(c => `**/${c.name}** - ${c.description}`).join('\n'));
+function commandCountForCategory(category) {
+  return commandCatalog.filter(command => command.category === category).length;
 }
 
-function buildCommandEmbed(name) {
-  const c = commandCatalog.find(cmd => cmd.name === name);
+function buildCategoryOptions() {
+  const uniqueCategories = [...new Set(commandCatalog.map(command => command.category))];
 
-  return new EmbedBuilder()
-    .setColor(0x57f287)
-    .setTitle(`/${c.name}`)
-    .setDescription(c.description)
-    .addFields(
-      { name: 'Usage', value: `\`${c.usage}\`` },
-      { name: 'Category', value: c.category }
-    );
+  return uniqueCategories.map(category => ({
+    label: CATEGORY_META[category]?.label || category,
+    description: CATEGORY_META[category]?.summary || `Browse all ${category} commands`,
+    emoji: CATEGORY_META[category]?.emoji,
+    value: category
+  }));
 }
 
-function components() {
+function buildCommandOptions() {
+  return commandCatalog.map(command => ({
+    label: `/${command.name}`,
+    description: command.description.slice(0, 100),
+    value: command.name
+  }));
+}
+
+function buildComponents(ownerId) {
   return [
     new ActionRowBuilder().addComponents(
       new StringSelectMenuBuilder()
-        .setCustomId('cat')
-        .setPlaceholder('Select category')
-        .addOptions(
-          ALL_CATEGORIES.map(c => ({
-            label: c.label,
-            value: c.key,
-            emoji: c.emoji
-          }))
-        )
+        .setCustomId(`help:category:${ownerId}`)
+        .setPlaceholder('Choose a command category')
+        .addOptions(buildCategoryOptions())
     ),
     new ActionRowBuilder().addComponents(
       new StringSelectMenuBuilder()
-        .setCustomId('cmd')
-        .setPlaceholder('Select command')
-        .addOptions(
-          commandCatalog.map(c => ({
-            label: `/${c.name}`,
-            value: c.name
-          }))
-        )
+        .setCustomId(`help:command:${ownerId}`)
+        .setPlaceholder('Choose a command for detailed usage')
+        .addOptions(buildCommandOptions())
     ),
     new ActionRowBuilder().addComponents(
       new ButtonBuilder()
-        .setCustomId('home')
-        .setLabel('Home')
+        .setCustomId(`help:home:${ownerId}`)
+        .setLabel('Back to Home')
         .setStyle(ButtonStyle.Secondary)
     )
   ];
 }
 
+function buildOverviewEmbed() {
+  const uniqueCategories = [...new Set(commandCatalog.map(command => command.category))];
+  const embed = new EmbedBuilder()
+    .setColor(0x2b2d42)
+    .setTitle('🤖 E.D.I.T.H Professional Command Center')
+    .setDescription(
+      'Use the menus below to browse categories, inspect command usage, and moderate your server.'
+    );
+
+  embed.addFields(
+    uniqueCategories.map(category => ({
+      name: prettyCategoryName(category),
+      value: `${commandCountForCategory(category)} command(s)`,
+      inline: true
+    }))
+  );
+
+  return embed.setFooter({
+    text: 'Tip: select a command to instantly view syntax and examples.'
+  });
+}
+
+function buildCategoryEmbed(category) {
+  const commands = commandCatalog.filter(command => command.category === category);
+
+  if (!commands.length) {
+    return new EmbedBuilder()
+      .setColor(0xed4245)
+      .setTitle('Category Not Found')
+      .setDescription('That category does not exist in the current command catalog.');
+  }
+
+  return new EmbedBuilder()
+    .setColor(CATEGORY_META[category]?.color || 0x5865f2)
+    .setTitle(`${prettyCategoryName(category)} Commands`)
+    .setDescription(CATEGORY_META[category]?.summary || 'Browse available commands below.')
+    .addFields(
+      commands.map(command => ({
+        name: `/${command.name}`,
+        value: `${command.description}\nUsage: \`${command.usage}\``
+      }))
+    );
+}
+
+function buildCommandEmbed(commandName) {
+  const command = commandCatalog.find(entry => entry.name === commandName);
+
+  if (!command) {
+    return new EmbedBuilder()
+      .setColor(0xed4245)
+      .setTitle('Command Not Found')
+      .setDescription('That command does not exist in the current command catalog.');
+  }
+
+  return new EmbedBuilder()
+    .setColor(CATEGORY_META[command.category]?.color || 0x57f287)
+    .setTitle(`/${command.name}`)
+    .setDescription(command.description)
+    .addFields(
+      { name: 'Usage', value: `\`${command.usage}\`` },
+      { name: 'Category', value: prettyCategoryName(command.category), inline: true },
+      {
+        name: 'Options',
+        value: command.options?.length
+          ? command.options
+              .map(option => `• \`${option.name}\` - ${option.description}`)
+              .join('\n')
+          : 'No options'
+      }
+    );
+}
+
+function parseHelpCustomId(customId) {
+  const [namespace, action, ownerId] = customId.split(':');
+  if (namespace !== 'help' || !action || !ownerId) {
+    return null;
+  }
+
+  return { action, ownerId };
+}
+
 module.exports = {
-  name: 'help',
+  data: new SlashCommandBuilder()
+    .setName('help')
+    .setDescription('Open the interactive command center with categories and usage guides.'),
   category: 'utility',
 
   async execute(interaction) {
     await interaction.reply({
       embeds: [buildOverviewEmbed()],
-      components: components()
+      components: buildComponents(interaction.user.id)
     });
   },
 
-  async handleMenuInteraction(interaction) {
-    if (interaction.customId === 'cat') {
-      return interaction.update({
+  async handleComponentInteraction(interaction) {
+    if (!interaction.customId?.startsWith('help:')) {
+      return;
+    }
+
+    const parsed = parseHelpCustomId(interaction.customId);
+    if (!parsed) {
+      return;
+    }
+
+    if (parsed.ownerId !== interaction.user.id) {
+      await interaction.reply({
+        content: 'Only the user who opened this help panel can use it. Run `/help` to open your own panel.',
+        ephemeral: true
+      });
+      return;
+    }
+
+    if (parsed.action === 'category' && interaction.isStringSelectMenu()) {
+      await interaction.update({
         embeds: [buildCategoryEmbed(interaction.values[0])],
-        components: components()
+        components: buildComponents(parsed.ownerId)
       });
+      return;
     }
 
-    if (interaction.customId === 'cmd') {
-      return interaction.update({
+    if (parsed.action === 'command' && interaction.isStringSelectMenu()) {
+      await interaction.update({
         embeds: [buildCommandEmbed(interaction.values[0])],
-        components: components()
+        components: buildComponents(parsed.ownerId)
       });
+      return;
     }
 
-    if (interaction.customId === 'home') {
-      return interaction.update({
+    if (parsed.action === 'home' && interaction.isButton()) {
+      await interaction.update({
         embeds: [buildOverviewEmbed()],
-        components: components()
+        components: buildComponents(parsed.ownerId)
       });
     }
   }

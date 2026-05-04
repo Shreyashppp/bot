@@ -1,38 +1,56 @@
 require('dotenv').config();
-const fs = require('fs');
-const path = require('path');
-const { Client, Collection, GatewayIntentBits } = require('discord.js');
 
-const client = new Client({
-  intents: [GatewayIntentBits.Guilds]
-});
+const fs = require('node:fs');
+const path = require('node:path');
+const { REST, Routes } = require('discord.js');
 
-client.commands = new Collection();
+const token = process.env.DISCORD_TOKEN || process.env.TOKEN;
+const clientId = process.env.DISCORD_CLIENT_ID || process.env.CLIENT_ID;
+const guildId = process.env.DISCORD_GUILD_ID || process.env.GUILD_ID;
 
-// Load commands
-const files = fs.readdirSync('./commands');
-for (const file of files) {
-  const cmd = require(`./commands/${file}`);
-  client.commands.set(cmd.name, cmd);
+if (!token || !clientId) {
+  console.error(
+    'Missing credentials. You need DISCORD_TOKEN and DISCORD_CLIENT_ID (legacy TOKEN/CLIENT_ID also supported).'
+  );
+  process.exit(1);
 }
 
-client.once('ready', () => {
-  console.log("Bot Online ✅");
-});
+const commandsPath = path.join(__dirname, 'commands');
+const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+const commands = [];
 
-client.on('interactionCreate', async interaction => {
+for (const file of commandFiles) {
+  const command = require(path.join(commandsPath, file));
 
-  if (interaction.isChatInputCommand()) {
-    const cmd = client.commands.get(interaction.commandName);
-    if (cmd) await cmd.execute(interaction);
+  if (!command.data) {
+    console.warn(`[WARN] Skipping ${file}: missing "data" export.`);
+    continue;
   }
 
-  if (interaction.isStringSelectMenu() || interaction.isButton()) {
-    const help = client.commands.get('help');
-    if (help?.handleMenuInteraction) {
-      await help.handleMenuInteraction(interaction);
+  commands.push(command.data.toJSON());
+}
+
+const rest = new REST({ version: '10' }).setToken(token);
+
+(async () => {
+  try {
+    console.log(`Started refreshing ${commands.length} application (/) commands...`);
+
+    if (guildId) {
+      await rest.put(Routes.applicationGuildCommands(clientId, guildId), {
+        body: commands
+      });
+      console.log(`✅ Reloaded ${commands.length} guild commands for guild ${guildId}.`);
+      return;
     }
-  }
-});
 
-client.login(process.env.TOKEN);
+    await rest.put(Routes.applicationCommands(clientId), {
+      body: commands
+    });
+
+    console.log(`✅ Reloaded ${commands.length} global commands.`);
+  } catch (error) {
+    console.error('Failed to deploy commands:', error);
+    process.exit(1);
+  }
+})();
