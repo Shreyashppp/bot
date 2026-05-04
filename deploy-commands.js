@@ -1,78 +1,38 @@
 require('dotenv').config();
-const { REST, Routes } = require('discord.js');
+const fs = require('fs');
+const path = require('path');
+const { Client, Collection, GatewayIntentBits } = require('discord.js');
 
-const commands = [
-  {
-    name: "ping",
-    description: "Check bot status"
-  },
-  {
-    name: "help",
-    description: "Show help menu"
-  },
-  {
-    name: "ban",
-    description: "Ban a user",
-    options: [
-      {
-        name: "user",
-        description: "User to ban",
-        type: 6,
-        required: true
-      }
-    ]
-  },
-  {
-    name: "kick",
-    description: "Kick a user",
-    options: [
-      {
-        name: "user",
-        description: "User to kick",
-        type: 6,
-        required: true
-      }
-    ]
-  },
-  {
-    name: "mute",
-    description: "Mute a user",
-    options: [
-      {
-        name: "user",
-        description: "User to mute",
-        type: 6,
-        required: true
-      }
-    ]
-  },
-  {
-    name: "purge",
-    description: "Delete multiple messages (1-100)",
-    options: [
-      {
-        name: "amount",
-        description: "Number of messages to delete",
-        type: 4,
-        required: true
-      }
-    ]
+const client = new Client({
+  intents: [GatewayIntentBits.Guilds]
+});
+
+client.commands = new Collection();
+
+// Load commands
+const files = fs.readdirSync('./commands');
+for (const file of files) {
+  const cmd = require(`./commands/${file}`);
+  client.commands.set(cmd.name, cmd);
+}
+
+client.once('ready', () => {
+  console.log("Bot Online ✅");
+});
+
+client.on('interactionCreate', async interaction => {
+
+  if (interaction.isChatInputCommand()) {
+    const cmd = client.commands.get(interaction.commandName);
+    if (cmd) await cmd.execute(interaction);
   }
-];
 
-const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
-
-(async () => {
-  try {
-    console.log("Registering commands...");
-
-    await rest.put(
-      Routes.applicationCommands(process.env.CLIENT_ID), // GLOBAL
-      { body: commands }
-    );
-
-    console.log("All commands registered ✅");
-  } catch (error) {
-    console.error(error);
+  if (interaction.isStringSelectMenu() || interaction.isButton()) {
+    const help = client.commands.get('help');
+    if (help?.handleMenuInteraction) {
+      await help.handleMenuInteraction(interaction);
+    }
   }
-})();
+});
+
+client.login(process.env.TOKEN);
