@@ -1,3 +1,5 @@
+require('./deploy-commands.js'); // register slash commands
+
 const { Client, GatewayIntentBits, Collection } = require('discord.js');
 
 const client = new Client({
@@ -6,7 +8,7 @@ const client = new Client({
 
 client.commands = new Collection();
 
-// Load commands from folder
+// Load commands from /commands folder
 const fs = require('fs');
 const files = fs.readdirSync('./commands');
 
@@ -16,8 +18,8 @@ for (const file of files) {
 }
 
 // Bot ready
-client.once('ready', () => {
-  console.log("Bot Online");
+client.once('clientReady', () => {
+  console.log("Bot Online ✅");
 });
 
 // Handle slash commands
@@ -27,7 +29,15 @@ client.on('interactionCreate', async interaction => {
   const cmd = client.commands.get(interaction.commandName);
   if (!cmd) return;
 
-  await cmd.execute(interaction);
+  try {
+    await cmd.execute(interaction);
+  } catch (error) {
+    console.error(error);
+    await interaction.reply({
+      content: "❌ Error while executing command",
+      ephemeral: true
+    });
+  }
 });
 
 // Login
