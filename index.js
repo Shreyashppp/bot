@@ -1,3 +1,5 @@
+require('./deploy-commands.js'); // auto register commands
+
 const { Client, GatewayIntentBits, Collection } = require('discord.js');
 
 const client = new Client({
@@ -23,7 +25,6 @@ client.on('interactionCreate', async interaction => {
   if (!interaction.isChatInputCommand()) return;
 
   const cmd = client.commands.get(interaction.commandName);
-
   if (!cmd) return;
 
   await cmd.execute({
