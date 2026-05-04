@@ -5,11 +5,12 @@ module.exports = {
 
   async execute(interaction, client) {
 
-    const commands = client.commands.map(cmd => `/${cmd.name}`).join("\n");
+    // 👇 THIS LINE YOU ASKED ABOUT
+    const commands = client.commands.map(cmd => `🔹 /${cmd.name}`).join("\n");
 
     const embed = new EmbedBuilder()
       .setTitle("📜 Commands")
-      .setDescription(commands)
+      .setDescription(commands) // 👈 used here
       .setColor("Blue")
       .setFooter({ text: "Auto Help System" });
 
