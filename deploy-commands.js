@@ -1,6 +1,3 @@
-require('dotenv').config();
-const { REST, Routes } = require('discord.js');
-
 const commands = [
   {
     name: "ping",
@@ -8,7 +5,7 @@ const commands = [
   },
   {
     name: "help",
-    description: "Help command"
+    description: "Show commands"
   },
   {
     name: "ban",
@@ -21,16 +18,29 @@ const commands = [
         required: true
       }
     ]
+  },
+  {
+    name: "kick",
+    description: "Kick a user",
+    options: [
+      {
+        name: "user",
+        type: 6,
+        description: "User to kick",
+        required: true
+      }
+    ]
+  },
+  {
+    name: "mute",
+    description: "Mute a user",
+    options: [
+      {
+        name: "user",
+        type: 6,
+        description: "User to mute",
+        required: true
+      }
+    ]
   }
 ];
-
-const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
-
-(async () => {
-  await rest.put(
-    Routes.applicationCommands(process.env.CLIENT_ID),
-    { body: commands }
-  );
-
-  console.log("Commands registered");
-})();
