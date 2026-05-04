@@ -1,5 +1,3 @@
-require('./deploy-commands.js'); // auto register commands
-
 const { Client, GatewayIntentBits, Collection } = require('discord.js');
 
 const client = new Client({
@@ -8,7 +6,7 @@ const client = new Client({
 
 client.commands = new Collection();
 
-// Load commands
+// Load commands from folder
 const fs = require('fs');
 const files = fs.readdirSync('./commands');
 
@@ -17,19 +15,20 @@ for (const file of files) {
   client.commands.set(command.name, command);
 }
 
+// Bot ready
 client.once('ready', () => {
   console.log("Bot Online");
 });
 
+// Handle slash commands
 client.on('interactionCreate', async interaction => {
   if (!interaction.isChatInputCommand()) return;
 
   const cmd = client.commands.get(interaction.commandName);
   if (!cmd) return;
 
-  await cmd.execute({
-    reply: (msg) => interaction.reply(msg)
-  });
+  await cmd.execute(interaction);
 });
 
+// Login
 client.login(process.env.TOKEN);
