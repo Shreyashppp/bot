@@ -29,3 +29,15 @@ const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
     console.error(error);
   }
 })();
+{
+  name: "ban",
+  description: "Ban a user",
+  options: [
+    {
+      name: "user",
+      type: 6,
+      description: "User to ban",
+      required: true
+    }
+  ]
+}
