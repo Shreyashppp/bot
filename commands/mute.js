@@ -1,32 +1,19 @@
-const { EmbedBuilder, PermissionFlagsBits } = require('discord.js');
+const { PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
   name: "mute",
+  category: "moderation",
 
   async execute(interaction) {
-
-    if (!interaction.member.permissions.has(PermissionFlagsBits.ModerateMembers)) {
-      return interaction.reply({
-        content: "❌ You don't have permission",
-        ephemeral: true
-      });
-    }
+    if (!interaction.member.permissions.has(PermissionFlagsBits.ModerateMembers))
+      return interaction.reply({ content: "No permission", ephemeral: true });
 
     const user = interaction.options.getUser('user');
     const member = interaction.guild.members.cache.get(user.id);
 
-    if (!member) {
-      return interaction.reply("❌ User not found");
-    }
+    if (!member) return interaction.reply("User not found");
 
-    // 10 minutes mute
     await member.timeout(10 * 60 * 1000);
-
-    const embed = new EmbedBuilder()
-      .setTitle("🔇 User Muted")
-      .setDescription(`${user.tag} muted for 10 minutes`)
-      .setColor("Yellow");
-
-    await interaction.reply({ embeds: [embed] });
+    await interaction.reply(`Muted ${user.tag}`);
   }
 };
