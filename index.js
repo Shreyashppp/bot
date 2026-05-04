@@ -1,4 +1,4 @@
-require('./deploy-commands.js'); // register slash commands
+require('./deploy-commands.js');
 
 const { Client, GatewayIntentBits, Collection } = require('discord.js');
 
@@ -17,27 +17,63 @@ for (const file of files) {
   client.commands.set(command.name, command);
 }
 
-// Ready event
+// Bot ready
 client.once('clientReady', () => {
   console.log("Bot Online ✅");
 });
 
-// Handle slash commands
+// Interaction handler (ALL IN ONE)
 client.on('interactionCreate', async interaction => {
-  if (!interaction.isChatInputCommand()) return;
 
-  const cmd = client.commands.get(interaction.commandName);
-  if (!cmd) return;
+  // 🔹 SLASH COMMANDS
+  if (interaction.isChatInputCommand()) {
+    const cmd = client.commands.get(interaction.commandName);
+    if (!cmd) return;
 
-  try {
-    // 👇 IMPORTANT: pass client for auto help
-    await cmd.execute(interaction, client);
-  } catch (error) {
-    console.error(error);
-    await interaction.reply({
-      content: "❌ Error while executing command",
-      ephemeral: true
-    });
+    try {
+      await cmd.execute(interaction, client);
+    } catch (error) {
+      console.error(error);
+      await interaction.reply({
+        content: "❌ Error while executing command",
+        ephemeral: true
+      });
+    }
+  }
+
+  // 🔹 DROPDOWN MENU (HELP)
+  if (interaction.isStringSelectMenu()) {
+
+    if (interaction.customId === "help-menu") {
+
+      if (interaction.values[0] === "moderation") {
+        const embed = {
+          title: "🛡️ Moderation Commands",
+          description: `
+🔹 /ban
+🔹 /kick
+🔹 /mute
+🔹 /purge
+          `,
+          color: 0xff0000
+        };
+
+        return interaction.update({ embeds: [embed] });
+      }
+
+      if (interaction.values[0] === "utility") {
+        const embed = {
+          title: "⚙️ Utility Commands",
+          description: `
+🔹 /ping
+🔹 /help
+          `,
+          color: 0x00ff00
+        };
+
+        return interaction.update({ embeds: [embed] });
+      }
+    }
   }
 });
 
