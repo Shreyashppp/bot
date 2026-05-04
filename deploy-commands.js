@@ -4,11 +4,11 @@ const { REST, Routes } = require('discord.js');
 const commands = [
   {
     name: "ping",
-    description: "Check bot"
+    description: "Check bot status"
   },
   {
     name: "help",
-    description: "Show commands"
+    description: "Show help menu"
   },
   {
     name: "ban",
@@ -16,8 +16,8 @@ const commands = [
     options: [
       {
         name: "user",
-        type: 6,
         description: "User to ban",
+        type: 6,
         required: true
       }
     ]
@@ -28,8 +28,8 @@ const commands = [
     options: [
       {
         name: "user",
-        type: 6,
         description: "User to kick",
+        type: 6,
         required: true
       }
     ]
@@ -40,8 +40,20 @@ const commands = [
     options: [
       {
         name: "user",
-        type: 6,
         description: "User to mute",
+        type: 6,
+        required: true
+      }
+    ]
+  },
+  {
+    name: "purge",
+    description: "Delete multiple messages (1-100)",
+    options: [
+      {
+        name: "amount",
+        description: "Number of messages to delete",
+        type: 4,
         required: true
       }
     ]
@@ -59,7 +71,7 @@ const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
       { body: commands }
     );
 
-    console.log("Commands registered successfully ✅");
+    console.log("All commands registered ✅");
   } catch (error) {
     console.error(error);
   }
