@@ -1,19 +1,46 @@
-const { EmbedBuilder } = require('discord.js');
+const {
+  EmbedBuilder,
+  ActionRowBuilder,
+  StringSelectMenuBuilder
+} = require('discord.js');
 
 module.exports = {
   name: "help",
 
-  async execute(interaction, client) {
+  async execute(interaction) {
 
-    // 👇 THIS LINE YOU ASKED ABOUT
-    const commands = client.commands.map(cmd => `🔹 /${cmd.name}`).join("\n");
-
+    // MAIN MENU EMBED
     const embed = new EmbedBuilder()
-      .setTitle("📜 Commands")
-      .setDescription(commands) // 👈 used here
-      .setColor("Blue")
-      .setFooter({ text: "Auto Help System" });
+      .setTitle("🤖 Help Menu")
+      .setDescription("Select a category from the dropdown below")
+      .addFields(
+        { name: "🛡️ Moderation", value: "Ban, Kick, Mute", inline: true },
+        { name: "⚙️ Utility", value: "Ping, Help", inline: true }
+      )
+      .setColor("Blue");
 
-    await interaction.reply({ embeds: [embed] });
+    // DROPDOWN MENU
+    const menu = new StringSelectMenuBuilder()
+      .setCustomId("help-menu")
+      .setPlaceholder("Select a category")
+      .addOptions([
+        {
+          label: "Moderation",
+          description: "View moderation commands",
+          value: "moderation"
+        },
+        {
+          label: "Utility",
+          description: "View utility commands",
+          value: "utility"
+        }
+      ]);
+
+    const row = new ActionRowBuilder().addComponents(menu);
+
+    await interaction.reply({
+      embeds: [embed],
+      components: [row]
+    });
   }
 };
