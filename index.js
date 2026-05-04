@@ -1,81 +1,106 @@
-require('./deploy-commands.js');
+require('dotenv').config();
 
-const { Client, GatewayIntentBits, Collection } = require('discord.js');
+const fs = require('node:fs');
+const path = require('node:path');
+const { Client, GatewayIntentBits, Collection, Events } = require('discord.js');
+
+const token = process.env.DISCORD_TOKEN || process.env.TOKEN;
+
+if (!token) {
+  console.error('Missing bot token. Set DISCORD_TOKEN (or TOKEN) in your environment.');
+  process.exit(1);
+}
 
 const client = new Client({
-  intents: [GatewayIntentBits.Guilds]
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildMessages
+  ]
 });
 
 client.commands = new Collection();
 
-// Load commands
-const fs = require('fs');
-const files = fs.readdirSync('./commands');
+const commandsPath = path.join(__dirname, 'commands');
+const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
 
-for (const file of files) {
-  const command = require(`./commands/${file}`);
-  client.commands.set(command.name, command);
+for (const file of commandFiles) {
+  const command = require(path.join(commandsPath, file));
+
+  if (!command.data || !command.execute) {
+    console.warn(`[WARN] Skipping ${file}: missing "data" or "execute" export.`);
+    continue;
+  }
+
+  client.commands.set(command.data.name, command);
 }
 
-// Bot ready
-client.once('clientReady', () => {
-  console.log("Bot Online ✅");
+client.once(Events.ClientReady, readyClient => {
+  console.log(`✅ ${readyClient.user.tag} is online and ready.`);
 });
 
-// Interaction handler (ALL IN ONE)
-client.on('interactionCreate', async interaction => {
-
-  // 🔹 SLASH COMMANDS
+client.on(Events.InteractionCreate, async interaction => {
   if (interaction.isChatInputCommand()) {
-    const cmd = client.commands.get(interaction.commandName);
-    if (!cmd) return;
+    const command = client.commands.get(interaction.commandName);
+
+    if (!command) {
+      if (!interaction.replied && !interaction.deferred) {
+        await interaction.reply({
+          content: 'This command is not available right now.',
+          ephemeral: true
+        });
+      }
+      return;
+    }
 
     try {
-      await cmd.execute(interaction, client);
+      await command.execute(interaction, client);
     } catch (error) {
-      console.error(error);
-      await interaction.reply({
-        content: "❌ Error while executing command",
+      console.error(
+        `[ERROR] Command "${interaction.commandName}" failed in guild "${interaction.guildId}"`,
+        error
+      );
+
+      const errorResponse = {
+        content: 'Something went wrong while running that command. Please try again.',
         ephemeral: true
-      });
+      };
+
+      if (interaction.deferred || interaction.replied) {
+        await interaction.followUp(errorResponse).catch(() => null);
+      } else {
+        await interaction.reply(errorResponse).catch(() => null);
+      }
     }
+
+    return;
   }
 
-  // 🔹 DROPDOWN MENU (HELP)
-  if (interaction.isStringSelectMenu()) {
+  if (!interaction.isStringSelectMenu() && !interaction.isButton()) {
+    return;
+  }
 
-    if (interaction.customId === "help-menu") {
+  const helpCommand = client.commands.get('help');
+  if (!helpCommand?.handleComponentInteraction) {
+    return;
+  }
 
-      if (interaction.values[0] === "moderation") {
-        const embed = {
-          title: "🛡️ Moderation Commands",
-          description: `
-🔹 /ban
-🔹 /kick
-🔹 /mute
-🔹 /purge
-          `,
-          color: 0xff0000
-        };
+  try {
+    await helpCommand.handleComponentInteraction(interaction);
+  } catch (error) {
+    console.error('[ERROR] Help component interaction failed', error);
 
-        return interaction.update({ embeds: [embed] });
-      }
+    const errorResponse = {
+      content: 'This help panel expired. Run `/help` again.',
+      ephemeral: true
+    };
 
-      if (interaction.values[0] === "utility") {
-        const embed = {
-          title: "⚙️ Utility Commands",
-          description: `
-🔹 /ping
-🔹 /help
-          `,
-          color: 0x00ff00
-        };
-
-        return interaction.update({ embeds: [embed] });
-      }
+    if (interaction.deferred || interaction.replied) {
+      await interaction.followUp(errorResponse).catch(() => null);
+    } else {
+      await interaction.reply(errorResponse).catch(() => null);
     }
   }
 });
 
-// Login
-client.login(process.env.TOKEN);
+client.login(token);

@@ -1,15 +1,38 @@
-const { EmbedBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 
 module.exports = {
-  name: "ping",
-  category: "utility",
+  data: new SlashCommandBuilder()
+    .setName('ping')
+    .setDescription('Check bot status, websocket latency, and response speed.'),
+  category: 'utility',
 
   async execute(interaction) {
-    const embed = new EmbedBuilder()
-      .setTitle("🏓 Pong!")
-      .setDescription("Bot working perfectly")
-      .setColor("Green");
+    const sentMessage = await interaction.reply({
+      content: '🏓 Checking latency...',
+      fetchReply: true
+    });
 
-    await interaction.reply({ embeds: [embed] });
+    const messageLatency = sentMessage.createdTimestamp - interaction.createdTimestamp;
+    const websocketLatency = Math.round(interaction.client.ws.ping);
+
+    const embed = new EmbedBuilder()
+      .setColor(0x57f287)
+      .setTitle('🏓 Pong!')
+      .setDescription('Bot is online and responding normally.')
+      .addFields(
+        {
+          name: 'Message Latency',
+          value: `\`${messageLatency}ms\``,
+          inline: true
+        },
+        {
+          name: 'WebSocket Latency',
+          value: `\`${websocketLatency}ms\``,
+          inline: true
+        }
+      )
+      .setTimestamp();
+
+    await interaction.editReply({ content: null, embeds: [embed] });
   }
 };
