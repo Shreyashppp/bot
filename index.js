@@ -8,7 +8,7 @@ const client = new Client({
 
 client.commands = new Collection();
 
-// Load commands from /commands folder
+// Load commands
 const fs = require('fs');
 const files = fs.readdirSync('./commands');
 
@@ -17,7 +17,7 @@ for (const file of files) {
   client.commands.set(command.name, command);
 }
 
-// Bot ready
+// Ready event
 client.once('clientReady', () => {
   console.log("Bot Online ✅");
 });
@@ -30,7 +30,8 @@ client.on('interactionCreate', async interaction => {
   if (!cmd) return;
 
   try {
-    await cmd.execute(interaction);
+    // 👇 IMPORTANT: pass client for auto help
+    await cmd.execute(interaction, client);
   } catch (error) {
     console.error(error);
     await interaction.reply({
