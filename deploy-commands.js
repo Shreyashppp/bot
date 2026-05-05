@@ -16,7 +16,7 @@ function loadCommandsFromDir(dir) {
       const cmd = require(fullPath);
       if (cmd.data) {
         commands.push(cmd.data.toJSON());
-        logger.info(`Queued command: ${cmd.data.name}`);
+        logger.info(`Queued: ${cmd.data.name}`);
       }
     }
   }

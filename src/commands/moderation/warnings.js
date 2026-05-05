@@ -1,34 +1,33 @@
 const { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder } = require('discord.js');
-const { errorEmbed, COLORS } = require('../../utils/embeds');
+const { COLORS } = require('../../utils/embeds');
 
 module.exports = {
+  name: 'warnings',
+  aliases: ['warns'],
+  description: 'View warnings for a member',
+  usage: 'warnings <user>',
   data: new SlashCommandBuilder()
     .setName('warnings')
     .setDescription('View warnings for a member')
-    .addUserOption(opt => opt.setName('user').setDescription('User to check').setRequired(true))
+    .addUserOption(o => o.setName('user').setDescription('User to check').setRequired(true))
     .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers),
 
   async execute(interaction, client) {
     const target = interaction.options.getUser('user');
-    const warnings = client.db.getWarnings(interaction.guild.id, target.id);
-
-    if (warnings.length === 0) {
-      return interaction.reply({ embeds: [new EmbedBuilder().setColor(COLORS.success).setDescription(`✅ ${target.tag} has no warnings.`)] });
-    }
-
-    const list = warnings.slice(0, 10).map((w, i) => {
-      const ts = `<t:${Math.floor(w.timestamp / 1000)}:R>`;
-      return `**${i + 1}.** ${w.reason} — by <@${w.moderator_id}> ${ts}`;
-    }).join('\n');
-
-    const embed = new EmbedBuilder()
-      .setColor(COLORS.warning)
-      .setTitle(`⚠️ Warnings for ${target.tag}`)
-      .setDescription(list)
-      .setFooter({ text: `Total: ${warnings.length} warning(s)` })
-      .setThumbnail(target.displayAvatarURL({ dynamic: true }))
-      .setTimestamp();
-
+    const warns = client.db.getWarnings(interaction.guild.id, target.id);
+    const embed = new EmbedBuilder().setColor(COLORS.primary).setTitle(`⚠️ Warnings — ${target.tag}`)
+      .setDescription(warns.length ? warns.map((w, i) => `**#${w.id}** — ${w.reason}\n<@${w.mod_id}> • <t:${Math.floor(w.timestamp / 1000)}:R>`).join('\n\n') : 'No warnings.')
+      .setFooter({ text: `Total: ${warns.length}` });
     await interaction.reply({ embeds: [embed] });
+  },
+
+  async run(message, args, client) {
+    const target = message.mentions.users.first() || await client.users.fetch(args[0]).catch(() => null);
+    if (!target) return message.reply('❌ Provide a valid user.');
+    const warns = client.db.getWarnings(message.guild.id, target.id);
+    const embed = new EmbedBuilder().setColor(COLORS.primary).setTitle(`⚠️ Warnings — ${target.tag}`)
+      .setDescription(warns.length ? warns.map(w => `**#${w.id}** — ${w.reason}\n<@${w.mod_id}> • <t:${Math.floor(w.timestamp / 1000)}:R>`).join('\n\n') : 'No warnings.')
+      .setFooter({ text: `Total: ${warns.length}` });
+    await message.reply({ embeds: [embed] });
   },
 };

@@ -4,6 +4,7 @@ const { loadCommands } = require('./src/handlers/commands');
 const { loadEvents } = require('./src/handlers/events');
 const logger = require('./src/utils/logger');
 const Database = require('./src/utils/database');
+const { handleAutomod } = require('./src/events/automodHandler');
 
 const client = new Client({
   intents: [
@@ -13,13 +14,19 @@ const client = new Client({
     GatewayIntentBits.GuildVoiceStates,
     GatewayIntentBits.GuildModeration,
     GatewayIntentBits.MessageContent,
+    GatewayIntentBits.GuildMessageReactions,
   ],
   partials: [Partials.Message, Partials.Channel, Partials.GuildMember],
 });
 
 client.commands = new Collection();
+client.prefixCommands = new Collection();
 client.db = new Database();
 client.queues = new Map();
+
+client.on('messageCreate', async (message) => {
+  await handleAutomod(message, client).catch(() => {});
+});
 
 (async () => {
   await loadCommands(client);

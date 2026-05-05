@@ -1,33 +1,47 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
-const { errorEmbed, modEmbed } = require('../../utils/embeds');
+const { modEmbed, errorEmbed, successEmbed } = require('../../utils/embeds');
 
 module.exports = {
+  name: 'kick',
+  aliases: ['k'],
+  description: 'Kick a member from the server',
+  usage: 'kick <user> [reason]',
   data: new SlashCommandBuilder()
     .setName('kick')
     .setDescription('Kick a member from the server')
-    .addUserOption(opt => opt.setName('user').setDescription('User to kick').setRequired(true))
-    .addStringOption(opt => opt.setName('reason').setDescription('Reason for the kick'))
+    .addUserOption(o => o.setName('user').setDescription('User to kick').setRequired(true))
+    .addStringOption(o => o.setName('reason').setDescription('Reason'))
     .setDefaultMemberPermissions(PermissionFlagsBits.KickMembers),
 
   async execute(interaction, client) {
-    const target = interaction.options.getUser('user');
+    const target = interaction.options.getMember('user');
     const reason = interaction.options.getString('reason') || 'No reason provided';
-    const member = interaction.guild.members.cache.get(target.id);
-
-    if (!member)
-      return interaction.reply({ embeds: [errorEmbed('That user is not in this server.')], ephemeral: true });
-    if (target.id === interaction.user.id)
-      return interaction.reply({ embeds: [errorEmbed("You can't kick yourself.")], ephemeral: true });
-    if (!member.kickable)
-      return interaction.reply({ embeds: [errorEmbed("I don't have permission to kick that user.")], ephemeral: true });
-    if (member.roles.highest.position >= interaction.member.roles.highest.position)
-      return interaction.reply({ embeds: [errorEmbed("You can't kick someone with an equal or higher role.")], ephemeral: true });
-
+    if (!target) return interaction.reply({ embeds: [errorEmbed('User not in server.')], ephemeral: true });
     try {
-      await member.kick(reason);
-      await interaction.reply({ embeds: [modEmbed('User Kicked', target.tag, interaction.user.tag, reason, 0xFEE75C)] });
-    } catch (err) {
-      await interaction.reply({ embeds: [errorEmbed(`Failed to kick: ${err.message}`)], ephemeral: true });
+      await target.kick(reason);
+      client.db.addWarning(interaction.guild.id, target.id, interaction.user.id, `Kick: ${reason}`);
+      const g = client.db.getGuild(interaction.guild.id);
+      if (g.log_channel) {
+        const lc = interaction.guild.channels.cache.get(g.log_channel);
+        if (lc) await lc.send({ embeds: [modEmbed('Kick', target.user, interaction.user, reason)] }).catch(() => {});
+      }
+      await interaction.reply({ embeds: [successEmbed('Member Kicked', `**${target.user.tag}** has been kicked.\n**Reason:** ${reason}`)] });
+    } catch {
+      await interaction.reply({ embeds: [errorEmbed('Could not kick that user.')], ephemeral: true });
+    }
+  },
+
+  async run(message, args, client) {
+    if (!message.member.permissions.has(PermissionFlagsBits.KickMembers)) return message.reply('❌ Missing permissions.');
+    const target = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
+    if (!target) return message.reply('❌ Provide a valid member.');
+    const reason = args.slice(1).join(' ') || 'No reason provided';
+    try {
+      await target.kick(reason);
+      client.db.addWarning(message.guild.id, target.id, message.author.id, `Kick: ${reason}`);
+      await message.reply({ embeds: [successEmbed('Member Kicked', `**${target.user.tag}** has been kicked.\n**Reason:** ${reason}`)] });
+    } catch {
+      await message.reply('❌ Could not kick that user.');
     }
   },
 };

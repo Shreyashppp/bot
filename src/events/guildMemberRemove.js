@@ -1,27 +1,24 @@
-const { EmbedBuilder } = require('discord.js');
-const { COLORS } = require('../utils/embeds');
-
 module.exports = {
+  eventName: 'guildMemberRemove',
   async execute(member, client) {
-    const guild = member.guild;
-    const settings = client.db.getGuild(guild.id);
+    const welcomer = client.db.getWelcomer(member.guild.id);
+    if (!welcomer.leave_enabled || !welcomer.leave_channel) return;
+    const channel = member.guild.channels.cache.get(welcomer.leave_channel);
+    if (!channel) return;
 
-    if (settings.log_channel) {
-      const logChannel = guild.channels.cache.get(settings.log_channel);
-      if (!logChannel) return;
+    const msg = (welcomer.leave_message || 'Goodbye **{username}**, we will miss you!')
+      .replace(/{user}/g, `${member}`)
+      .replace(/{username}/g, member.user.username)
+      .replace(/{server}/g, member.guild.name)
+      .replace(/{membercount}/g, member.guild.memberCount);
 
-      const embed = new EmbedBuilder()
-        .setColor(COLORS.error)
-        .setTitle('📤 Member Left')
-        .setDescription(`${member.user.tag} (${member.id})`)
-        .addFields(
-          { name: 'Joined', value: member.joinedAt ? `<t:${Math.floor(member.joinedTimestamp / 1000)}:R>` : 'Unknown', inline: true },
-          { name: 'Member Count', value: `${guild.memberCount}`, inline: true }
-        )
-        .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
-        .setTimestamp();
-
-      logChannel.send({ embeds: [embed] }).catch(() => {});
-    }
+    const { EmbedBuilder } = require('discord.js');
+    const embed = new EmbedBuilder()
+      .setColor(0x95a5a6)
+      .setDescription(msg)
+      .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
+      .setFooter({ text: `Member #${member.guild.memberCount}` })
+      .setTimestamp();
+    await channel.send({ embeds: [embed] }).catch(() => {});
   },
 };

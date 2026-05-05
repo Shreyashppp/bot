@@ -16,8 +16,15 @@ async function loadCommands(client) {
           const command = require(fullPath);
           if (command.data && command.execute) {
             client.commands.set(command.data.name, command);
-            logger.info(`Loaded command: ${command.data.name}`);
           }
+          if (command.name && command.run) {
+            client.prefixCommands.set(command.name, command);
+            if (command.aliases) {
+              command.aliases.forEach(a => client.prefixCommands.set(a, command));
+            }
+          }
+          const name = command.data?.name || command.name;
+          if (name) logger.info(`Loaded command: ${name}`);
         } catch (err) {
           logger.error(`Failed to load command ${fullPath}:`, err);
         }
@@ -26,7 +33,7 @@ async function loadCommands(client) {
   }
 
   readDir(commandsPath);
-  logger.success(`Total commands loaded: ${client.commands.size}`);
+  logger.success(`Slash commands: ${client.commands.size} | Prefix commands: ${client.prefixCommands.size}`);
 }
 
 module.exports = { loadCommands };

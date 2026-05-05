@@ -2,26 +2,28 @@ const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const { COLORS } = require('../../utils/embeds');
 
 module.exports = {
-  data: new SlashCommandBuilder()
-    .setName('ping')
-    .setDescription('Check bot latency and API response time'),
+  name: 'ping',
+  description: 'Check bot latency',
+  usage: 'ping',
+  data: new SlashCommandBuilder().setName('ping').setDescription('Check bot latency'),
 
   async execute(interaction, client) {
-    const sent = await interaction.deferReply({ fetchReply: true });
-    const roundtrip = sent.createdTimestamp - interaction.createdTimestamp;
-    const ws = client.ws.ping;
-
-    const getStatus = (ms) => ms < 100 ? '🟢 Excellent' : ms < 200 ? '🟡 Good' : ms < 400 ? '🟠 Fair' : '🔴 Poor';
-
-    const embed = new EmbedBuilder()
-      .setColor(COLORS.primary)
-      .setTitle('🏓 Pong!')
+    const sent = await interaction.reply({ content: '🏓 Pinging...', fetchReply: true });
+    const embed = new EmbedBuilder().setColor(COLORS.primary).setTitle('🏓 Pong!')
       .addFields(
-        { name: 'Roundtrip', value: `\`${roundtrip}ms\` ${getStatus(roundtrip)}`, inline: true },
-        { name: 'WebSocket', value: `\`${ws}ms\` ${getStatus(ws)}`, inline: true },
-      )
-      .setTimestamp();
+        { name: 'Bot Latency', value: `${sent.createdTimestamp - interaction.createdTimestamp}ms`, inline: true },
+        { name: 'API Latency', value: `${Math.round(client.ws.ping)}ms`, inline: true }
+      );
+    await interaction.editReply({ content: null, embeds: [embed] });
+  },
 
-    await interaction.editReply({ embeds: [embed] });
+  async run(message, args, client) {
+    const msg = await message.reply('🏓 Pinging...');
+    const embed = new EmbedBuilder().setColor(COLORS.primary).setTitle('🏓 Pong!')
+      .addFields(
+        { name: 'Bot Latency', value: `${msg.createdTimestamp - message.createdTimestamp}ms`, inline: true },
+        { name: 'API Latency', value: `${Math.round(client.ws.ping)}ms`, inline: true }
+      );
+    await msg.edit({ content: null, embeds: [embed] });
   },
 };

@@ -1,39 +1,39 @@
-const { SlashCommandBuilder, EmbedBuilder, version: djsVersion } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const { COLORS } = require('../../utils/embeds');
-const { execSync } = require('child_process');
 
 module.exports = {
-  data: new SlashCommandBuilder()
-    .setName('botinfo')
-    .setDescription('Display information about Aetherbot'),
+  name: 'botinfo',
+  aliases: ['bi', 'about'],
+  description: 'View bot information',
+  usage: 'botinfo',
+  data: new SlashCommandBuilder().setName('botinfo').setDescription('View bot information'),
 
   async execute(interaction, client) {
     const uptime = process.uptime();
-    const days = Math.floor(uptime / 86400);
-    const hours = Math.floor((uptime % 86400) / 3600);
-    const minutes = Math.floor((uptime % 3600) / 60);
-    const seconds = Math.floor(uptime % 60);
-    const uptimeStr = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-
-    const memUsed = (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(1);
-
-    const embed = new EmbedBuilder()
-      .setColor(COLORS.primary)
-      .setTitle('🤖 Aetherbot')
-      .setDescription('A professional all-in-one Discord bot.')
+    const h = Math.floor(uptime / 3600), m = Math.floor((uptime % 3600) / 60), s = Math.floor(uptime % 60);
+    const embed = new EmbedBuilder().setColor(COLORS.primary).setTitle('Aetherbot Info')
       .setThumbnail(client.user.displayAvatarURL())
       .addFields(
-        { name: '👤 Developer', value: 'Custom Build', inline: true },
-        { name: '📚 Library', value: `discord.js v${djsVersion}`, inline: true },
-        { name: '⚙️ Runtime', value: `Node.js ${process.version}`, inline: true },
-        { name: '🌐 Servers', value: `${client.guilds.cache.size}`, inline: true },
-        { name: '🏓 Ping', value: `${client.ws.ping}ms`, inline: true },
-        { name: '💾 Memory', value: `${memUsed} MB`, inline: true },
-        { name: '⏱️ Uptime', value: uptimeStr, inline: true },
-        { name: '🔧 Commands', value: `${client.commands.size}`, inline: true },
-      )
-      .setTimestamp();
-
+        { name: 'Servers', value: `${client.guilds.cache.size}`, inline: true },
+        { name: 'Users', value: `${client.users.cache.size}`, inline: true },
+        { name: 'Commands', value: `${client.commands.size} slash + ${client.prefixCommands.size} prefix`, inline: true },
+        { name: 'Uptime', value: `${h}h ${m}m ${s}s`, inline: true },
+        { name: 'Memory', value: `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB`, inline: true },
+        { name: 'Node.js', value: process.version, inline: true }
+      ).setTimestamp();
     await interaction.reply({ embeds: [embed] });
+  },
+
+  async run(message, args, client) {
+    const uptime = process.uptime();
+    const h = Math.floor(uptime / 3600), m = Math.floor((uptime % 3600) / 60), s = Math.floor(uptime % 60);
+    const embed = new EmbedBuilder().setColor(COLORS.primary).setTitle('Aetherbot Info')
+      .setThumbnail(client.user.displayAvatarURL())
+      .addFields(
+        { name: 'Servers', value: `${client.guilds.cache.size}`, inline: true },
+        { name: 'Commands', value: `${client.commands.size}`, inline: true },
+        { name: 'Uptime', value: `${h}h ${m}m ${s}s`, inline: true }
+      );
+    await message.reply({ embeds: [embed] });
   },
 };

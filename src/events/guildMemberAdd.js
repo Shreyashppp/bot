@@ -1,53 +1,35 @@
-const { EmbedBuilder } = require('discord.js');
-const { COLORS } = require('../utils/embeds');
-
 module.exports = {
+  eventName: 'guildMemberAdd',
   async execute(member, client) {
-    const guild = member.guild;
-    const settings = client.db.getGuild(guild.id);
-
-    if (settings.autorole) {
-      const role = guild.roles.cache.get(settings.autorole);
-      if (role) member.roles.add(role).catch(() => {});
+    const autoroles = client.db.getAutoroles(member.guild.id);
+    for (const row of autoroles) {
+      if (row.type === 'all' || (row.type === 'bot' && member.user.bot) || (row.type === 'human' && !member.user.bot)) {
+        await member.roles.add(row.role_id).catch(() => {});
+      }
     }
 
-    if (settings.welcome_channel) {
-      const channel = guild.channels.cache.get(settings.welcome_channel);
-      if (!channel) return;
+    const welcomer = client.db.getWelcomer(member.guild.id);
+    if (!welcomer.welcome_enabled || !welcomer.welcome_channel) return;
+    const channel = member.guild.channels.cache.get(welcomer.welcome_channel);
+    if (!channel) return;
 
-      const message = (settings.welcome_message || 'Welcome {user} to **{server}**!')
-        .replace('{user}', `<@${member.id}>`)
-        .replace('{server}', guild.name)
-        .replace('{username}', member.user.username)
-        .replace('{membercount}', guild.memberCount);
+    const msg = (welcomer.welcome_message || 'Welcome {user} to **{server}**!')
+      .replace(/{user}/g, `${member}`)
+      .replace(/{username}/g, member.user.username)
+      .replace(/{server}/g, member.guild.name)
+      .replace(/{membercount}/g, member.guild.memberCount);
 
+    if (welcomer.welcome_embed) {
+      const { EmbedBuilder } = require('discord.js');
       const embed = new EmbedBuilder()
-        .setColor(COLORS.success)
-        .setTitle('👋 Welcome!')
-        .setDescription(message)
+        .setColor(0xe74c3c)
+        .setDescription(msg)
         .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
-        .addFields({ name: 'Member #', value: `${guild.memberCount}`, inline: true })
+        .setFooter({ text: `Member #${member.guild.memberCount}` })
         .setTimestamp();
-
-      channel.send({ embeds: [embed] }).catch(() => {});
-    }
-
-    if (settings.log_channel) {
-      const logChannel = guild.channels.cache.get(settings.log_channel);
-      if (!logChannel) return;
-
-      const embed = new EmbedBuilder()
-        .setColor(COLORS.success)
-        .setTitle('📥 Member Joined')
-        .setDescription(`${member} (${member.user.tag})`)
-        .addFields(
-          { name: 'Account Created', value: `<t:${Math.floor(member.user.createdTimestamp / 1000)}:R>`, inline: true },
-          { name: 'Member Count', value: `${guild.memberCount}`, inline: true }
-        )
-        .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
-        .setTimestamp();
-
-      logChannel.send({ embeds: [embed] }).catch(() => {});
+      await channel.send({ embeds: [embed] }).catch(() => {});
+    } else {
+      await channel.send(msg).catch(() => {});
     }
   },
 };

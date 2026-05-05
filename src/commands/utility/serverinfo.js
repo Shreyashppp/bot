@@ -2,38 +2,42 @@ const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const { COLORS } = require('../../utils/embeds');
 
 module.exports = {
-  data: new SlashCommandBuilder()
-    .setName('serverinfo')
-    .setDescription('Display information about this server'),
+  name: 'serverinfo',
+  aliases: ['si', 'server'],
+  description: 'View server information',
+  usage: 'serverinfo',
+  data: new SlashCommandBuilder().setName('serverinfo').setDescription('View server information'),
 
   async execute(interaction, client) {
-    const guild = interaction.guild;
-    await guild.fetch();
-
-    const owner = await guild.fetchOwner().catch(() => null);
-    const textChannels = guild.channels.cache.filter(c => c.type === 0).size;
-    const voiceChannels = guild.channels.cache.filter(c => c.type === 2).size;
-    const roles = guild.roles.cache.size - 1;
-    const boosts = guild.premiumSubscriptionCount;
-
-    const embed = new EmbedBuilder()
-      .setColor(COLORS.primary)
-      .setTitle(`📊 ${guild.name}`)
-      .setThumbnail(guild.iconURL({ dynamic: true }))
+    const g = interaction.guild;
+    await g.members.fetch();
+    const embed = new EmbedBuilder().setColor(COLORS.primary).setTitle(`${g.name}`)
+      .setThumbnail(g.iconURL({ dynamic: true }))
       .addFields(
-        { name: '👑 Owner', value: owner ? owner.user.tag : 'Unknown', inline: true },
-        { name: '🆔 Server ID', value: guild.id, inline: true },
-        { name: '📅 Created', value: `<t:${Math.floor(guild.createdTimestamp / 1000)}:R>`, inline: true },
-        { name: '👥 Members', value: `${guild.memberCount}`, inline: true },
-        { name: '💬 Text Channels', value: `${textChannels}`, inline: true },
-        { name: '🔊 Voice Channels', value: `${voiceChannels}`, inline: true },
-        { name: '🎭 Roles', value: `${roles}`, inline: true },
-        { name: '🚀 Boosts', value: `${boosts} (Level ${guild.premiumTier})`, inline: true },
-        { name: '🔐 Verification', value: guild.verificationLevel.toString(), inline: true },
-      )
-      .setImage(guild.bannerURL({ size: 1024 }) || null)
-      .setTimestamp();
-
+        { name: 'Owner', value: `<@${g.ownerId}>`, inline: true },
+        { name: 'Members', value: `${g.memberCount}`, inline: true },
+        { name: 'Channels', value: `${g.channels.cache.size}`, inline: true },
+        { name: 'Roles', value: `${g.roles.cache.size}`, inline: true },
+        { name: 'Boosts', value: `${g.premiumSubscriptionCount}`, inline: true },
+        { name: 'Boost Level', value: `Level ${g.premiumTier}`, inline: true },
+        { name: 'Created', value: `<t:${Math.floor(g.createdTimestamp / 1000)}:R>`, inline: true },
+        { name: 'Verification', value: g.verificationLevel.toString(), inline: true },
+        { name: 'ID', value: g.id, inline: true }
+      ).setFooter({ text: `ID: ${g.id}` }).setTimestamp();
     await interaction.reply({ embeds: [embed] });
+  },
+
+  async run(message, args, client) {
+    const g = message.guild;
+    const embed = new EmbedBuilder().setColor(COLORS.primary).setTitle(g.name)
+      .setThumbnail(g.iconURL({ dynamic: true }))
+      .addFields(
+        { name: 'Owner', value: `<@${g.ownerId}>`, inline: true },
+        { name: 'Members', value: `${g.memberCount}`, inline: true },
+        { name: 'Channels', value: `${g.channels.cache.size}`, inline: true },
+        { name: 'Roles', value: `${g.roles.cache.size}`, inline: true },
+        { name: 'Created', value: `<t:${Math.floor(g.createdTimestamp / 1000)}:R>`, inline: true }
+      );
+    await message.reply({ embeds: [embed] });
   },
 };

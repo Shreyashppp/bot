@@ -1,22 +1,19 @@
-const { EmbedBuilder } = require('discord.js');
-const { COLORS } = require('../utils/embeds');
-
 module.exports = {
+  eventName: 'guildBanAdd',
   async execute(ban, client) {
-    const settings = client.db.getGuild(ban.guild.id);
-    if (!settings.log_channel) return;
-
-    const logChannel = ban.guild.channels.cache.get(settings.log_channel);
-    if (!logChannel) return;
-
+    const guild = client.db.getGuild(ban.guild.id);
+    if (!guild.log_channel) return;
+    const channel = ban.guild.channels.cache.get(guild.log_channel);
+    if (!channel) return;
+    const { EmbedBuilder } = require('discord.js');
     const embed = new EmbedBuilder()
-      .setColor(COLORS.error)
+      .setColor(0xe74c3c)
       .setTitle('🔨 Member Banned')
-      .setDescription(`${ban.user.tag} (${ban.user.id})`)
-      .addFields({ name: 'Reason', value: ban.reason || 'No reason provided' })
-      .setThumbnail(ban.user.displayAvatarURL({ dynamic: true }))
+      .addFields(
+        { name: 'User', value: `${ban.user.tag} (${ban.user.id})`, inline: true },
+        { name: 'Reason', value: ban.reason || 'No reason provided', inline: true }
+      )
       .setTimestamp();
-
-    logChannel.send({ embeds: [embed] }).catch(() => {});
+    await channel.send({ embeds: [embed] }).catch(() => {});
   },
 };

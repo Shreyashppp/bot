@@ -1,37 +1,51 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
-const { successEmbed, errorEmbed, modEmbed } = require('../../utils/embeds');
+const { modEmbed, errorEmbed, successEmbed } = require('../../utils/embeds');
+
+async function banUser(guild, target, moderator, reason, db, soft = false) {
+  await guild.members.ban(target.id, { reason, deleteMessageSeconds: soft ? 604800 : 0 });
+  if (soft) await guild.members.unban(target.id, 'Softban');
+  db.addWarning(guild.id, target.id, moderator.id, `${soft ? 'Softban' : 'Ban'}: ${reason}`);
+  const logGuild = db.getGuild(guild.id);
+  if (logGuild.log_channel) {
+    const logChannel = guild.channels.cache.get(logGuild.log_channel);
+    if (logChannel) await logChannel.send({ embeds: [modEmbed(soft ? 'Softban' : 'Ban', target, moderator, reason)] }).catch(() => {});
+  }
+}
 
 module.exports = {
+  name: 'ban',
+  aliases: ['b'],
+  description: 'Ban a member from the server',
+  usage: 'ban <user> [reason]',
   data: new SlashCommandBuilder()
     .setName('ban')
     .setDescription('Ban a member from the server')
-    .addUserOption(opt => opt.setName('user').setDescription('User to ban').setRequired(true))
-    .addStringOption(opt => opt.setName('reason').setDescription('Reason for the ban'))
-    .addIntegerOption(opt => opt.setName('days').setDescription('Days of messages to delete (0-7)').setMinValue(0).setMaxValue(7))
+    .addUserOption(o => o.setName('user').setDescription('User to ban').setRequired(true))
+    .addStringOption(o => o.setName('reason').setDescription('Reason for ban'))
     .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers),
 
   async execute(interaction, client) {
     const target = interaction.options.getUser('user');
     const reason = interaction.options.getString('reason') || 'No reason provided';
-    const days = interaction.options.getInteger('days') ?? 0;
-    const member = interaction.guild.members.cache.get(target.id);
-
-    if (target.id === interaction.user.id)
-      return interaction.reply({ embeds: [errorEmbed("You can't ban yourself.")], ephemeral: true });
-
-    if (member && !member.bannable)
-      return interaction.reply({ embeds: [errorEmbed("I don't have permission to ban that user.")], ephemeral: true });
-
-    if (member && member.roles.highest.position >= interaction.member.roles.highest.position)
-      return interaction.reply({ embeds: [errorEmbed("You can't ban someone with an equal or higher role.")], ephemeral: true });
-
+    if (target.id === interaction.user.id) return interaction.reply({ embeds: [errorEmbed('You cannot ban yourself.')], ephemeral: true });
     try {
-      await interaction.guild.members.ban(target.id, { reason, deleteMessageDays: days });
-      const embed = modEmbed('User Banned', target.tag, interaction.user.tag, reason);
-      embed.addFields({ name: 'Messages Deleted', value: `${days} day(s)`, inline: true });
-      await interaction.reply({ embeds: [embed] });
-    } catch (err) {
-      await interaction.reply({ embeds: [errorEmbed(`Failed to ban: ${err.message}`)], ephemeral: true });
+      await banUser(interaction.guild, target, interaction.user, reason, client.db);
+      await interaction.reply({ embeds: [successEmbed('Member Banned', `**${target.tag}** has been banned.\n**Reason:** ${reason}`)] });
+    } catch {
+      await interaction.reply({ embeds: [errorEmbed('Could not ban that user.')], ephemeral: true });
+    }
+  },
+
+  async run(message, args, client) {
+    if (!message.member.permissions.has(PermissionFlagsBits.BanMembers)) return message.reply('❌ Missing permissions.');
+    const target = message.mentions.users.first() || await client.users.fetch(args[0]).catch(() => null);
+    if (!target) return message.reply('❌ Provide a valid user.');
+    const reason = args.slice(1).join(' ') || 'No reason provided';
+    try {
+      await banUser(message.guild, target, message.author, reason, client.db);
+      await message.reply({ embeds: [successEmbed('Member Banned', `**${target.tag}** has been banned.\n**Reason:** ${reason}`)] });
+    } catch {
+      await message.reply('❌ Could not ban that user.');
     }
   },
 };
