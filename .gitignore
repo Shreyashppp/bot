@@ -1,0 +1,13 @@
+node_modules/
+data/
+.env
+*.log
+.DS_Store
+.cache/
+.replit
+replit.nix
+.pythonlibs/
+pyproject.toml
+uv.lock
+main.py
+__pycache__/

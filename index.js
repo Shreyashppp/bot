@@ -1,81 +1,38 @@
-require('./deploy-commands.js');
-
-const { Client, GatewayIntentBits, Collection } = require('discord.js');
+require('dotenv').config();
+const { Client, GatewayIntentBits, Collection, Partials } = require('discord.js');
+const { loadCommands } = require('./src/handlers/commands');
+const { loadEvents } = require('./src/handlers/events');
+const logger = require('./src/utils/logger');
+const Database = require('./src/utils/database');
 
 const client = new Client({
-  intents: [GatewayIntentBits.Guilds]
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.GuildVoiceStates,
+    GatewayIntentBits.GuildModeration,
+    GatewayIntentBits.MessageContent,
+  ],
+  partials: [Partials.Message, Partials.Channel, Partials.GuildMember],
 });
 
 client.commands = new Collection();
+client.db = new Database();
+client.queues = new Map();
 
-// Load commands
-const fs = require('fs');
-const files = fs.readdirSync('./commands');
+(async () => {
+  await loadCommands(client);
+  await loadEvents(client);
 
-for (const file of files) {
-  const command = require(`./commands/${file}`);
-  client.commands.set(command.name, command);
-}
-
-// Bot ready
-client.once('clientReady', () => {
-  console.log("Bot Online ✅");
-});
-
-// Interaction handler (ALL IN ONE)
-client.on('interactionCreate', async interaction => {
-
-  // 🔹 SLASH COMMANDS
-  if (interaction.isChatInputCommand()) {
-    const cmd = client.commands.get(interaction.commandName);
-    if (!cmd) return;
-
-    try {
-      await cmd.execute(interaction, client);
-    } catch (error) {
-      console.error(error);
-      await interaction.reply({
-        content: "❌ Error while executing command",
-        ephemeral: true
-      });
-    }
+  const token = process.env.DISCORD_TOKEN;
+  if (!token) {
+    logger.error('DISCORD_TOKEN is not set. Please add it to your environment variables.');
+    process.exit(1);
   }
 
-  // 🔹 DROPDOWN MENU (HELP)
-  if (interaction.isStringSelectMenu()) {
+  await client.login(token);
+})();
 
-    if (interaction.customId === "help-menu") {
-
-      if (interaction.values[0] === "moderation") {
-        const embed = {
-          title: "🛡️ Moderation Commands",
-          description: `
-🔹 /ban
-🔹 /kick
-🔹 /mute
-🔹 /purge
-          `,
-          color: 0xff0000
-        };
-
-        return interaction.update({ embeds: [embed] });
-      }
-
-      if (interaction.values[0] === "utility") {
-        const embed = {
-          title: "⚙️ Utility Commands",
-          description: `
-🔹 /ping
-🔹 /help
-          `,
-          color: 0x00ff00
-        };
-
-        return interaction.update({ embeds: [embed] });
-      }
-    }
-  }
-});
-
-// Login
-client.login(process.env.TOKEN);
+process.on('unhandledRejection', (err) => logger.error('Unhandled rejection:', err));
+process.on('uncaughtException', (err) => logger.error('Uncaught exception:', err));
