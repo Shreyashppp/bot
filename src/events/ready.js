@@ -2,6 +2,7 @@ const logger = require('../utils/logger');
 
 module.exports = {
   once: true,
+  eventName: 'clientReady',
   async execute(client) {
     logger.success(`Logged in as ${client.user.tag} (${client.user.id})`);
     logger.success(`Serving ${client.guilds.cache.size} guild(s) | ${client.commands.size} commands loaded`);
