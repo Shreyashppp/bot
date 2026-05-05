@@ -1,0 +1,584 @@
+2026-05-04T14:18:07.574415298Z [err]      at Function._resolveFilename (node:internal/modules/cjs/loader:1383:15)
+2026-05-04T14:18:07.574417511Z [err]      at Module._compile (node:internal/modules/cjs/loader:1705:14) {
+2026-05-04T14:18:07.574422862Z [err]      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+2026-05-04T14:18:07.574424248Z [err]      at defaultResolveImpl (node:internal/modules/cjs/loader:1025:19)
+2026-05-04T14:18:07.574428283Z [err]    code: 'MODULE_NOT_FOUND',
+2026-05-04T14:18:07.574431587Z [err]      at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1030:22)
+2026-05-04T14:18:07.574432215Z [err]      at Module.require (node:internal/modules/cjs/loader:1463:12)
+2026-05-04T14:18:07.574438030Z [err]      at Function._load (node:internal/modules/cjs/loader:1192:37)
+2026-05-04T14:18:07.574438622Z [err]    requireStack: [ '/app/deploy-commands.js', '/app/index.js' ]
+2026-05-04T14:18:07.574441455Z [err]      at require (node:internal/modules/helpers:147:16)
+2026-05-04T14:18:07.574442940Z [err]      at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+2026-05-04T14:18:07.574446099Z [err]      at Object.<anonymous> (/app/deploy-commands.js:1:1)
+2026-05-04T14:18:07.574453765Z [inf]  
+2026-05-04T14:18:07.574458341Z [err]  node:internal/modules/cjs/loader:1386
+2026-05-04T14:18:07.574461675Z [err]    throw err;
+2026-05-04T14:18:07.574465665Z [err]    ^
+2026-05-04T14:18:07.574468406Z [err]  
+2026-05-04T14:18:07.574471568Z [err]  Error: Cannot find module 'dotenv'
+2026-05-04T14:18:07.574474249Z [err]  Require stack:
+2026-05-04T14:18:07.574477249Z [err]  - /app/deploy-commands.js
+2026-05-04T14:18:07.574480377Z [err]  - /app/index.js
+2026-05-04T14:18:07.574524778Z [err]  npm warn config production Use `--omit=dev` instead.
+2026-05-04T14:18:07.574529335Z [inf]  
+2026-05-04T14:18:07.574533030Z [inf]  > discord-bot@1.0.0 start
+2026-05-04T14:18:07.574536820Z [inf]  > node index.js
+2026-05-04T14:18:07.576135733Z [err]  }
+2026-05-04T14:18:07.576140411Z [err]  
+2026-05-04T14:18:07.576144542Z [err]  Node.js v22.22.2
+2026-05-04T14:18:07.932015098Z [inf]  Starting Container
+2026-05-04T14:18:08.096512908Z [err]  npm warn config production Use `--omit=dev` instead.
+2026-05-04T14:18:08.114004234Z [inf]  
+2026-05-04T14:18:08.114008665Z [inf]  > discord-bot@1.0.0 start
+2026-05-04T14:18:08.114011884Z [inf]  > node index.js
+2026-05-04T14:18:08.114015061Z [inf]  
+2026-05-04T14:18:08.139495353Z [err]    requireStack: [ '/app/deploy-commands.js', '/app/index.js' ]
+2026-05-04T14:18:08.139501711Z [err]      at defaultResolveImpl (node:internal/modules/cjs/loader:1025:19)
+2026-05-04T14:18:08.139502715Z [err]  }
+2026-05-04T14:18:08.139509291Z [err]  node:internal/modules/cjs/loader:1386
+2026-05-04T14:18:08.139509361Z [err]  
+2026-05-04T14:18:08.139511193Z [err]      at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1030:22)
+2026-05-04T14:18:08.139517065Z [err]  Node.js v22.22.2
+2026-05-04T14:18:08.139517722Z [err]    throw err;
+2026-05-04T14:18:08.139518624Z [err]      at Function._load (node:internal/modules/cjs/loader:1192:37)
+2026-05-04T14:18:08.139526437Z [err]      at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+2026-05-04T14:18:08.139530208Z [err]      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+2026-05-04T14:18:08.139533834Z [err]    ^
+2026-05-04T14:18:08.139534137Z [err]      at Module.require (node:internal/modules/cjs/loader:1463:12)
+2026-05-04T14:18:08.139538888Z [err]      at require (node:internal/modules/helpers:147:16)
+2026-05-04T14:18:08.139542529Z [err]  
+2026-05-04T14:18:08.139544414Z [err]      at Object.<anonymous> (/app/deploy-commands.js:1:1)
+2026-05-04T14:18:08.139550208Z [err]      at Module._compile (node:internal/modules/cjs/loader:1705:14) {
+2026-05-04T14:18:08.139551241Z [err]  Error: Cannot find module 'dotenv'
+2026-05-04T14:18:08.139555888Z [err]    code: 'MODULE_NOT_FOUND',
+2026-05-04T14:18:08.139557948Z [err]  Require stack:
+2026-05-04T14:18:08.139562089Z [err]  - /app/deploy-commands.js
+2026-05-04T14:18:08.139566951Z [err]  - /app/index.js
+2026-05-04T14:18:08.139570985Z [err]      at Function._resolveFilename (node:internal/modules/cjs/loader:1383:15)
+2026-05-04T14:18:08.750817188Z [err]  npm warn config production Use `--omit=dev` instead.
+2026-05-04T14:18:08.764043984Z [inf]  
+2026-05-04T14:18:08.764049718Z [inf]  > discord-bot@1.0.0 start
+2026-05-04T14:18:08.764052849Z [inf]  > node index.js
+2026-05-04T14:18:08.764055815Z [inf]  
+2026-05-04T14:18:08.784208907Z [err]  node:internal/modules/cjs/loader:1386
+2026-05-04T14:18:08.784211821Z [err]  Node.js v22.22.2
+2026-05-04T14:18:08.784214512Z [err]    throw err;
+2026-05-04T14:18:08.784217784Z [err]    ^
+2026-05-04T14:18:08.784222490Z [err]  
+2026-05-04T14:18:08.784226421Z [err]  Error: Cannot find module 'dotenv'
+2026-05-04T14:18:08.784229156Z [err]  Require stack:
+2026-05-04T14:18:08.784231980Z [err]  - /app/deploy-commands.js
+2026-05-04T14:18:08.784234807Z [err]  - /app/index.js
+2026-05-04T14:18:08.784237514Z [err]      at Function._resolveFilename (node:internal/modules/cjs/loader:1383:15)
+2026-05-04T14:18:08.784240326Z [err]      at defaultResolveImpl (node:internal/modules/cjs/loader:1025:19)
+2026-05-04T14:18:08.784244433Z [err]      at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1030:22)
+2026-05-04T14:18:08.784247057Z [err]      at Function._load (node:internal/modules/cjs/loader:1192:37)
+2026-05-04T14:18:08.784249886Z [err]      at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+2026-05-04T14:18:08.784252658Z [err]      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+2026-05-04T14:18:08.784255169Z [err]      at Module.require (node:internal/modules/cjs/loader:1463:12)
+2026-05-04T14:18:08.784257803Z [err]      at require (node:internal/modules/helpers:147:16)
+2026-05-04T14:18:08.784260480Z [err]      at Object.<anonymous> (/app/deploy-commands.js:1:1)
+2026-05-04T14:18:08.784263203Z [err]      at Module._compile (node:internal/modules/cjs/loader:1705:14) {
+2026-05-04T14:18:08.784265731Z [err]    code: 'MODULE_NOT_FOUND',
+2026-05-04T14:18:08.784268593Z [err]    requireStack: [ '/app/deploy-commands.js', '/app/index.js' ]
+2026-05-04T14:18:08.784271250Z [err]  }
+2026-05-04T14:18:08.784274698Z [err]  
+2026-05-04T14:18:09.590565633Z [err]      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+2026-05-04T14:18:09.590575009Z [err]      at Module.require (node:internal/modules/cjs/loader:1463:12)
+2026-05-04T14:18:09.590580869Z [err]      at require (node:internal/modules/helpers:147:16)
+2026-05-04T14:18:09.590584627Z [err]      at Object.<anonymous> (/app/deploy-commands.js:1:1)
+2026-05-04T14:18:09.590588560Z [err]      at Module._compile (node:internal/modules/cjs/loader:1705:14) {
+2026-05-04T14:18:09.590593652Z [err]    code: 'MODULE_NOT_FOUND',
+2026-05-04T14:18:09.590598206Z [err]    requireStack: [ '/app/deploy-commands.js', '/app/index.js' ]
+2026-05-04T14:18:09.590618776Z [err]  npm warn config production Use `--omit=dev` instead.
+2026-05-04T14:18:09.590622652Z [inf]  
+2026-05-04T14:18:09.590625866Z [inf]  > discord-bot@1.0.0 start
+2026-05-04T14:18:09.590629183Z [inf]  > node index.js
+2026-05-04T14:18:09.590632817Z [inf]  
+2026-05-04T14:18:09.590636643Z [err]  node:internal/modules/cjs/loader:1386
+2026-05-04T14:18:09.590640183Z [err]    throw err;
+2026-05-04T14:18:09.590644210Z [err]    ^
+2026-05-04T14:18:09.590647760Z [err]  
+2026-05-04T14:18:09.590651461Z [err]  Error: Cannot find module 'dotenv'
+2026-05-04T14:18:09.590654828Z [err]  Require stack:
+2026-05-04T14:18:09.590657820Z [err]  - /app/deploy-commands.js
+2026-05-04T14:18:09.590661734Z [err]  - /app/index.js
+2026-05-04T14:18:09.590665075Z [err]      at Function._resolveFilename (node:internal/modules/cjs/loader:1383:15)
+2026-05-04T14:18:09.590668286Z [err]      at defaultResolveImpl (node:internal/modules/cjs/loader:1025:19)
+2026-05-04T14:18:09.590671157Z [err]      at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1030:22)
+2026-05-04T14:18:09.590674141Z [err]      at Function._load (node:internal/modules/cjs/loader:1192:37)
+2026-05-04T14:18:09.590677540Z [err]      at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+2026-05-04T14:18:09.591555064Z [err]  }
+2026-05-04T14:18:09.591558162Z [err]  
+2026-05-04T14:18:09.591561243Z [err]  Node.js v22.22.2
+2026-05-04T14:18:10.580910091Z [err]  - /app/deploy-commands.js
+2026-05-04T14:18:10.580914791Z [err]      at Module._compile (node:internal/modules/cjs/loader:1705:14) {
+2026-05-04T14:18:10.580916986Z [err]  - /app/index.js
+2026-05-04T14:18:10.580921356Z [err]      at Function._resolveFilename (node:internal/modules/cjs/loader:1383:15)
+2026-05-04T14:18:10.580925194Z [err]    code: 'MODULE_NOT_FOUND',
+2026-05-04T14:18:10.580927572Z [err]      at defaultResolveImpl (node:internal/modules/cjs/loader:1025:19)
+2026-05-04T14:18:10.580934341Z [err]    requireStack: [ '/app/deploy-commands.js', '/app/index.js' ]
+2026-05-04T14:18:10.580934505Z [err]      at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1030:22)
+2026-05-04T14:18:10.580941242Z [err]      at Function._load (node:internal/modules/cjs/loader:1192:37)
+2026-05-04T14:18:10.580946159Z [inf]  
+2026-05-04T14:18:10.580950877Z [inf]  > discord-bot@1.0.0 start
+2026-05-04T14:18:10.580953988Z [inf]  > node index.js
+2026-05-04T14:18:10.580955643Z [err]      at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+2026-05-04T14:18:10.580958796Z [inf]  
+2026-05-04T14:18:10.580961577Z [err]      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+2026-05-04T14:18:10.580965925Z [err]  node:internal/modules/cjs/loader:1386
+2026-05-04T14:18:10.580966763Z [err]      at Module.require (node:internal/modules/cjs/loader:1463:12)
+2026-05-04T14:18:10.580973247Z [err]    throw err;
+2026-05-04T14:18:10.580973863Z [err]      at require (node:internal/modules/helpers:147:16)
+2026-05-04T14:18:10.580978001Z [err]    ^
+2026-05-04T14:18:10.580981683Z [err]      at Object.<anonymous> (/app/deploy-commands.js:1:1)
+2026-05-04T14:18:10.580983351Z [err]  
+2026-05-04T14:18:10.580987057Z [err]  Error: Cannot find module 'dotenv'
+2026-05-04T14:18:10.580990214Z [err]  Require stack:
+2026-05-04T14:18:10.581018924Z [err]  npm warn config production Use `--omit=dev` instead.
+2026-05-04T14:18:10.581984376Z [err]  }
+2026-05-04T14:18:10.581987696Z [err]  
+2026-05-04T14:18:10.581991071Z [err]  Node.js v22.22.2
+2026-05-04T14:18:10.967417855Z [err]  npm warn config production Use `--omit=dev` instead.
+2026-05-04T14:18:10.968546805Z [inf]  
+2026-05-04T14:18:10.968553111Z [inf]  > discord-bot@1.0.0 start
+2026-05-04T14:18:10.968556184Z [inf]  > node index.js
+2026-05-04T14:18:10.968559312Z [inf]  
+2026-05-04T14:18:10.993246337Z [err]  node:internal/modules/cjs/loader:1386
+2026-05-04T14:18:10.993347752Z [err]    throw err;
+2026-05-04T14:18:10.993352920Z [err]    ^
+2026-05-04T14:18:10.993356831Z [err]  
+2026-05-04T14:18:10.993361028Z [err]  Error: Cannot find module 'dotenv'
+2026-05-04T14:18:10.993364950Z [err]  Require stack:
+2026-05-04T14:18:10.993368232Z [err]  - /app/deploy-commands.js
+2026-05-04T14:18:10.993371446Z [err]  - /app/index.js
+2026-05-04T14:18:10.993374638Z [err]      at Function._resolveFilename (node:internal/modules/cjs/loader:1383:15)
+2026-05-04T14:18:10.993377799Z [err]      at defaultResolveImpl (node:internal/modules/cjs/loader:1025:19)
+2026-05-04T14:18:10.993381268Z [err]      at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1030:22)
+2026-05-04T14:18:10.993385075Z [err]      at Function._load (node:internal/modules/cjs/loader:1192:37)
+2026-05-04T14:18:10.993391186Z [err]      at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+2026-05-04T14:18:10.993394997Z [err]      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+2026-05-04T14:18:10.993399081Z [err]      at Module.require (node:internal/modules/cjs/loader:1463:12)
+2026-05-04T14:18:10.993402476Z [err]      at require (node:internal/modules/helpers:147:16)
+2026-05-04T14:18:10.993405935Z [err]      at Object.<anonymous> (/app/deploy-commands.js:1:1)
+2026-05-04T14:18:10.993409745Z [err]      at Module._compile (node:internal/modules/cjs/loader:1705:14) {
+2026-05-04T14:18:10.993413037Z [err]    code: 'MODULE_NOT_FOUND',
+2026-05-04T14:18:10.993416475Z [err]    requireStack: [ '/app/deploy-commands.js', '/app/index.js' ]
+2026-05-04T14:18:10.993419661Z [err]  }
+2026-05-04T14:18:10.993423384Z [err]  
+2026-05-04T14:18:10.993426500Z [err]  Node.js v22.22.2
+2026-05-04T14:18:11.933753450Z [err]  npm warn config production Use `--omit=dev` instead.
+2026-05-04T14:18:11.960098141Z [inf]  
+2026-05-04T14:18:11.960101541Z [inf]  > discord-bot@1.0.0 start
+2026-05-04T14:18:11.960104414Z [inf]  > node index.js
+2026-05-04T14:18:11.960107613Z [inf]  
+2026-05-04T14:18:11.984449427Z [err]  Node.js v22.22.2
+2026-05-04T14:18:11.984452159Z [err]  node:internal/modules/cjs/loader:1386
+2026-05-04T14:18:11.984457111Z [err]    throw err;
+2026-05-04T14:18:11.984460521Z [err]    ^
+2026-05-04T14:18:11.984463502Z [err]  
+2026-05-04T14:18:11.984467523Z [err]  Error: Cannot find module 'dotenv'
+2026-05-04T14:18:11.984470456Z [err]  Require stack:
+2026-05-04T14:18:11.984473161Z [err]  - /app/deploy-commands.js
+2026-05-04T14:18:11.984476017Z [err]  - /app/index.js
+2026-05-04T14:18:11.984478724Z [err]      at Function._resolveFilename (node:internal/modules/cjs/loader:1383:15)
+2026-05-04T14:18:11.984481920Z [err]      at defaultResolveImpl (node:internal/modules/cjs/loader:1025:19)
+2026-05-04T14:18:11.984484506Z [err]      at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1030:22)
+2026-05-04T14:18:11.984487359Z [err]      at Function._load (node:internal/modules/cjs/loader:1192:37)
+2026-05-04T14:18:11.984490672Z [err]      at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+2026-05-04T14:18:11.984493507Z [err]      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+2026-05-04T14:18:11.984496559Z [err]      at Module.require (node:internal/modules/cjs/loader:1463:12)
+2026-05-04T14:18:11.984499390Z [err]      at require (node:internal/modules/helpers:147:16)
+2026-05-04T14:18:11.984663945Z [err]      at Object.<anonymous> (/app/deploy-commands.js:1:1)
+2026-05-04T14:18:11.984667967Z [err]      at Module._compile (node:internal/modules/cjs/loader:1705:14) {
+2026-05-04T14:18:11.984670994Z [err]    code: 'MODULE_NOT_FOUND',
+2026-05-04T14:18:11.984674249Z [err]    requireStack: [ '/app/deploy-commands.js', '/app/index.js' ]
+2026-05-04T14:18:11.984677231Z [err]  }
+2026-05-04T14:18:11.984680017Z [err]  
+2026-05-04T14:18:12.728799859Z [err]  npm warn config production Use `--omit=dev` instead.
+2026-05-04T14:18:12.754054482Z [inf]  
+2026-05-04T14:18:12.754067517Z [inf]  > discord-bot@1.0.0 start
+2026-05-04T14:18:12.754078670Z [inf]  > node index.js
+2026-05-04T14:18:12.754089409Z [inf]  
+2026-05-04T14:18:12.811070735Z [err]  node:internal/modules/cjs/loader:1386
+2026-05-04T14:18:12.811076385Z [err]    throw err;
+2026-05-04T14:18:12.811080323Z [err]    ^
+2026-05-04T14:18:12.811083992Z [err]  
+2026-05-04T14:18:12.811087575Z [err]  Error: Cannot find module 'dotenv'
+2026-05-04T14:18:12.811091056Z [err]  Require stack:
+2026-05-04T14:18:12.811094574Z [err]  - /app/deploy-commands.js
+2026-05-04T14:18:12.811098352Z [err]  - /app/index.js
+2026-05-04T14:18:12.811101906Z [err]      at Function._resolveFilename (node:internal/modules/cjs/loader:1383:15)
+2026-05-04T14:18:12.811110622Z [err]      at defaultResolveImpl (node:internal/modules/cjs/loader:1025:19)
+2026-05-04T14:18:12.811114569Z [err]      at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1030:22)
+2026-05-04T14:18:12.811118171Z [err]      at Function._load (node:internal/modules/cjs/loader:1192:37)
+2026-05-04T14:18:12.811121854Z [err]      at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+2026-05-04T14:18:12.811125843Z [err]      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+2026-05-04T14:18:12.811129525Z [err]      at Module.require (node:internal/modules/cjs/loader:1463:12)
+2026-05-04T14:18:12.811133415Z [err]      at require (node:internal/modules/helpers:147:16)
+2026-05-04T14:18:12.811138538Z [err]      at Object.<anonymous> (/app/deploy-commands.js:1:1)
+2026-05-04T14:18:12.811142664Z [err]      at Module._compile (node:internal/modules/cjs/loader:1705:14) {
+2026-05-04T14:18:12.811147429Z [err]    code: 'MODULE_NOT_FOUND',
+2026-05-04T14:18:12.811151044Z [err]    requireStack: [ '/app/deploy-commands.js', '/app/index.js' ]
+2026-05-04T14:18:12.811154766Z [err]  }
+2026-05-04T14:18:12.811158448Z [err]  
+2026-05-04T14:18:12.811162089Z [err]  Node.js v22.22.2
+2026-05-04T14:18:13.656536295Z [err]  - /app/deploy-commands.js
+2026-05-04T14:18:13.656543118Z [err]  - /app/index.js
+2026-05-04T14:18:13.656544163Z [err]  
+2026-05-04T14:18:13.656544923Z [inf]  
+2026-05-04T14:18:13.656549503Z [err]      at Function._resolveFilename (node:internal/modules/cjs/loader:1383:15)
+2026-05-04T14:18:13.656551566Z [err]      at defaultResolveImpl (node:internal/modules/cjs/loader:1025:19)
+2026-05-04T14:18:13.656554863Z [err]  Error: Cannot find module 'dotenv'
+2026-05-04T14:18:13.656555791Z [inf]  > discord-bot@1.0.0 start
+2026-05-04T14:18:13.656559041Z [err]      at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1030:22)
+2026-05-04T14:18:13.656563046Z [err]  Require stack:
+2026-05-04T14:18:13.656565215Z [inf]  > node index.js
+2026-05-04T14:18:13.656566879Z [err]      at Function._load (node:internal/modules/cjs/loader:1192:37)
+2026-05-04T14:18:13.656571837Z [inf]  
+2026-05-04T14:18:13.656575365Z [err]      at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+2026-05-04T14:18:13.656578103Z [err]  node:internal/modules/cjs/loader:1386
+2026-05-04T14:18:13.656582252Z [err]      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+2026-05-04T14:18:13.656584433Z [err]    throw err;
+2026-05-04T14:18:13.656588548Z [err]  npm warn config production Use `--omit=dev` instead.
+2026-05-04T14:18:13.656590821Z [err]    ^
+2026-05-04T14:18:13.656592923Z [err]    code: 'MODULE_NOT_FOUND',
+2026-05-04T14:18:13.656593870Z [err]      at Module.require (node:internal/modules/cjs/loader:1463:12)
+2026-05-04T14:18:13.656600471Z [err]    requireStack: [ '/app/deploy-commands.js', '/app/index.js' ]
+2026-05-04T14:18:13.656601411Z [err]      at require (node:internal/modules/helpers:147:16)
+2026-05-04T14:18:13.656605537Z [err]      at Object.<anonymous> (/app/deploy-commands.js:1:1)
+2026-05-04T14:18:13.656608950Z [err]      at Module._compile (node:internal/modules/cjs/loader:1705:14) {
+2026-05-04T14:18:13.657085780Z [err]  }
+2026-05-04T14:18:13.657090451Z [err]  
+2026-05-04T14:18:13.657094292Z [err]  Node.js v22.22.2
+2026-05-04T14:18:14.641310632Z [err]      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+2026-05-04T14:18:14.641311012Z [err]    code: 'MODULE_NOT_FOUND',
+2026-05-04T14:18:14.641320363Z [err]  npm warn config production Use `--omit=dev` instead.
+2026-05-04T14:18:14.641321194Z [err]    requireStack: [ '/app/deploy-commands.js', '/app/index.js' ]
+2026-05-04T14:18:14.641322256Z [err]      at Module.require (node:internal/modules/cjs/loader:1463:12)
+2026-05-04T14:18:14.641327289Z [inf]  
+2026-05-04T14:18:14.641328426Z [err]      at require (node:internal/modules/helpers:147:16)
+2026-05-04T14:18:14.641334253Z [err]  Require stack:
+2026-05-04T14:18:14.641334366Z [inf]  > discord-bot@1.0.0 start
+2026-05-04T14:18:14.641334404Z [err]      at Object.<anonymous> (/app/deploy-commands.js:1:1)
+2026-05-04T14:18:14.641340020Z [err]      at Module._compile (node:internal/modules/cjs/loader:1705:14) {
+2026-05-04T14:18:14.641341226Z [inf]  > node index.js
+2026-05-04T14:18:14.641345407Z [err]  - /app/deploy-commands.js
+2026-05-04T14:18:14.641348017Z [inf]  
+2026-05-04T14:18:14.641351038Z [err]  - /app/index.js
+2026-05-04T14:18:14.641357763Z [err]  node:internal/modules/cjs/loader:1386
+2026-05-04T14:18:14.641357881Z [err]      at Function._resolveFilename (node:internal/modules/cjs/loader:1383:15)
+2026-05-04T14:18:14.641364268Z [err]      at defaultResolveImpl (node:internal/modules/cjs/loader:1025:19)
+2026-05-04T14:18:14.641366083Z [err]    throw err;
+2026-05-04T14:18:14.641370560Z [err]      at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1030:22)
+2026-05-04T14:18:14.641373243Z [err]    ^
+2026-05-04T14:18:14.641375797Z [err]      at Function._load (node:internal/modules/cjs/loader:1192:37)
+2026-05-04T14:18:14.641380965Z [err]  
+2026-05-04T14:18:14.641381864Z [err]      at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+2026-05-04T14:18:14.641385303Z [err]  Error: Cannot find module 'dotenv'
+2026-05-04T14:18:14.642185008Z [err]  }
+2026-05-04T14:18:14.642188275Z [err]  
+2026-05-04T14:18:14.642191790Z [err]  Node.js v22.22.2
+2026-05-04T14:18:15.030149319Z [err]  npm warn config production Use `--omit=dev` instead.
+2026-05-04T14:18:15.041434388Z [inf]  
+2026-05-04T14:18:15.041446108Z [inf]  > discord-bot@1.0.0 start
+2026-05-04T14:18:15.041449104Z [inf]  > node index.js
+2026-05-04T14:18:15.041452731Z [inf]  
+2026-05-04T14:18:15.070611010Z [err]  
+2026-05-04T14:18:15.070619584Z [err]  Node.js v22.22.2
+2026-05-04T14:18:15.070641984Z [err]  node:internal/modules/cjs/loader:1386
+2026-05-04T14:18:15.070644651Z [err]    throw err;
+2026-05-04T14:18:15.070647755Z [err]    ^
+2026-05-04T14:18:15.070650422Z [err]  
+2026-05-04T14:18:15.070653269Z [err]  Error: Cannot find module 'dotenv'
+2026-05-04T14:18:15.070655818Z [err]  Require stack:
+2026-05-04T14:18:15.070659357Z [err]  - /app/deploy-commands.js
+2026-05-04T14:18:15.070662055Z [err]  - /app/index.js
+2026-05-04T14:18:15.070664672Z [err]      at Function._resolveFilename (node:internal/modules/cjs/loader:1383:15)
+2026-05-04T14:18:15.070668226Z [err]      at defaultResolveImpl (node:internal/modules/cjs/loader:1025:19)
+2026-05-04T14:18:15.070670806Z [err]      at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1030:22)
+2026-05-04T14:18:15.070673522Z [err]      at Function._load (node:internal/modules/cjs/loader:1192:37)
+2026-05-04T14:18:15.070676115Z [err]      at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+2026-05-04T14:18:15.070678690Z [err]      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+2026-05-04T14:18:15.070681187Z [err]      at Module.require (node:internal/modules/cjs/loader:1463:12)
+2026-05-04T14:18:15.070683701Z [err]      at require (node:internal/modules/helpers:147:16)
+2026-05-04T14:18:15.070686958Z [err]      at Object.<anonymous> (/app/deploy-commands.js:1:1)
+2026-05-04T14:18:15.070690677Z [err]      at Module._compile (node:internal/modules/cjs/loader:1705:14) {
+2026-05-04T14:18:15.070693299Z [err]    code: 'MODULE_NOT_FOUND',
+2026-05-04T14:18:15.070695822Z [err]    requireStack: [ '/app/deploy-commands.js', '/app/index.js' ]
+2026-05-04T14:18:15.070698407Z [err]  }
+2026-05-05T11:06:07.502073838Z [err]  npm warn config production Use `--omit=dev` instead.
+2026-05-05T11:06:07.502080095Z [inf]  
+2026-05-05T11:06:07.502083885Z [inf]  > discord-bot@1.0.0 start
+2026-05-05T11:06:07.502087401Z [inf]  > node index.js
+2026-05-05T11:06:07.502090906Z [inf]  
+2026-05-05T11:06:07.502094691Z [err]  node:internal/modules/cjs/loader:1386
+2026-05-05T11:06:07.502098243Z [err]    throw err;
+2026-05-05T11:06:07.502105026Z [err]  
+2026-05-05T11:06:07.502108832Z [err]  Error: Cannot find module 'dotenv'
+2026-05-05T11:06:07.502111953Z [err]  Require stack:
+2026-05-05T11:06:07.502115030Z [err]  - /app/deploy-commands.js
+2026-05-05T11:06:07.502118958Z [err]  - /app/index.js
+2026-05-05T11:06:07.502122478Z [err]      at Function._resolveFilename (node:internal/modules/cjs/loader:1383:15)
+2026-05-05T11:06:07.502125793Z [err]      at defaultResolveImpl (node:internal/modules/cjs/loader:1025:19)
+2026-05-05T11:06:07.502129207Z [err]      at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1030:22)
+2026-05-05T11:06:07.502132742Z [err]      at Function._load (node:internal/modules/cjs/loader:1192:37)
+2026-05-05T11:06:07.502136517Z [err]      at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+2026-05-05T11:06:07.502147315Z [err]      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+2026-05-05T11:06:07.502152302Z [err]      at Module.require (node:internal/modules/cjs/loader:1463:12)
+2026-05-05T11:06:07.502156394Z [err]      at require (node:internal/modules/helpers:147:16)
+2026-05-05T11:06:07.502163045Z [err]      at Module._compile (node:internal/modules/cjs/loader:1705:14) {
+2026-05-05T11:06:07.502166303Z [err]    code: 'MODULE_NOT_FOUND',
+2026-05-05T11:06:07.502169987Z [err]    requireStack: [ '/app/deploy-commands.js', '/app/index.js' ]
+2026-05-05T11:06:07.503200869Z [err]  }
+2026-05-05T11:06:07.503205999Z [err]  
+2026-05-05T11:06:07.503212933Z [err]  npm warn config production Use `--omit=dev` instead.
+2026-05-05T11:06:07.503216580Z [inf]  
+2026-05-05T11:06:07.503221059Z [err]  - /app/deploy-commands.js
+2026-05-05T11:06:07.503223532Z [inf]  > discord-bot@1.0.0 start
+2026-05-05T11:06:07.503228031Z [err]  - /app/index.js
+2026-05-05T11:06:07.503229373Z [inf]  > node index.js
+2026-05-05T11:06:07.503235458Z [err]      at Function._resolveFilename (node:internal/modules/cjs/loader:1383:15)
+2026-05-05T11:06:07.503235828Z [inf]  
+2026-05-05T11:06:07.503242132Z [err]      at Object.<anonymous> (/app/deploy-commands.js:1:1)
+2026-05-05T11:06:07.503243149Z [err]  node:internal/modules/cjs/loader:1386
+2026-05-05T11:06:07.503243389Z [err]      at defaultResolveImpl (node:internal/modules/cjs/loader:1025:19)
+2026-05-05T11:06:07.503250594Z [err]      at Module._compile (node:internal/modules/cjs/loader:1705:14) {
+2026-05-05T11:06:07.503250883Z [err]      at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1030:22)
+2026-05-05T11:06:07.503257285Z [err]    ^
+2026-05-05T11:06:07.503258051Z [err]      at Function._load (node:internal/modules/cjs/loader:1192:37)
+2026-05-05T11:06:07.503262356Z [err]  
+2026-05-05T11:06:07.503264388Z [err]      at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+2026-05-05T11:06:07.503273467Z [err]  Require stack:
+2026-05-05T11:06:07.504493315Z [err]    code: 'MODULE_NOT_FOUND',
+2026-05-05T11:06:07.504502659Z [err]  }
+2026-05-05T11:06:07.504504235Z [err]  - /app/deploy-commands.js
+2026-05-05T11:06:07.504511628Z [err]  Node.js v22.22.2
+2026-05-05T11:06:07.504512272Z [err]  - /app/index.js
+2026-05-05T11:06:07.504517324Z [err]  npm warn config production Use `--omit=dev` instead.
+2026-05-05T11:06:07.504522297Z [inf]  
+2026-05-05T11:06:07.504523927Z [err]      at defaultResolveImpl (node:internal/modules/cjs/loader:1025:19)
+2026-05-05T11:06:07.504528872Z [inf]  > discord-bot@1.0.0 start
+2026-05-05T11:06:07.504529702Z [err]      at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1030:22)
+2026-05-05T11:06:07.504532662Z [inf]  > node index.js
+2026-05-05T11:06:07.504534415Z [err]      at Function._load (node:internal/modules/cjs/loader:1192:37)
+2026-05-05T11:06:07.504537565Z [inf]  
+2026-05-05T11:06:07.504539949Z [err]      at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+2026-05-05T11:06:07.504542306Z [err]  node:internal/modules/cjs/loader:1386
+2026-05-05T11:06:07.504548076Z [err]    throw err;
+2026-05-05T11:06:07.504550766Z [err]      at Module.require (node:internal/modules/cjs/loader:1463:12)
+2026-05-05T11:06:07.504553086Z [err]    ^
+2026-05-05T11:06:07.504555287Z [err]      at require (node:internal/modules/helpers:147:16)
+2026-05-05T11:06:07.504560660Z [err]      at Object.<anonymous> (/app/deploy-commands.js:1:1)
+2026-05-05T11:06:07.504563078Z [err]  Error: Cannot find module 'dotenv'
+2026-05-05T11:06:07.504565733Z [err]  Require stack:
+2026-05-05T11:06:07.506341554Z [inf]  
+2026-05-05T11:06:07.506348595Z [err]      at require (node:internal/modules/helpers:147:16)
+2026-05-05T11:06:07.506356174Z [err]      at Function._load (node:internal/modules/cjs/loader:1192:37)
+2026-05-05T11:06:07.506360272Z [err]      at Module._compile (node:internal/modules/cjs/loader:1705:14) {
+2026-05-05T11:06:07.506362410Z [err]      at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+2026-05-05T11:06:07.506363467Z [err]    throw err;
+2026-05-05T11:06:07.506365587Z [err]      at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1030:22)
+2026-05-05T11:06:07.506370655Z [err]    code: 'MODULE_NOT_FOUND',
+2026-05-05T11:06:07.506371630Z [err]      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+2026-05-05T11:06:07.506371789Z [err]    ^
+2026-05-05T11:06:07.506379337Z [err]      at Module.require (node:internal/modules/cjs/loader:1463:12)
+2026-05-05T11:06:07.506384182Z [err]      at Function._resolveFilename (node:internal/modules/cjs/loader:1383:15)
+2026-05-05T11:06:07.506388221Z [err]  }
+2026-05-05T11:06:07.506388802Z [err]  - /app/index.js
+2026-05-05T11:06:07.506391562Z [err]  Error: Cannot find module 'dotenv'
+2026-05-05T11:06:07.506395103Z [err]      at defaultResolveImpl (node:internal/modules/cjs/loader:1025:19)
+2026-05-05T11:06:07.506397819Z [err]  
+2026-05-05T11:06:07.506404579Z [err]  - /app/deploy-commands.js
+2026-05-05T11:06:07.506408794Z [err]  npm warn config production Use `--omit=dev` instead.
+2026-05-05T11:06:07.506412556Z [inf]  
+2026-05-05T11:06:07.506416524Z [inf]  > discord-bot@1.0.0 start
+2026-05-05T11:06:07.506420181Z [inf]  > node index.js
+2026-05-05T11:06:07.508394828Z [err]      at Object.<anonymous> (/app/deploy-commands.js:1:1)
+2026-05-05T11:06:07.508399680Z [err]      at Module._compile (node:internal/modules/cjs/loader:1705:14) {
+2026-05-05T11:06:07.508404837Z [err]    code: 'MODULE_NOT_FOUND',
+2026-05-05T11:06:07.508405923Z [err]  
+2026-05-05T11:06:07.508410600Z [err]    requireStack: [ '/app/deploy-commands.js', '/app/index.js' ]
+2026-05-05T11:06:07.508413092Z [err]    throw err;
+2026-05-05T11:06:07.508413714Z [err]  Node.js v22.22.2
+2026-05-05T11:06:07.508417383Z [err]  }
+2026-05-05T11:06:07.508420437Z [err]    ^
+2026-05-05T11:06:07.508421322Z [err]  npm warn config production Use `--omit=dev` instead.
+2026-05-05T11:06:07.508426780Z [err]  
+2026-05-05T11:06:07.508427920Z [inf]  
+2026-05-05T11:06:07.508433472Z [err]  Error: Cannot find module 'dotenv'
+2026-05-05T11:06:07.508434953Z [inf]  > discord-bot@1.0.0 start
+2026-05-05T11:06:07.508438978Z [inf]  > node index.js
+2026-05-05T11:06:07.508443432Z [inf]  
+2026-05-05T11:06:07.508444369Z [err]  Require stack:
+2026-05-05T11:06:07.508449461Z [err]  node:internal/modules/cjs/loader:1386
+2026-05-05T11:06:07.508451335Z [err]  - /app/deploy-commands.js
+2026-05-05T11:06:07.508455349Z [err]  - /app/index.js
+2026-05-05T11:06:07.508459446Z [err]      at Function._resolveFilename (node:internal/modules/cjs/loader:1383:15)
+2026-05-05T11:06:07.508463341Z [err]      at defaultResolveImpl (node:internal/modules/cjs/loader:1025:19)
+2026-05-05T11:06:07.508467821Z [err]      at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1030:22)
+2026-05-05T11:06:07.508472261Z [err]      at Function._load (node:internal/modules/cjs/loader:1192:37)
+2026-05-05T11:06:07.508481311Z [err]      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+2026-05-05T11:06:07.508486149Z [err]      at Module.require (node:internal/modules/cjs/loader:1463:12)
+2026-05-05T11:06:07.509765584Z [err]      at Function._load (node:internal/modules/cjs/loader:1192:37)
+2026-05-05T11:06:07.509769764Z [err]      at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+2026-05-05T11:06:07.509775028Z [err]      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+2026-05-05T11:06:07.509781141Z [err]      at Object.<anonymous> (/app/deploy-commands.js:1:1)
+2026-05-05T11:06:07.509784694Z [err]      at Module._compile (node:internal/modules/cjs/loader:1705:14) {
+2026-05-05T11:06:07.509791276Z [err]    requireStack: [ '/app/deploy-commands.js', '/app/index.js' ]
+2026-05-05T11:06:07.509796971Z [err]  }
+2026-05-05T11:06:07.509801082Z [err]  
+2026-05-05T11:06:07.509809055Z [err]  npm warn config production Use `--omit=dev` instead.
+2026-05-05T11:06:07.509812134Z [inf]  
+2026-05-05T11:06:07.509815048Z [inf]  > discord-bot@1.0.0 start
+2026-05-05T11:06:07.509818646Z [inf]  > node index.js
+2026-05-05T11:06:07.509822840Z [inf]  
+2026-05-05T11:06:07.509827234Z [err]  node:internal/modules/cjs/loader:1386
+2026-05-05T11:06:07.509830343Z [err]    throw err;
+2026-05-05T11:06:07.509838619Z [err]  
+2026-05-05T11:06:07.509842088Z [err]  Error: Cannot find module 'dotenv'
+2026-05-05T11:06:07.509844869Z [err]  Require stack:
+2026-05-05T11:06:07.509848083Z [err]  - /app/deploy-commands.js
+2026-05-05T11:06:07.509852113Z [err]  - /app/index.js
+2026-05-05T11:06:07.509855948Z [err]      at Function._resolveFilename (node:internal/modules/cjs/loader:1383:15)
+2026-05-05T11:06:07.509859526Z [err]      at defaultResolveImpl (node:internal/modules/cjs/loader:1025:19)
+2026-05-05T11:06:07.509862490Z [err]      at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1030:22)
+2026-05-05T11:06:07.511313400Z [err]      at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1030:22)
+2026-05-05T11:06:07.511317326Z [err]      at Function._load (node:internal/modules/cjs/loader:1192:37)
+2026-05-05T11:06:07.511321690Z [err]      at Module.require (node:internal/modules/cjs/loader:1463:12)
+2026-05-05T11:06:07.511323274Z [err]      at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+2026-05-05T11:06:07.511328194Z [err]      at require (node:internal/modules/helpers:147:16)
+2026-05-05T11:06:07.511333826Z [err]      at Object.<anonymous> (/app/deploy-commands.js:1:1)
+2026-05-05T11:06:07.511338081Z [err]      at Module._compile (node:internal/modules/cjs/loader:1705:14) {
+2026-05-05T11:06:07.511340697Z [err]  Error: Cannot find module 'dotenv'
+2026-05-05T11:06:07.511342629Z [err]    code: 'MODULE_NOT_FOUND',
+2026-05-05T11:06:07.511347778Z [err]    requireStack: [ '/app/deploy-commands.js', '/app/index.js' ]
+2026-05-05T11:06:07.511349880Z [err]  Require stack:
+2026-05-05T11:06:07.511355940Z [err]  }
+2026-05-05T11:06:07.511356699Z [err]  - /app/deploy-commands.js
+2026-05-05T11:06:07.511362249Z [err]  
+2026-05-05T11:06:07.511362500Z [err]  - /app/index.js
+2026-05-05T11:06:07.511368559Z [err]      at Function._resolveFilename (node:internal/modules/cjs/loader:1383:15)
+2026-05-05T11:06:07.511373960Z [err]      at defaultResolveImpl (node:internal/modules/cjs/loader:1025:19)
+2026-05-05T11:06:07.511377127Z [err]  npm warn config production Use `--omit=dev` instead.
+2026-05-05T11:06:07.511380314Z [inf]  
+2026-05-05T11:06:07.511383328Z [inf]  > discord-bot@1.0.0 start
+2026-05-05T11:06:07.511386369Z [inf]  > node index.js
+2026-05-05T11:06:07.511390974Z [inf]  
+2026-05-05T11:06:07.511394145Z [err]  node:internal/modules/cjs/loader:1386
+2026-05-05T11:06:07.511397606Z [err]    throw err;
+2026-05-05T11:06:07.511404236Z [err]  
+2026-05-05T11:06:07.512831395Z [err]      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+2026-05-05T11:06:07.512835715Z [err]      at Module.require (node:internal/modules/cjs/loader:1463:12)
+2026-05-05T11:06:07.512840656Z [err]  Node.js v22.22.2
+2026-05-05T11:06:07.512840831Z [err]      at require (node:internal/modules/helpers:147:16)
+2026-05-05T11:06:07.512843341Z [err]      at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1030:22)
+2026-05-05T11:06:07.512847143Z [err]  npm warn config production Use `--omit=dev` instead.
+2026-05-05T11:06:07.512847587Z [err]      at Object.<anonymous> (/app/deploy-commands.js:1:1)
+2026-05-05T11:06:07.512854601Z [err]      at Module._compile (node:internal/modules/cjs/loader:1705:14) {
+2026-05-05T11:06:07.512855337Z [inf]  
+2026-05-05T11:06:07.512860786Z [err]    code: 'MODULE_NOT_FOUND',
+2026-05-05T11:06:07.512862894Z [inf]  > discord-bot@1.0.0 start
+2026-05-05T11:06:07.512865392Z [err]    requireStack: [ '/app/deploy-commands.js', '/app/index.js' ]
+2026-05-05T11:06:07.512868022Z [inf]  > node index.js
+2026-05-05T11:06:07.512870943Z [err]  }
+2026-05-05T11:06:07.512873984Z [inf]  
+2026-05-05T11:06:07.512876208Z [err]  
+2026-05-05T11:06:07.512879010Z [err]  node:internal/modules/cjs/loader:1386
+2026-05-05T11:06:07.512886083Z [err]    ^
+2026-05-05T11:06:07.512889472Z [err]  
+2026-05-05T11:06:07.512892485Z [err]  Error: Cannot find module 'dotenv'
+2026-05-05T11:06:07.512895666Z [err]  Require stack:
+2026-05-05T11:06:07.512899492Z [err]  - /app/deploy-commands.js
+2026-05-05T11:06:07.512905617Z [err]      at Function._resolveFilename (node:internal/modules/cjs/loader:1383:15)
+2026-05-05T11:06:07.512910003Z [err]      at defaultResolveImpl (node:internal/modules/cjs/loader:1025:19)
+2026-05-05T11:06:07.514406521Z [err]      at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+2026-05-05T11:06:07.514409839Z [err]  - /app/index.js
+2026-05-05T11:06:07.514411670Z [err]      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+2026-05-05T11:06:07.514418196Z [err]      at Function._resolveFilename (node:internal/modules/cjs/loader:1383:15)
+2026-05-05T11:06:07.514425084Z [err]      at defaultResolveImpl (node:internal/modules/cjs/loader:1025:19)
+2026-05-05T11:06:07.514429493Z [err]      at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1030:22)
+2026-05-05T11:06:07.514440643Z [err]      at Object.<anonymous> (/app/deploy-commands.js:1:1)
+2026-05-05T11:06:07.514443698Z [err]      at Module._compile (node:internal/modules/cjs/loader:1705:14) {
+2026-05-05T11:06:07.514446459Z [err]    code: 'MODULE_NOT_FOUND',
+2026-05-05T11:06:07.514449795Z [err]    requireStack: [ '/app/deploy-commands.js', '/app/index.js' ]
+2026-05-05T11:06:07.514453638Z [err]  }
+2026-05-05T11:06:07.514456827Z [err]  
+2026-05-05T11:06:07.514460259Z [err]  Node.js v22.22.2
+2026-05-05T11:06:07.514463109Z [err]  npm warn config production Use `--omit=dev` instead.
+2026-05-05T11:06:07.514465881Z [inf]  
+2026-05-05T11:06:07.514468638Z [inf]  > discord-bot@1.0.0 start
+2026-05-05T11:06:07.514471520Z [inf]  > node index.js
+2026-05-05T11:06:07.514474265Z [inf]  
+2026-05-05T11:06:07.514476979Z [err]  node:internal/modules/cjs/loader:1386
+2026-05-05T11:06:07.514480385Z [err]    throw err;
+2026-05-05T11:06:07.514483078Z [err]    ^
+2026-05-05T11:06:07.514485827Z [err]  
+2026-05-05T11:06:07.514488556Z [err]  Error: Cannot find module 'dotenv'
+2026-05-05T11:06:07.514491227Z [err]  Require stack:
+2026-05-05T11:06:07.514494190Z [err]  - /app/deploy-commands.js
+2026-05-05T11:06:07.515484979Z [err]    ^
+2026-05-05T11:06:07.515488224Z [err]      at Function._load (node:internal/modules/cjs/loader:1192:37)
+2026-05-05T11:06:07.515491370Z [err]  
+2026-05-05T11:06:07.515493684Z [err]      at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+2026-05-05T11:06:07.515497062Z [err]  Error: Cannot find module 'dotenv'
+2026-05-05T11:06:07.515498918Z [err]      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+2026-05-05T11:06:07.515503769Z [err]  Require stack:
+2026-05-05T11:06:07.515504339Z [err]      at Module.require (node:internal/modules/cjs/loader:1463:12)
+2026-05-05T11:06:07.515510182Z [err]  - /app/deploy-commands.js
+2026-05-05T11:06:07.515510388Z [err]      at require (node:internal/modules/helpers:147:16)
+2026-05-05T11:06:07.515515912Z [err]  - /app/index.js
+2026-05-05T11:06:07.515516105Z [err]      at Object.<anonymous> (/app/deploy-commands.js:1:1)
+2026-05-05T11:06:07.515521441Z [err]      at Function._resolveFilename (node:internal/modules/cjs/loader:1383:15)
+2026-05-05T11:06:07.515521568Z [err]      at Module._compile (node:internal/modules/cjs/loader:1705:14) {
+2026-05-05T11:06:07.515526853Z [err]      at defaultResolveImpl (node:internal/modules/cjs/loader:1025:19)
+2026-05-05T11:06:07.515527010Z [err]    code: 'MODULE_NOT_FOUND',
+2026-05-05T11:06:07.515531296Z [err]    requireStack: [ '/app/deploy-commands.js', '/app/index.js' ]
+2026-05-05T11:06:07.515534530Z [err]  }
+2026-05-05T11:06:07.515540085Z [err]  Node.js v22.22.2
+2026-05-05T11:06:07.515542745Z [err]  npm warn config production Use `--omit=dev` instead.
+2026-05-05T11:06:07.515546585Z [inf]  
+2026-05-05T11:06:07.515549288Z [inf]  > discord-bot@1.0.0 start
+2026-05-05T11:06:07.515551980Z [inf]  > node index.js
+2026-05-05T11:06:07.515554801Z [inf]  
+2026-05-05T11:06:07.515561783Z [err]    throw err;
+2026-05-05T11:06:07.516528972Z [err]  - /app/deploy-commands.js
+2026-05-05T11:06:07.516533059Z [err]      at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1030:22)
+2026-05-05T11:06:07.516533809Z [err]  - /app/index.js
+2026-05-05T11:06:07.516539772Z [err]      at Function._resolveFilename (node:internal/modules/cjs/loader:1383:15)
+2026-05-05T11:06:07.516540606Z [err]      at Function._load (node:internal/modules/cjs/loader:1192:37)
+2026-05-05T11:06:07.516544885Z [err]      at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+2026-05-05T11:06:07.516548093Z [err]      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+2026-05-05T11:06:07.516551623Z [err]    ^
+2026-05-05T11:06:07.516552245Z [err]      at Module.require (node:internal/modules/cjs/loader:1463:12)
+2026-05-05T11:06:07.516555706Z [err]      at require (node:internal/modules/helpers:147:16)
+2026-05-05T11:06:07.516560065Z [err]  
+2026-05-05T11:06:07.516564606Z [err]      at Module._compile (node:internal/modules/cjs/loader:1705:14) {
+2026-05-05T11:06:07.516566889Z [err]  Error: Cannot find module 'dotenv'
+2026-05-05T11:06:07.516569298Z [err]    code: 'MODULE_NOT_FOUND',
+2026-05-05T11:06:07.516573625Z [err]  Require stack:
+2026-05-05T11:06:07.516575237Z [err]    requireStack: [ '/app/deploy-commands.js', '/app/index.js' ]
+2026-05-05T11:06:07.516578201Z [err]  }
+2026-05-05T11:06:07.516580918Z [err]  
+2026-05-05T11:06:07.516584377Z [err]  Node.js v22.22.2
+2026-05-05T11:06:07.516587385Z [err]  npm warn config production Use `--omit=dev` instead.
+2026-05-05T11:06:07.516589962Z [inf]  
+2026-05-05T11:06:07.516592708Z [inf]  > discord-bot@1.0.0 start
+2026-05-05T11:06:07.516595471Z [inf]  > node index.js
+2026-05-05T11:06:07.516598280Z [inf]  
+2026-05-05T11:06:07.516600888Z [err]  node:internal/modules/cjs/loader:1386
+2026-05-05T11:06:07.516605846Z [err]    throw err;
+2026-05-05T11:06:07.517406570Z [err]      at defaultResolveImpl (node:internal/modules/cjs/loader:1025:19)
+2026-05-05T11:06:07.517411178Z [err]      at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1030:22)
+2026-05-05T11:06:07.517415082Z [err]      at Function._load (node:internal/modules/cjs/loader:1192:37)
+2026-05-05T11:06:07.517418605Z [err]      at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+2026-05-05T11:06:07.517422070Z [err]      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+2026-05-05T11:06:07.517426116Z [err]      at Module.require (node:internal/modules/cjs/loader:1463:12)
+2026-05-05T11:06:07.517429700Z [err]      at require (node:internal/modules/helpers:147:16)
+2026-05-05T11:06:07.517433212Z [err]      at Object.<anonymous> (/app/deploy-commands.js:1:1)
+2026-05-05T11:06:07.517436590Z [err]      at Module._compile (node:internal/modules/cjs/loader:1705:14) {
+2026-05-05T11:06:07.517441372Z [err]    code: 'MODULE_NOT_FOUND',
+2026-05-05T11:06:07.517445065Z [err]    requireStack: [ '/app/deploy-commands.js', '/app/index.js' ]
+2026-05-05T11:06:07.517448250Z [err]  }
+2026-05-05T11:06:07.517451369Z [err]  
+2026-05-05T11:06:07.517454285Z [err]  Node.js v22.22.2
