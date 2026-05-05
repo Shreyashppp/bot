@@ -1,0 +1,114 @@
+2026-05-05T12:02:49.022301759Z [err]  no builders available in region - falling back to global scheduling
+2026-05-05T12:02:49.022594404Z [inf]  scheduling build on Metal builder "production-builderv3-us-west1-fzrz"
+2026-05-05T12:02:50.588436883Z [inf]  unpacking archive
+2026-05-05T12:02:50.663103380Z [inf]  uploading snapshot
+2026-05-05T12:02:50.665283114Z [inf]  using build driver nixpacks-v1.41.0
+2026-05-05T12:02:50.746925421Z [inf]  
+2026-05-05T12:02:50.746928163Z [inf]  ╔════════ Nixpacks v1.41.0 ═══════╗
+2026-05-05T12:02:50.746929114Z [inf]  ║ setup      │ nodejs_24, npm-9_x ║
+2026-05-05T12:02:50.746929941Z [inf]  ║─────────────────────────────────║
+2026-05-05T12:02:50.746930473Z [inf]  ║ install    │ npm install        ║
+2026-05-05T12:02:50.746931009Z [inf]  ║─────────────────────────────────║
+2026-05-05T12:02:50.746931496Z [inf]  ║ start      │ node index.js      ║
+2026-05-05T12:02:50.746932613Z [inf]  ╚═════════════════════════════════╝
+2026-05-05T12:02:50.746933006Z [inf]  
+2026-05-05T12:02:50.747400810Z [inf]  
+2026-05-05T12:02:50.747412617Z [inf]  Saved output to:
+2026-05-05T12:02:50.747413716Z [inf]    snapshot-target-unpack
+2026-05-05T12:02:50.810934459Z [inf]  [internal] load build definition from Dockerfile
+2026-05-05T12:02:50.810946815Z [inf]  [internal] load build definition from Dockerfile
+2026-05-05T12:02:50.810947485Z [inf]  [internal] load build definition from Dockerfile
+2026-05-05T12:02:50.886963999Z [inf]  [internal] load build definition from Dockerfile
+2026-05-05T12:02:50.899935614Z [inf]  [internal] load metadata for ghcr.io/railwayapp/nixpacks:ubuntu-1745885067
+2026-05-05T12:02:51.028214825Z [inf]  [internal] load metadata for ghcr.io/railwayapp/nixpacks:ubuntu-1745885067
+2026-05-05T12:02:51.028531496Z [inf]  [internal] load .dockerignore
+2026-05-05T12:02:51.028538685Z [inf]  [internal] load .dockerignore
+2026-05-05T12:02:51.035255200Z [inf]  [internal] load .dockerignore
+2026-05-05T12:02:51.094242510Z [inf]  [internal] load .dockerignore
+2026-05-05T12:02:51.115155715Z [wrn]  SecretsUsedInArgOrEnv: Do not use ARG or ENV instructions for sensitive data (ARG "DISCORD_TOKEN") (line 11)(https://docs.docker.com/go/dockerfile/rule/secrets-used-in-arg-or-env/)
+ details: Sensitive data should not be used in the ARG or ENV commands
+
+2026-05-05T12:02:51.115399933Z [wrn]  SecretsUsedInArgOrEnv: Do not use ARG or ENV instructions for sensitive data (ENV "DISCORD_TOKEN") (line 12)(https://docs.docker.com/go/dockerfile/rule/secrets-used-in-arg-or-env/)
+ details: Sensitive data should not be used in the ARG or ENV commands
+
+2026-05-05T12:02:51.115456136Z [wrn]  UndefinedVar: Usage of undefined variable '$NIXPACKS_PATH' (line 18)(https://docs.docker.com/go/dockerfile/rule/undefined-var/)
+ details: Variables should be defined before their use
+
+2026-05-05T12:02:51.117396341Z [inf]  [stage-0 8/8] COPY . /app
+2026-05-05T12:02:51.117397127Z [inf]  [stage-0 7/8] RUN printf '\nPATH=/app/node_modules/.bin:$PATH' >> /root/.profile
+2026-05-05T12:02:51.117397790Z [inf]  [stage-0 6/8] RUN --mount=type=cache,id=s/fa2e9793-77dc-4e3b-9b85-1bcdb04f7867-/root/npm,target=/root/.npm npm install
+2026-05-05T12:02:51.117398523Z [inf]  [stage-0 5/8] COPY . /app/.
+2026-05-05T12:02:51.117399204Z [inf]  [stage-0 4/8] RUN nix-env -if .nixpacks/nixpkgs-23f9169c4ccce521379e602cc82ed873a1f1b52b.nix && nix-collect-garbage -d
+2026-05-05T12:02:51.117399942Z [inf]  [stage-0 3/8] COPY .nixpacks/nixpkgs-23f9169c4ccce521379e602cc82ed873a1f1b52b.nix .nixpacks/nixpkgs-23f9169c4ccce521379e602cc82ed873a1f1b52b.nix
+2026-05-05T12:02:51.117400829Z [inf]  [internal] load build context
+2026-05-05T12:02:51.117401488Z [inf]  [stage-0  2/15] WORKDIR /app/
+2026-05-05T12:02:51.117401972Z [inf]  [stage-0  1/15] FROM ghcr.io/railwayapp/nixpacks:ubuntu-1745885067@sha256:d45c89d80e13d7ad0fd555b5130f22a866d9dd10e861f589932303ef2314c7de
+2026-05-05T12:02:51.117404097Z [inf]  [stage-0  1/15] FROM ghcr.io/railwayapp/nixpacks:ubuntu-1745885067@sha256:d45c89d80e13d7ad0fd555b5130f22a866d9dd10e861f589932303ef2314c7de
+2026-05-05T12:02:51.117560805Z [inf]  [internal] load build context
+2026-05-05T12:02:51.119490097Z [inf]  [internal] load build context
+2026-05-05T12:02:51.441931886Z [inf]  [internal] load build context
+2026-05-05T12:02:51.576657254Z [inf]  [stage-0  2/15] WORKDIR /app/
+2026-05-05T12:02:51.576658258Z [inf]  [stage-0 3/8] COPY .nixpacks/nixpkgs-23f9169c4ccce521379e602cc82ed873a1f1b52b.nix .nixpacks/nixpkgs-23f9169c4ccce521379e602cc82ed873a1f1b52b.nix
+2026-05-05T12:02:51.576658989Z [inf]  [stage-0 4/8] RUN nix-env -if .nixpacks/nixpkgs-23f9169c4ccce521379e602cc82ed873a1f1b52b.nix && nix-collect-garbage -d
+2026-05-05T12:02:51.628101597Z [inf]  [stage-0 4/8] RUN nix-env -if .nixpacks/nixpkgs-23f9169c4ccce521379e602cc82ed873a1f1b52b.nix && nix-collect-garbage -d
+2026-05-05T12:02:51.628106826Z [inf]  [stage-0 5/8] COPY . /app/.
+2026-05-05T12:02:51.925700620Z [inf]  [stage-0 5/8] COPY . /app/.
+2026-05-05T12:02:51.958439104Z [inf]  [stage-0 6/8] RUN --mount=type=cache,id=s/fa2e9793-77dc-4e3b-9b85-1bcdb04f7867-/root/npm,target=/root/.npm npm install
+2026-05-05T12:02:53.151314978Z [inf]  npm warn config production Use `--omit=dev` instead.
+
+2026-05-05T12:02:54.807658891Z [inf]  npm warn deprecated prebuild-install@7.1.3: No longer maintained. Please contact the author of the relevant native addon; alternatives are available.
+
+2026-05-05T12:02:54.929072629Z [inf]  npm warn deprecated @discordjs/voice@0.17.0: This version uses deprecated encryption modes. Please use a newer version.
+
+2026-05-05T12:02:57.703938415Z [inf]  npm error code 1
+npm error path /app/node_modules/better-sqlite3
+npm error command failed
+npm error command sh -c prebuild-install || node-gyp rebuild --release
+
+2026-05-05T12:02:57.711587042Z [inf]  npm error (node:21) [DEP0176] DeprecationWarning: fs.R_OK is deprecated, use fs.constants.R_OK instead
+npm error (Use `node --trace-deprecation ...` to show where the warning was created)
+npm error prebuild-install warn install No prebuilt binaries found (target=24.10.0 runtime=node arch=x64 libc= platform=linux)
+npm error gyp info it worked if it ends with ok
+npm error gyp info using node-gyp@11.4.2
+npm error gyp info using node@24.10.0 | linux | x64
+npm error gyp ERR! find Python 
+npm error gyp ERR! find Python Python is not set from command line or npm configuration
+npm error gyp ERR! find Python Python is not set from environment variable PYTHON
+npm error gyp ERR! find Python checking if "python3" can be used
+npm error gyp ERR! find Python - executable path is ""
+npm error gyp ERR! find Python - "" could not be run
+npm error gyp ERR! find Python checking if "python" can be used
+npm error gyp ERR! find Python - executable path is ""
+npm error gyp ERR! find Python - "" could not be run
+npm error gyp ERR! find Python 
+npm error gyp ERR! find Python **********************************************************
+npm error gyp ERR! find Python You need to install the latest version of Python.
+npm error gyp ERR! find Python Node-gyp should be able to find and use Python. If not,
+npm error gyp ERR! find Python you can try one of the following options:
+npm error gyp ERR! find Python - Use the switch --python="/path/to/pythonexecutable"
+npm error gyp ERR! find Python (accepted by both node-gyp and npm)
+npm error gyp ERR! find Python - Set the environment variable PYTHON
+npm error gyp ERR! find Python - Set the npm configuration variable python:
+npm error gyp ERR! find Python npm config set python "/path/to/pythonexecutable"
+npm error gyp ERR! find Python For more information consult the documentation at:
+npm error gyp ERR! find Python https://github.com/nodejs/node-gyp#installation
+npm error gyp ERR! find Python **********************************************************
+npm error gyp ERR! find Python 
+npm error gyp ERR! configure error 
+npm error gyp ERR! stack Error: Could not find any Python installation to use
+npm error gyp ERR! stack at PythonFinder.fail (/nix/store/p2sk3402d788hqn5diy5gba8cskjffzz-nodejs-24.10.0/lib/node_modules/npm/node_modules/node-gyp/lib/find-python.js:306:11)
+npm error gyp ERR! stack at PythonFinder.findPython (/nix/store/p2sk3402d788hqn5diy5gba8cskjffzz-nodejs-24.10.0/lib/node_modules/npm/node_modules/node-gyp/lib/find-python.js:164:17)
+npm error gyp ERR! stack at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+npm error gyp ERR! stack at async configure (/nix/store/p2sk3402d788hqn5diy5gba8cskjffzz-nodejs-24.10.0/lib/node_modules/npm/node_modules/node-gyp/lib/configure.js:27:18)
+npm error gyp ERR! stack at async run (/nix/store/p2sk3402d788hqn5diy5gba8cskjffzz-nodejs-24.10.0/lib/node_modules/npm/node_modules/node-gyp/bin/node-gyp.js:81:18)
+npm error gyp ERR! System Linux 6.18.15+deb13-cloud-amd64
+npm error gyp ERR! command "/nix/store/p2sk3402d788hqn5diy5gba8cskjffzz-nodejs-24.10.0/bin/node" "/nix/store/p2sk3402d788hqn5diy5gba8cskjffzz-nodejs-24.10.0/lib/node_modules/npm/node_modules/node-gyp/bin/node-gyp.js" "rebuild" "--release"
+npm error gyp ERR! cwd /app/node_modules/better-sqlite3
+npm error gyp ERR! node -v v24.10.0
+npm error gyp ERR! node-gyp -v v11.4.2
+npm error gyp ERR! not ok
+
+2026-05-05T12:02:57.716756384Z [inf]  npm error A complete log of this run can be found in: /root/.npm/_logs/2026-05-05T12_02_53_099Z-debug-0.log
+
+2026-05-05T12:02:57.926655762Z [err]  [stage-0 6/8] RUN --mount=type=cache,id=s/fa2e9793-77dc-4e3b-9b85-1bcdb04f7867-/root/npm,target=/root/.npm npm install
+2026-05-05T12:02:58.003530957Z [err]  Build Failed: build daemon returned an error < failed to solve: process "/bin/bash -ol pipefail -c npm install" did not complete successfully: exit code: 1 >
