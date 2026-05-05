@@ -1,112 +1,144 @@
-const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, StringSelectMenuBuilder, ButtonBuilder, ButtonStyle, ComponentType } = require('discord.js');
+const {
+  SlashCommandBuilder, EmbedBuilder,
+  ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType
+} = require('discord.js');
 const { COLORS } = require('../../utils/embeds');
 
-const MAIN_MENU = {
-  antinuke:  { emoji: '🛡️', label: 'Anti Nuke',        description: 'View commands in Anti Nuke category',        commands: ['`/antinuke enable` — Enable anti-nuke protection', '`/antinuke disable` — Disable anti-nuke', '`/antinuke status` — View settings', '`/antinuke whitelist add/remove/list` — Manage whitelist', '`/antinuke settings` — Configure protections'] },
-  automod:   { emoji: '🤖', label: 'Auto Mod',          description: 'View commands in Auto Mod category',          commands: ['`/automod enable/disable` — Toggle auto-mod', '`/automod status` — View settings', '`/automod badword add/remove/list` — Manage bad words', '`/automod spam/links/caps/invites` — Toggle filters', '`/automod action` — Set punishment action', '`/automod logchannel` — Set log channel'] },
-  roleconfig: { emoji: '⚙️', label: 'Role Config',      description: 'View commands in Role Config category',       commands: ['`/role give` — Give a role to a member', '`/role remove` — Remove a role from a member', '`/role create` — Create a new role', '`/role delete` — Delete a role', '`/role info` — View role info', '`/role color` — Change role color', '`/role rename` — Rename a role', '`/role all` — Give role to all members'] },
-  moderation: { emoji: '🔨', label: 'Moderation',       description: 'View commands in Moderation category',        commands: ['`/ban` — Ban a member', '`/kick` — Kick a member', '`/mute` — Timeout a member', '`/unmute` — Remove timeout', '`/warn` — Warn a member', '`/warnings` — View warnings', '`/clearwarnings` — Clear warnings', '`/delwarn` — Delete a warning', '`/purge` — Bulk delete messages', '`/unban` — Unban a user', '`/softban` — Softban a member', '`/lock` — Lock a channel', '`/unlock` — Unlock a channel', '`/slowmode` — Set slowmode', '`/nick` — Change nickname'] },
-  smartmod:  { emoji: '🧠', label: 'Smart Moderation', description: 'View commands in Smart Moderation category', commands: ['`/smartmod enable/disable` — Toggle smart mod', '`/smartmod status` — View thresholds', '`/smartmod set mute_at` — Set mute threshold', '`/smartmod set kick_at` — Set kick threshold', '`/smartmod set ban_at` — Set ban threshold'] },
-  jtc:       { emoji: '➕', label: 'Join to Create',    description: 'View commands in Join to Create category',    commands: ['`/jtc setup` — Set up a JTC hub channel', '`/jtc remove` — Remove JTC setup', '`/jtc status` — View JTC settings', '`/voice rename` — Rename your channel', '`/voice lock/unlock` — Lock or unlock your channel', '`/voice limit` — Set user limit', '`/voice kick` — Kick user from channel', '`/voice claim` — Claim ownerless channel'] },
-  noprefix:  { emoji: '⚡', label: 'No Prefix',         description: 'View commands in No Prefix category',         commands: ['`/setprefix` — Change the bot prefix', '`/addcmd` — Add a custom command', '`/delcmd` — Delete a custom command', '`/listcmds` — List all custom commands'] },
+const CATEGORIES = {
+  antinuke:   { emoji: '🛡️', label: 'Anti Nuke',        color: 0xe74c3c, commands: ['`antinuke enable` — Enable anti-nuke', '`antinuke disable` — Disable anti-nuke', '`antinuke status` — View settings', '`antinuke whitelist add/remove/list` — Manage whitelist', '`antinuke settings` — Toggle protections (mass ban/kick/ch/role/bot/webhook)'] },
+  automod:    { emoji: '🤖', label: 'Auto Mod',          color: 0xe74c3c, commands: ['`automod enable/disable` — Toggle auto-mod', '`automod status` — View settings', '`automod badword add/remove/list` — Bad words', '`automod spam/links/caps/invites` — Toggle filters', '`automod action` — Set punishment', '`automod logchannel` — Set log channel'] },
+  roleconfig: { emoji: '⚙️', label: 'Role Config',       color: 0xe74c3c, commands: ['`role give <user> <role>` — Give role', '`role remove <user> <role>` — Remove role', '`role create <name>` — Create role', '`role delete <role>` — Delete role', '`role info <role>` — Role info', '`role color <role> <hex>` — Change color', '`role rename <role> <name>` — Rename', '`role all <role>` — Give to all members'] },
+  moderation: { emoji: '🔨', label: 'Moderation',        color: 0xe74c3c, commands: ['`ban <user> [reason]` — Ban member', '`kick <user> [reason]` — Kick member', '`mute <user> [dur] [reason]` — Timeout', '`unmute <user>` — Remove timeout', '`warn <user> [reason]` — Warn member', '`warnings <user>` — View warnings', '`clearwarnings <user>` — Clear warns', '`delwarn <id>` — Delete a warning', '`purge <amount>` — Delete messages', '`unban <id>` — Unban user', '`softban <user>` — Softban member', '`lock/unlock [channel]` — Lock channel', '`slowmode <secs>` — Set slowmode', '`nick <user> [name]` — Change nickname'] },
+  smartmod:   { emoji: '🧠', label: 'Smart Mod',         color: 0xe74c3c, commands: ['`smartmod enable/disable` — Toggle', '`smartmod status` — View thresholds', '`smartmod set mute_at <n>` — Mute threshold', '`smartmod set kick_at <n>` — Kick threshold', '`smartmod set ban_at <n>` — Ban threshold'] },
+  jtc:        { emoji: '➕', label: 'Join to Create',    color: 0xe74c3c, commands: ['`jtc setup <channel>` — Set hub channel', '`jtc remove` — Disable JTC', '`jtc status` — View JTC settings', '`voice rename <name>` — Rename your channel', '`voice lock/unlock` — Lock your channel', '`voice limit <n>` — Set user limit', '`voice kick <user>` — Kick from channel', '`voice claim` — Claim ownerless channel'] },
+  noprefix:   { emoji: '⚡', label: 'No Prefix',         color: 0xe74c3c, commands: ['`setprefix <prefix>` — Change server prefix', '`addcmd <name> <response>` — Add custom command', '`delcmd <name>` — Delete custom command', '`listcmds` — List all custom commands'] },
+  other:      { emoji: '❓', label: 'Other',             color: 0xe74c3c, commands: ['`uptime` — Show bot uptime', '`invite` — Get bot invite link', '`ping` — Check bot latency', '`botinfo` — View bot information'] },
+  autorole:   { emoji: '🎭', label: 'Auto Role',         color: 0xe74c3c, commands: ['`autorole add <role> [type]` — Add autorole', '`autorole remove <role>` — Remove autorole', '`autorole list` — List all autoroles', 'Types: `all` (default), `human`, `bot`'] },
+  welcomer:   { emoji: '👋', label: 'Welcomer',          color: 0xe74c3c, commands: ['`welcome setchannel <ch>` — Set channel', '`welcome setmessage <msg>` — Set message', '`welcome enable/disable` — Toggle welcome', '`welcome test` — Preview message', '`leave setchannel/setmessage/enable/disable`', 'Variables: `{user}` `{username}` `{server}` `{membercount}`'] },
+  selfroles:  { emoji: '🎀', label: 'Self Roles',        color: 0xe74c3c, commands: ['`selfrole create <title>` — Create menu', '`selfrole add <id> <role> <label>` — Add role', '`selfrole post <id>` — Post menu', '`selfrole delete <id>` — Delete menu', '`selfrole list` — List all menus'] },
+  utility:    { emoji: '🔧', label: 'Utility',           color: 0xe74c3c, commands: ['`serverinfo` — Server information', '`userinfo [user]` — User information', '`avatar [user]` — View avatar', '`snipe` — Last deleted message', '`setlog <channel>` — Set log channel', '`ping` — Bot latency', '`botinfo` — Bot info'] },
+  voice:      { emoji: '🎤', label: 'Voice',             color: 0xe74c3c, commands: ['`voice rename <name>` — Rename JTC channel', '`voice lock` — Lock your channel', '`voice unlock` — Unlock your channel', '`voice limit <n>` — Set user limit', '`voice kick <user>` — Kick a user', '`voice claim` — Claim a channel'] },
 };
 
-const OTHER_MENU = {
-  other:     { emoji: '❓', label: 'Other',             description: 'View commands in Other category',             commands: ['`/uptime` — Show bot uptime', '`/invite` — Get bot invite link'] },
-  autorole:  { emoji: '🎭', label: 'Auto Role',         description: 'View commands in Auto Role category',         commands: ['`/autorole add` — Add an autorole', '`/autorole remove` — Remove an autorole', '`/autorole list` — List all autoroles'] },
-  welcomer:  { emoji: '👋', label: 'Welcomer',          description: 'View commands in Welcomer category',          commands: ['`/welcome setchannel` — Set welcome channel', '`/welcome setmessage` — Set welcome message', '`/welcome enable/disable` — Toggle welcome', '`/welcome test` — Preview welcome message', '`/leave setchannel/setmessage/enable/disable` — Leave messages'] },
-  selfroles: { emoji: '🎀', label: 'Self Roles',        description: 'View commands in Self Roles category',        commands: ['`/selfrole create` — Create a role menu', '`/selfrole add` — Add a role to a menu', '`/selfrole post` — Post menu to channel', '`/selfrole delete` — Delete a menu', '`/selfrole list` — List all menus'] },
-  utility:   { emoji: '🔧', label: 'Utility',           description: 'View commands in Utility category',           commands: ['`/ping` — Check bot latency', '`/serverinfo` — View server info', '`/userinfo` — View user info', '`/botinfo` — View bot info', '`/avatar` — View a user\'s avatar', '`/snipe` — Show last deleted message', '`/setlog` — Set log channel'] },
-  voice:     { emoji: '🎤', label: 'Voice',             description: 'View commands in Voice category',             commands: ['`/voice rename` — Rename your JTC channel', '`/voice lock` — Lock your channel', '`/voice unlock` — Unlock your channel', '`/voice limit` — Set user limit', '`/voice kick` — Kick a user', '`/voice claim` — Claim a channel'] },
-};
+const MAIN_CATS  = ['antinuke', 'automod', 'roleconfig', 'moderation', 'smartmod', 'jtc', 'noprefix'];
+const OTHER_CATS = ['other', 'autorole', 'welcomer', 'selfroles', 'utility', 'voice'];
 
-const ALL = { ...MAIN_MENU, ...OTHER_MENU };
+function mainEmbed(client, prefix) {
+  const mainList  = MAIN_CATS .map(k => `${CATEGORIES[k].emoji} **${CATEGORIES[k].label}**`).join('\n');
+  const otherList = OTHER_CATS.map(k => `${CATEGORIES[k].emoji} **${CATEGORIES[k].label}**`).join('\n');
 
-function buildMainEmbed(client, prefix) {
-  const mainList = Object.values(MAIN_MENU).map(c => `${c.emoji} **: ${c.label}**`).join('\n');
-  const otherList = Object.values(OTHER_MENU).map(c => `${c.emoji} **: ${c.label}**`).join('\n');
   return new EmbedBuilder()
     .setColor(0xe74c3c)
-    .setTitle('AETHERBOT HELP MENU')
-    .setThumbnail(client.user.displayAvatarURL())
+    .setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL() })
+    .setTitle('『 HELP MENU 』')
     .setDescription(
-      `**Prefix** \`${prefix}\`\n**Total Commands: ${client.commands.size + client.prefixCommands.size}**\n\n` +
-      `\`\`\`${prefix}help <command> for more info!\nExample: ${prefix}help ban\`\`\``
+      `> **Prefix** \`${prefix}\`  •  **Commands** \`${Object.keys(CATEGORIES).length} categories\`\n` +
+      `> Use the buttons below to explore commands.\n\u200b`
     )
     .addFields(
-      { name: '**Main Menu**', value: mainList, inline: true },
-      { name: '**Others Menu**', value: otherList, inline: true }
+      { name: '── Main Menu ──', value: mainList,  inline: true },
+      { name: '\u200b',          value: '\u200b',  inline: true },
+      { name: '── Others ──',    value: otherList, inline: true }
     )
-    .setFooter({ text: 'Select a category below to view its commands.' });
+    .setImage('https://i.imgur.com/placeholder.gif')
+    .setFooter({ text: `${client.user.username} • Prefix: ${prefix}` })
+    .setTimestamp();
 }
 
-function buildCategoryEmbed(cat) {
+function categoryEmbed(key, client, prefix) {
+  const cat = CATEGORIES[key];
   return new EmbedBuilder()
-    .setColor(0xe74c3c)
-    .setTitle(`${cat.emoji} ${cat.label}`)
-    .setDescription(cat.commands.join('\n'))
-    .setFooter({ text: 'Use /help or .help to return to the main menu' });
+    .setColor(cat.color)
+    .setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL() })
+    .setTitle(`${cat.emoji}  ${cat.label}`)
+    .setDescription(cat.commands.map(c => `> ${c}`).join('\n'))
+    .setFooter({ text: `Prefix: ${prefix}  •  Use slash (/) or prefix (${prefix})` })
+    .setTimestamp();
 }
 
-function buildComponents(disabled = false) {
-  const mainSelect = new StringSelectMenuBuilder()
-    .setCustomId('help_main').setPlaceholder('Main Menu').setDisabled(disabled)
-    .addOptions(Object.entries(MAIN_MENU).map(([k, c]) => ({ label: c.label, description: c.description, value: k, emoji: c.emoji })));
-
-  const otherSelect = new StringSelectMenuBuilder()
-    .setCustomId('help_other').setPlaceholder('Other Menu').setDisabled(disabled)
-    .addOptions(Object.entries(OTHER_MENU).map(([k, c]) => ({ label: c.label, description: c.description, value: k, emoji: c.emoji })));
-
-  const backBtn = new ButtonBuilder().setCustomId('help_back').setLabel('Back to Menu').setStyle(ButtonStyle.Danger).setDisabled(disabled);
-  const inviteBtn = new ButtonBuilder().setLabel('Invite Bot').setStyle(ButtonStyle.Link).setURL('https://discord.com/oauth2/authorize?client_id=CLIENT_ID&permissions=8&scope=bot%20applications.commands');
+function buildRows(disabled = false) {
+  const btn = (id, cat, style = ButtonStyle.Secondary) =>
+    new ButtonBuilder()
+      .setCustomId(`help_cat_${id}`)
+      .setEmoji(CATEGORIES[id].emoji)
+      .setLabel(CATEGORIES[id].label)
+      .setStyle(style)
+      .setDisabled(disabled);
 
   return [
-    new ActionRowBuilder().addComponents(mainSelect),
-    new ActionRowBuilder().addComponents(otherSelect),
-    new ActionRowBuilder().addComponents(backBtn, inviteBtn),
+    new ActionRowBuilder().addComponents(
+      btn('antinuke'), btn('automod'), btn('roleconfig'), btn('moderation'), btn('smartmod')
+    ),
+    new ActionRowBuilder().addComponents(
+      btn('jtc'), btn('noprefix'), btn('other'), btn('autorole'), btn('welcomer')
+    ),
+    new ActionRowBuilder().addComponents(
+      btn('selfroles'), btn('utility'), btn('voice'),
+      new ButtonBuilder().setCustomId('help_home').setEmoji('🏠').setLabel('Home').setStyle(ButtonStyle.Danger).setDisabled(disabled)
+    ),
   ];
+}
+
+async function handleHelp(send, userId, client, prefix) {
+  const embed = mainEmbed(client, prefix);
+  const rows  = buildRows();
+  const msg   = await send({ embeds: [embed], components: rows });
+
+  const collector = msg.createMessageComponentCollector({
+    componentType: ComponentType.Button,
+    time: 120_000,
+  });
+
+  collector.on('collect', async i => {
+    if (i.user.id !== userId)
+      return i.reply({ content: '❌ This menu is not yours.', ephemeral: true });
+
+    if (i.customId === 'help_home') {
+      return i.update({ embeds: [mainEmbed(client, prefix)], components: buildRows() });
+    }
+
+    const key = i.customId.replace('help_cat_', '');
+    if (CATEGORIES[key]) {
+      await i.update({ embeds: [categoryEmbed(key, client, prefix)], components: buildRows() });
+    }
+  });
+
+  collector.on('end', () => {
+    msg.edit({ components: buildRows(true) }).catch(() => {});
+  });
+
+  return msg;
 }
 
 module.exports = {
   name: 'help',
-  aliases: ['h', 'commands'],
+  aliases: ['h', 'commands', 'cmds'],
   description: 'Browse all bot commands',
-  usage: 'help [command]',
-  data: new SlashCommandBuilder().setName('help').setDescription('Browse all bot commands'),
+  usage: 'help',
+  data: new SlashCommandBuilder()
+    .setName('help')
+    .setDescription('Browse all bot commands'),
 
   async execute(interaction, client) {
     const prefix = client.db.getGuild(interaction.guild.id).prefix || '.';
-    const embed = buildMainEmbed(client, prefix);
-    const components = buildComponents();
-    const msg = await interaction.reply({ embeds: [embed], components, fetchReply: true });
-
-    const collector = msg.createMessageComponentCollector({ time: 120000 });
-    collector.on('collect', async i => {
-      if (i.user.id !== interaction.user.id) return i.reply({ content: 'This menu is not for you.', ephemeral: true });
-      if (i.customId === 'help_back') return i.update({ embeds: [buildMainEmbed(client, prefix)], components: buildComponents() });
-      if (i.componentType === ComponentType.StringSelect) {
-        const cat = ALL[i.values[0]];
-        if (cat) await i.update({ embeds: [buildCategoryEmbed(cat)], components: buildComponents() });
-      }
-    });
-    collector.on('end', () => msg.edit({ components: buildComponents(true) }).catch(() => {}));
+    await handleHelp(
+      async (payload) => {
+        const { response } = await interaction.reply({ ...payload, withResponse: true });
+        return response;
+      },
+      interaction.user.id,
+      client,
+      prefix
+    );
   },
 
   async run(message, args, client) {
     const prefix = client.db.getGuild(message.guild.id).prefix || '.';
-    const embed = buildMainEmbed(client, prefix);
-    const components = buildComponents();
-    const msg = await message.reply({ embeds: [embed], components });
-
-    const collector = msg.createMessageComponentCollector({ time: 120000 });
-    collector.on('collect', async i => {
-      if (i.user.id !== message.author.id) return i.reply({ content: 'This menu is not for you.', ephemeral: true });
-      if (i.customId === 'help_back') return i.update({ embeds: [buildMainEmbed(client, prefix)], components: buildComponents() });
-      if (i.componentType === ComponentType.StringSelect) {
-        const cat = ALL[i.values[0]];
-        if (cat) await i.update({ embeds: [buildCategoryEmbed(cat)], components: buildComponents() });
-      }
-    });
-    collector.on('end', () => msg.edit({ components: buildComponents(true) }).catch(() => {}));
+    await handleHelp(
+      (payload) => message.reply(payload),
+      message.author.id,
+      client,
+      prefix
+    );
   },
 };
