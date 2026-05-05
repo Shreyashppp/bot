@@ -1,0 +1,93 @@
+2026-05-05T11:24:39.806291984Z [inf]  scheduling build on Metal builder "builder-wadqmk"
+2026-05-05T11:24:42.121684617Z [inf]  [snapshot] received sha256:0d6970aad7f4c33f9c78c4ac9a4592380f98560762aea6f534c778c8811f07b4 md5:1ca9322472d27de439daf7a4f8eefa17
+2026-05-05T11:24:42.121988382Z [inf]  receiving snapshot
+2026-05-05T11:24:42.127514589Z [dbg]  found 'railway.json' at 'railway.json'
+2026-05-05T11:24:42.127600508Z [inf]  analyzing snapshot
+2026-05-05T11:24:42.410822495Z [inf]  unpacking archive
+2026-05-05T11:24:42.411697978Z [inf]  uploading snapshot
+2026-05-05T11:24:42.587085528Z [inf]  using build driver nixpacks-v1.41.0
+2026-05-05T11:24:42.796805231Z [inf]  
+2026-05-05T11:24:42.796828597Z [inf]  ╔════════ Nixpacks v1.41.0 ═══════╗
+2026-05-05T11:24:42.796831962Z [inf]  ║ setup      │ nodejs_24, npm-9_x ║
+2026-05-05T11:24:42.796834205Z [inf]  ║─────────────────────────────────║
+2026-05-05T11:24:42.796834936Z [inf]  ║ install    │ npm ci             ║
+2026-05-05T11:24:42.796835587Z [inf]  ║─────────────────────────────────║
+2026-05-05T11:24:42.796836148Z [inf]  ║ start      │ node index.js      ║
+2026-05-05T11:24:42.796836518Z [inf]  ╚═════════════════════════════════╝
+2026-05-05T11:24:42.796836979Z [inf]  
+2026-05-05T11:24:42.797853203Z [inf]  
+2026-05-05T11:24:42.797867074Z [inf]  Saved output to:
+2026-05-05T11:24:42.797869547Z [inf]    snapshot-target-unpack
+2026-05-05T11:24:43.033794949Z [inf]  [internal] load build definition from Dockerfile
+2026-05-05T11:24:43.033809631Z [inf]  [internal] load build definition from Dockerfile
+2026-05-05T11:24:43.033936291Z [inf]  [internal] load build definition from Dockerfile
+2026-05-05T11:24:43.202891114Z [inf]  [internal] load build definition from Dockerfile
+2026-05-05T11:24:43.422290974Z [inf]  [internal] load metadata for ghcr.io/railwayapp/nixpacks:ubuntu-1745885067
+2026-05-05T11:24:43.571875260Z [inf]  [internal] load metadata for ghcr.io/railwayapp/nixpacks:ubuntu-1745885067
+2026-05-05T11:24:43.572307558Z [inf]  [internal] load .dockerignore
+2026-05-05T11:24:43.572330422Z [inf]  [internal] load .dockerignore
+2026-05-05T11:24:43.572457553Z [inf]  [internal] load .dockerignore
+2026-05-05T11:24:43.939743702Z [inf]  [internal] load .dockerignore
+2026-05-05T11:24:44.213765472Z [wrn]  SecretsUsedInArgOrEnv: Do not use ARG or ENV instructions for sensitive data (ARG "DISCORD_TOKEN") (line 11)(https://docs.docker.com/go/dockerfile/rule/secrets-used-in-arg-or-env/)
+ details: Sensitive data should not be used in the ARG or ENV commands
+
+2026-05-05T11:24:44.213979293Z [wrn]  SecretsUsedInArgOrEnv: Do not use ARG or ENV instructions for sensitive data (ENV "DISCORD_TOKEN") (line 12)(https://docs.docker.com/go/dockerfile/rule/secrets-used-in-arg-or-env/)
+ details: Sensitive data should not be used in the ARG or ENV commands
+
+2026-05-05T11:24:44.213995548Z [wrn]  UndefinedVar: Usage of undefined variable '$NIXPACKS_PATH' (line 18)(https://docs.docker.com/go/dockerfile/rule/undefined-var/)
+ details: Variables should be defined before their use
+
+2026-05-05T11:24:44.216638451Z [inf]  [stage-0 8/8] COPY . /app
+2026-05-05T11:24:44.216643539Z [inf]  [stage-0 7/8] RUN printf '\nPATH=/app/node_modules/.bin:$PATH' >> /root/.profile
+2026-05-05T11:24:44.216644410Z [inf]  [stage-0 6/8] RUN --mount=type=cache,id=s/fa2e9793-77dc-4e3b-9b85-1bcdb04f7867-/root/npm,target=/root/.npm npm ci
+2026-05-05T11:24:44.216645131Z [inf]  [stage-0 5/8] COPY . /app/.
+2026-05-05T11:24:44.216645932Z [inf]  [stage-0 4/8] RUN nix-env -if .nixpacks/nixpkgs-23f9169c4ccce521379e602cc82ed873a1f1b52b.nix && nix-collect-garbage -d
+2026-05-05T11:24:44.216646163Z [inf]  [stage-0 3/8] COPY .nixpacks/nixpkgs-23f9169c4ccce521379e602cc82ed873a1f1b52b.nix .nixpacks/nixpkgs-23f9169c4ccce521379e602cc82ed873a1f1b52b.nix
+2026-05-05T11:24:44.216646393Z [inf]  [internal] load build context
+2026-05-05T11:24:44.216646603Z [inf]  [stage-0 2/8] WORKDIR /app/
+2026-05-05T11:24:44.216646813Z [inf]  [stage-0 1/8] FROM ghcr.io/railwayapp/nixpacks:ubuntu-1745885067@sha256:d45c89d80e13d7ad0fd555b5130f22a866d9dd10e861f589932303ef2314c7de
+2026-05-05T11:24:44.216647034Z [inf]  [stage-0 1/8] FROM ghcr.io/railwayapp/nixpacks:ubuntu-1745885067@sha256:d45c89d80e13d7ad0fd555b5130f22a866d9dd10e861f589932303ef2314c7de
+2026-05-05T11:24:44.216921015Z [inf]  [internal] load build context
+2026-05-05T11:24:44.216926343Z [inf]  [internal] load build context
+2026-05-05T11:24:44.551869390Z [inf]  [internal] load build context
+2026-05-05T11:24:44.656385111Z [inf]  [stage-0 2/8] WORKDIR /app/
+2026-05-05T11:24:44.656391611Z [inf]  [stage-0 3/8] COPY .nixpacks/nixpkgs-23f9169c4ccce521379e602cc82ed873a1f1b52b.nix .nixpacks/nixpkgs-23f9169c4ccce521379e602cc82ed873a1f1b52b.nix
+2026-05-05T11:24:44.656392322Z [inf]  [stage-0 4/8] RUN nix-env -if .nixpacks/nixpkgs-23f9169c4ccce521379e602cc82ed873a1f1b52b.nix && nix-collect-garbage -d
+2026-05-05T11:24:44.656644109Z [inf]  [stage-0 5/8] COPY . /app/.
+2026-05-05T11:24:46.638137579Z [inf]  [stage-0 5/8] COPY . /app/.
+2026-05-05T11:24:46.704888138Z [inf]  [stage-0 6/8] RUN --mount=type=cache,id=s/fa2e9793-77dc-4e3b-9b85-1bcdb04f7867-/root/npm,target=/root/.npm npm ci
+2026-05-05T11:24:48.021568701Z [inf]  npm warn config production Use `--omit=dev` instead.
+
+2026-05-05T11:24:49.113915885Z [inf]  npm error code EUSAGE
+
+2026-05-05T11:24:49.11599977Z [inf]  npm error
+npm error `npm ci` can only install packages when your package.json and package-lock.json or npm-shrinkwrap.json are in sync. Please update your lock file with `npm install` before continuing.
+npm error
+npm error Invalid: lock file's @discordjs/voice@0.18.0 does not satisfy @discordjs/voice@0.17.0
+npm error Invalid: lock file's better-sqlite3@12.9.0 does not satisfy better-sqlite3@11.10.0
+npm error Invalid: lock file's dotenv@17.4.2 does not satisfy dotenv@16.6.1
+npm error Invalid: lock file's opusscript@0.0.8 does not satisfy opusscript@0.1.1
+npm error Invalid: lock file's discord-api-types@0.37.120 does not satisfy discord-api-types@0.37.83
+npm error
+npm error Clean install a project
+npm error
+npm error Usage:
+npm error npm ci
+npm error
+npm error Options:
+npm error [--install-strategy <hoisted|nested|shallow|linked>] [--legacy-bundling]
+npm error [--global-style] [--omit <dev|optional|peer> [--omit <dev|optional|peer> ...]]
+npm error [--include <prod|dev|optional|peer> [--include <prod|dev|optional|peer> ...]]
+npm error [--strict-peer-deps] [--foreground-scripts] [--ignore-scripts] [--no-audit]
+npm error [--no-bin-links] [--no-fund] [--dry-run]
+npm error [-w|--workspace <workspace-name> [-w|--workspace <workspace-name> ...]]
+npm error [--workspaces] [--include-workspace-root] [--install-links]
+npm error
+npm error aliases: clean-install, ic, install-clean, isntall-clean
+npm error
+npm error Run "npm help ci" for more info
+
+2026-05-05T11:24:49.117370726Z [inf]  npm error A complete log of this run can be found in: /root/.npm/_logs/2026-05-05T11_24_47_994Z-debug-0.log
+
+2026-05-05T11:24:49.501060764Z [err]  [stage-0 6/8] RUN --mount=type=cache,id=s/fa2e9793-77dc-4e3b-9b85-1bcdb04f7867-/root/npm,target=/root/.npm npm ci
+2026-05-05T11:24:49.571205292Z [err]  Build Failed: build daemon returned an error < failed to solve: process "/bin/bash -ol pipefail -c npm ci" did not complete successfully: exit code: 1 >
