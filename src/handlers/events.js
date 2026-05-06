@@ -8,12 +8,19 @@ async function loadEvents(client) {
 
   for (const file of files) {
     const event = require(path.join(eventsPath, file));
+
+    if (typeof event.execute !== 'function') {
+      continue;
+    }
+
     const name = event.eventName || file.replace('.js', '');
+
     if (event.once) {
       client.once(name, (...args) => event.execute(...args, client));
     } else {
       client.on(name, (...args) => event.execute(...args, client));
     }
+
     logger.info(`Loaded event: ${name}`);
   }
 }

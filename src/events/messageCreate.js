@@ -1,9 +1,18 @@
 const { handleAutomod } = require('./automodHandler');
 
+const processed = new Set();
+
 module.exports = {
   eventName: 'messageCreate',
   async execute(message, client) {
     if (message.author.bot || !message.guild) return;
+
+    if (processed.has(message.id)) {
+      console.warn(`[DUPLICATE] messageCreate fired twice for ${message.id} — blocking second execution`);
+      return;
+    }
+    processed.add(message.id);
+    setTimeout(() => processed.delete(message.id), 5000);
 
     await handleAutomod(message, client).catch(() => {});
 
@@ -25,10 +34,12 @@ module.exports = {
     const command = client.prefixCommands.get(commandName);
     if (!command) return;
 
+    console.log(`[CMD] ${message.author.tag} → ${prefix}${commandName} in ${message.guild.name}`);
+
     try {
       await command.run(message, args, client);
     } catch (err) {
-      console.error(err);
+      console.error(`[CMD ERROR] ${commandName}:`, err);
       await message.reply('❌ Something went wrong.').catch(() => {});
     }
   },

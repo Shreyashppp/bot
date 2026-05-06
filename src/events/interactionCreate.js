@@ -1,15 +1,27 @@
 const { errorEmbed } = require('../utils/embeds');
 
+const processed = new Set();
+
 module.exports = {
   eventName: 'interactionCreate',
   async execute(interaction, client) {
+    if (processed.has(interaction.id)) {
+      console.warn(`[DUPLICATE] interactionCreate fired twice for ${interaction.id} — blocking second execution`);
+      return;
+    }
+    processed.add(interaction.id);
+    setTimeout(() => processed.delete(interaction.id), 5000);
+
     if (interaction.isChatInputCommand()) {
       const command = client.commands.get(interaction.commandName);
       if (!command) return;
+
+      console.log(`[SLASH] ${interaction.user.tag} → /${interaction.commandName} in ${interaction.guild?.name}`);
+
       try {
         await command.execute(interaction, client);
       } catch (err) {
-        console.error(err);
+        console.error(`[SLASH ERROR] ${interaction.commandName}:`, err);
         const msg = { embeds: [errorEmbed('Something went wrong.')], flags: 64 };
         if (interaction.replied || interaction.deferred) {
           await interaction.followUp(msg).catch(() => {});
@@ -17,6 +29,7 @@ module.exports = {
           await interaction.reply(msg).catch(() => {});
         }
       }
+      return;
     }
 
     if (interaction.isButton()) {
