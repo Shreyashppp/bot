@@ -17,7 +17,7 @@ module.exports = {
       await channel.permissionOverwrites.edit(interaction.guild.roles.everyone, { SendMessages: null });
       await interaction.reply({ embeds: [successEmbed('Channel Unlocked', `🔓 ${channel} has been unlocked.`)] });
     } catch {
-      await interaction.reply({ embeds: [errorEmbed('Could not unlock that channel.')], ephemeral: true });
+      await interaction.reply({ embeds: [errorEmbed('Could not unlock that channel.')], flags: 64 });
     }
   },
 

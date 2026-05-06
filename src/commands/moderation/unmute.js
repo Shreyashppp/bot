@@ -14,12 +14,12 @@ module.exports = {
 
   async execute(interaction, client) {
     const target = interaction.options.getMember('user');
-    if (!target) return interaction.reply({ embeds: [errorEmbed('User not in server.')], ephemeral: true });
+    if (!target) return interaction.reply({ embeds: [errorEmbed('User not in server.')], flags: 64 });
     try {
       await target.timeout(null);
       await interaction.reply({ embeds: [successEmbed('Member Unmuted', `**${target.user.tag}** has been unmuted.`)] });
     } catch {
-      await interaction.reply({ embeds: [errorEmbed('Could not unmute that user.')], ephemeral: true });
+      await interaction.reply({ embeds: [errorEmbed('Could not unmute that user.')], flags: 64 });
     }
   },
 

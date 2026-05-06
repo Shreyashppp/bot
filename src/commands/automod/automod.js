@@ -55,7 +55,7 @@ module.exports = {
         return interaction.reply({ embeds: [new EmbedBuilder().setColor(COLORS.primary).setTitle('🤖 Bad Words').setDescription(a.bad_words_list.length ? a.bad_words_list.map(w => `\`${w}\``).join(', ') : 'No bad words set.')] });
       }
       const word = interaction.options.getString('word');
-      if (!word) return interaction.reply({ embeds: [errorEmbed('Provide a word.')], ephemeral: true });
+      if (!word) return interaction.reply({ embeds: [errorEmbed('Provide a word.')], flags: 64 });
       if (action === 'add') { client.db.addBadWord(guildId, word.toLowerCase()); client.db.setAutomod(guildId, 'bad_words', 1); return interaction.reply({ embeds: [successEmbed('Bad Word Added', `\`${word}\` added to bad words list.`)] }); }
       if (action === 'remove') { client.db.removeBadWord(guildId, word.toLowerCase()); return interaction.reply({ embeds: [successEmbed('Bad Word Removed', `\`${word}\` removed.`)] }); }
     }

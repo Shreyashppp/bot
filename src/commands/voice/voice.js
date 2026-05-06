@@ -28,19 +28,19 @@ module.exports = {
     const sub = interaction.options.getSubcommand();
     const member = interaction.member;
     const vc = member.voice.channel;
-    if (!vc) return interaction.reply({ embeds: [errorEmbed('You are not in a voice channel.')], ephemeral: true });
+    if (!vc) return interaction.reply({ embeds: [errorEmbed('You are not in a voice channel.')], flags: 64 });
 
     if (sub === 'claim') {
       const jtc = client.db.getJTCChannel(vc.id);
-      if (!jtc) return interaction.reply({ embeds: [errorEmbed('This is not a JTC channel.')], ephemeral: true });
+      if (!jtc) return interaction.reply({ embeds: [errorEmbed('This is not a JTC channel.')], flags: 64 });
       const owner = vc.members.get(jtc.owner_id);
-      if (owner) return interaction.reply({ embeds: [errorEmbed('The owner is still in the channel.')], ephemeral: true });
+      if (owner) return interaction.reply({ embeds: [errorEmbed('The owner is still in the channel.')], flags: 64 });
       client.db.db.prepare('UPDATE jtc_channels SET owner_id = ? WHERE channel_id = ?').run(member.id, vc.id);
       return interaction.reply({ embeds: [successEmbed('Channel Claimed', `You now own **${vc.name}**.`)] });
     }
 
     const channel = await getOwnedChannel(member, client);
-    if (!channel) return interaction.reply({ embeds: [errorEmbed('You do not own a JTC channel.')], ephemeral: true });
+    if (!channel) return interaction.reply({ embeds: [errorEmbed('You do not own a JTC channel.')], flags: 64 });
 
     if (sub === 'rename') {
       const name = interaction.options.getString('name');
@@ -62,7 +62,7 @@ module.exports = {
     }
     if (sub === 'kick') {
       const target = interaction.options.getMember('user');
-      if (!target?.voice?.channelId || target.voice.channelId !== channel.id) return interaction.reply({ embeds: [errorEmbed('That user is not in your channel.')], ephemeral: true });
+      if (!target?.voice?.channelId || target.voice.channelId !== channel.id) return interaction.reply({ embeds: [errorEmbed('That user is not in your channel.')], flags: 64 });
       await target.voice.disconnect();
       return interaction.reply({ embeds: [successEmbed('User Kicked', `**${target.user.tag}** was kicked from your channel.`)] });
     }

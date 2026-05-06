@@ -21,7 +21,7 @@ module.exports = {
       await interaction.guild.members.unban(userId, reason);
       await interaction.reply({ embeds: [successEmbed('Member Unbanned', `**${user.tag}** has been unbanned.`)] });
     } catch {
-      await interaction.reply({ embeds: [errorEmbed('Could not unban. User may not be banned or ID is invalid.')], ephemeral: true });
+      await interaction.reply({ embeds: [errorEmbed('Could not unban. User may not be banned or ID is invalid.')], flags: 64 });
     }
   },
 

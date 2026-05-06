@@ -27,12 +27,12 @@ module.exports = {
   async execute(interaction, client) {
     const target = interaction.options.getUser('user');
     const reason = interaction.options.getString('reason') || 'No reason provided';
-    if (target.id === interaction.user.id) return interaction.reply({ embeds: [errorEmbed('You cannot ban yourself.')], ephemeral: true });
+    if (target.id === interaction.user.id) return interaction.reply({ embeds: [errorEmbed('You cannot ban yourself.')], flags: 64 });
     try {
       await banUser(interaction.guild, target, interaction.user, reason, client.db);
       await interaction.reply({ embeds: [successEmbed('Member Banned', `**${target.tag}** has been banned.\n**Reason:** ${reason}`)] });
     } catch {
-      await interaction.reply({ embeds: [errorEmbed('Could not ban that user.')], ephemeral: true });
+      await interaction.reply({ embeds: [errorEmbed('Could not ban that user.')], flags: 64 });
     }
   },
 

@@ -10,7 +10,7 @@ module.exports = {
         await command.execute(interaction, client);
       } catch (err) {
         console.error(err);
-        const msg = { embeds: [errorEmbed('Something went wrong.')], ephemeral: true };
+        const msg = { embeds: [errorEmbed('Something went wrong.')], flags: 64 };
         if (interaction.replied || interaction.deferred) {
           await interaction.followUp(msg).catch(() => {});
         } else {
@@ -26,13 +26,13 @@ module.exports = {
         try {
           if (member.roles.cache.has(roleId)) {
             await member.roles.remove(roleId);
-            await interaction.reply({ content: `✅ Removed <@&${roleId}>`, ephemeral: true });
+            await interaction.reply({ content: `✅ Removed <@&${roleId}>`, flags: 64 });
           } else {
             await member.roles.add(roleId);
-            await interaction.reply({ content: `✅ Added <@&${roleId}>`, ephemeral: true });
+            await interaction.reply({ content: `✅ Added <@&${roleId}>`, flags: 64 });
           }
         } catch {
-          await interaction.reply({ content: '❌ Could not manage that role.', ephemeral: true });
+          await interaction.reply({ content: '❌ Could not manage that role.', flags: 64 });
         }
       }
     }

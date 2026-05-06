@@ -98,7 +98,7 @@ function setupCollector(msg, userId, client, prefix) {
 
   collector.on('collect', async i => {
     if (i.user.id !== userId)
-      return i.reply({ content: '❌ This menu is not for you.', ephemeral: true });
+      return i.reply({ content: '❌ This menu is not for you.', flags: 64 });
 
     if (i.customId === 'help_home') {
       return i.update({ embeds: [mainEmbed(client, prefix)], components: buildComponents() });

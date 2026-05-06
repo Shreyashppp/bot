@@ -41,7 +41,7 @@ module.exports = {
       const label = interaction.options.getString('label');
       const emoji = interaction.options.getString('emoji') || null;
       const menu = client.db.getSelfroleMenu(menuId);
-      if (!menu || menu.guild_id !== guildId) return interaction.reply({ embeds: [errorEmbed('Menu not found.')], ephemeral: true });
+      if (!menu || menu.guild_id !== guildId) return interaction.reply({ embeds: [errorEmbed('Menu not found.')], flags: 64 });
       client.db.addSelfroleEntry(menuId, role.id, label, emoji);
       return interaction.reply({ embeds: [successEmbed('Role Added', `${role} added to menu **#${menuId}**.`)] });
     }
@@ -50,9 +50,9 @@ module.exports = {
       const menuId = interaction.options.getInteger('menu_id');
       const channel = interaction.options.getChannel('channel') || interaction.channel;
       const menu = client.db.getSelfroleMenu(menuId);
-      if (!menu || menu.guild_id !== guildId) return interaction.reply({ embeds: [errorEmbed('Menu not found.')], ephemeral: true });
+      if (!menu || menu.guild_id !== guildId) return interaction.reply({ embeds: [errorEmbed('Menu not found.')], flags: 64 });
       const entries = client.db.getSelfroleEntries(menuId);
-      if (!entries.length) return interaction.reply({ embeds: [errorEmbed('No roles added to this menu yet.')], ephemeral: true });
+      if (!entries.length) return interaction.reply({ embeds: [errorEmbed('No roles added to this menu yet.')], flags: 64 });
 
       const embed = new EmbedBuilder().setColor(COLORS.primary).setTitle(menu.title).setDescription(menu.description);
       const rows = [];
@@ -69,7 +69,7 @@ module.exports = {
       const msg = await channel.send({ embeds: [embed], components: rows });
       client.db.updateSelfroleMenuMessage(menuId, msg.id);
       client.db.db.prepare('UPDATE selfrole_menus SET channel_id = ? WHERE id = ?').run(channel.id, menuId);
-      return interaction.reply({ embeds: [successEmbed('Menu Posted', `Role menu posted in ${channel}.`)], ephemeral: true });
+      return interaction.reply({ embeds: [successEmbed('Menu Posted', `Role menu posted in ${channel}.`)], flags: 64 });
     }
 
     if (sub === 'delete') {

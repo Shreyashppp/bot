@@ -4,7 +4,6 @@ const { loadCommands } = require('./src/handlers/commands');
 const { loadEvents } = require('./src/handlers/events');
 const logger = require('./src/utils/logger');
 const Database = require('./src/utils/database');
-const { handleAutomod } = require('./src/events/automodHandler');
 
 const client = new Client({
   intents: [
@@ -22,11 +21,6 @@ const client = new Client({
 client.commands = new Collection();
 client.prefixCommands = new Collection();
 client.db = new Database();
-client.queues = new Map();
-
-client.on('messageCreate', async (message) => {
-  await handleAutomod(message, client).catch(() => {});
-});
 
 (async () => {
   await loadCommands(client);
@@ -34,7 +28,7 @@ client.on('messageCreate', async (message) => {
 
   const token = process.env.DISCORD_TOKEN;
   if (!token) {
-    logger.error('DISCORD_TOKEN is not set. Please add it to your environment variables.');
+    logger.error('DISCORD_TOKEN is not set.');
     process.exit(1);
   }
 

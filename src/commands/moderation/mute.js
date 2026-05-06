@@ -26,7 +26,7 @@ module.exports = {
     const target = interaction.options.getMember('user');
     const dur = parseDuration(interaction.options.getString('duration') || '10m');
     const reason = interaction.options.getString('reason') || 'No reason provided';
-    if (!target) return interaction.reply({ embeds: [errorEmbed('User not in server.')], ephemeral: true });
+    if (!target) return interaction.reply({ embeds: [errorEmbed('User not in server.')], flags: 64 });
     try {
       await target.timeout(dur, reason);
       client.db.addWarning(interaction.guild.id, target.id, interaction.user.id, `Mute: ${reason}`);
@@ -37,7 +37,7 @@ module.exports = {
       }
       await interaction.reply({ embeds: [successEmbed('Member Muted', `**${target.user.tag}** has been muted for ${Math.round(dur / 60000)} min.\n**Reason:** ${reason}`)] });
     } catch {
-      await interaction.reply({ embeds: [errorEmbed('Could not mute that user.')], ephemeral: true });
+      await interaction.reply({ embeds: [errorEmbed('Could not mute that user.')], flags: 64 });
     }
   },
 

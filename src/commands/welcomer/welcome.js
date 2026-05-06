@@ -35,12 +35,12 @@ module.exports = {
     if (sub === 'disable') { client.db.setWelcomer(guildId, 'welcome_enabled', 0); return interaction.reply({ embeds: [successEmbed('Welcome Disabled', '❌ Welcome messages are now disabled.')] }); }
     if (sub === 'test') {
       const w = client.db.getWelcomer(guildId);
-      if (!w.welcome_channel) return interaction.reply({ embeds: [errorEmbed('No welcome channel set.')], ephemeral: true });
+      if (!w.welcome_channel) return interaction.reply({ embeds: [errorEmbed('No welcome channel set.')], flags: 64 });
       const channel = interaction.guild.channels.cache.get(w.welcome_channel);
-      if (!channel) return interaction.reply({ embeds: [errorEmbed('Welcome channel not found.')], ephemeral: true });
+      if (!channel) return interaction.reply({ embeds: [errorEmbed('Welcome channel not found.')], flags: 64 });
       const msg = (w.welcome_message || 'Welcome {user}!').replace(/{user}/g, `${interaction.user}`).replace(/{username}/g, interaction.user.username).replace(/{server}/g, interaction.guild.name).replace(/{membercount}/g, interaction.guild.memberCount);
       await channel.send({ embeds: [new EmbedBuilder().setColor(0xe74c3c).setDescription(msg).setThumbnail(interaction.user.displayAvatarURL({ dynamic: true })).setFooter({ text: `Member #${interaction.guild.memberCount}` }).setTimestamp()] });
-      return interaction.reply({ embeds: [successEmbed('Test Sent', `Preview sent to ${channel}.`)], ephemeral: true });
+      return interaction.reply({ embeds: [successEmbed('Test Sent', `Preview sent to ${channel}.`)], flags: 64 });
     }
     if (sub === 'status') {
       const w = client.db.getWelcomer(guildId);

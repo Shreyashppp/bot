@@ -16,7 +16,7 @@ module.exports = {
   async execute(interaction, client) {
     const target = interaction.options.getMember('user');
     const reason = interaction.options.getString('reason') || 'No reason provided';
-    if (!target) return interaction.reply({ embeds: [errorEmbed('User not in server.')], ephemeral: true });
+    if (!target) return interaction.reply({ embeds: [errorEmbed('User not in server.')], flags: 64 });
     try {
       await target.kick(reason);
       client.db.addWarning(interaction.guild.id, target.id, interaction.user.id, `Kick: ${reason}`);
@@ -27,7 +27,7 @@ module.exports = {
       }
       await interaction.reply({ embeds: [successEmbed('Member Kicked', `**${target.user.tag}** has been kicked.\n**Reason:** ${reason}`)] });
     } catch {
-      await interaction.reply({ embeds: [errorEmbed('Could not kick that user.')], ephemeral: true });
+      await interaction.reply({ embeds: [errorEmbed('Could not kick that user.')], flags: 64 });
     }
   },
 

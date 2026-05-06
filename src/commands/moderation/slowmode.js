@@ -18,7 +18,7 @@ module.exports = {
       await interaction.channel.setRateLimitPerUser(secs);
       await interaction.reply({ embeds: [successEmbed('Slowmode Set', secs === 0 ? 'Slowmode disabled.' : `Slowmode set to **${secs}** second(s).`)] });
     } catch {
-      await interaction.reply({ embeds: [errorEmbed('Could not set slowmode.')], ephemeral: true });
+      await interaction.reply({ embeds: [errorEmbed('Could not set slowmode.')], flags: 64 });
     }
   },
 

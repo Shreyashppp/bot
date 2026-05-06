@@ -16,7 +16,7 @@ module.exports = {
   async execute(interaction, client) {
     const amount = interaction.options.getInteger('amount');
     const user = interaction.options.getUser('user');
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ flags: 64 });
     let messages = await interaction.channel.messages.fetch({ limit: 100 });
     if (user) messages = messages.filter(m => m.author.id === user.id);
     messages = [...messages.values()].slice(0, amount);

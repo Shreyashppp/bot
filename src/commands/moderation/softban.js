@@ -21,7 +21,7 @@ module.exports = {
       await interaction.guild.members.unban(target.id, 'Softban');
       await interaction.reply({ embeds: [successEmbed('Member Softbanned', `**${target.tag}** has been softbanned.\n**Reason:** ${reason}`)] });
     } catch {
-      await interaction.reply({ embeds: [errorEmbed('Could not softban that user.')], ephemeral: true });
+      await interaction.reply({ embeds: [errorEmbed('Could not softban that user.')], flags: 64 });
     }
   },
 

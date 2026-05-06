@@ -14,7 +14,7 @@ module.exports = {
 
   async execute(interaction, client) {
     const prefix = interaction.options.getString('prefix');
-    if (prefix.length > 5) return interaction.reply({ embeds: [errorEmbed('Prefix must be 5 characters or less.')], ephemeral: true });
+    if (prefix.length > 5) return interaction.reply({ embeds: [errorEmbed('Prefix must be 5 characters or less.')], flags: 64 });
     client.db.setPrefix(interaction.guild.id, prefix);
     return interaction.reply({ embeds: [successEmbed('Prefix Updated', `Server prefix set to \`${prefix}\`.`)] });
   },

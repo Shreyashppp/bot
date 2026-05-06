@@ -10,7 +10,7 @@ module.exports = {
 
   async execute(interaction, client) {
     const snipe = client.db.getSnipe(interaction.channel.id);
-    if (!snipe) return interaction.reply({ embeds: [errorEmbed('No deleted messages found.')], ephemeral: true });
+    if (!snipe) return interaction.reply({ embeds: [errorEmbed('No deleted messages found.')], flags: 64 });
     const embed = new EmbedBuilder().setColor(COLORS.primary)
       .setTitle('🗑️ Sniped Message')
       .setDescription(snipe.content)

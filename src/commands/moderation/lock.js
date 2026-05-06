@@ -17,7 +17,7 @@ module.exports = {
       await channel.permissionOverwrites.edit(interaction.guild.roles.everyone, { SendMessages: false });
       await interaction.reply({ embeds: [successEmbed('Channel Locked', `🔒 ${channel} has been locked.`)] });
     } catch {
-      await interaction.reply({ embeds: [errorEmbed('Could not lock that channel.')], ephemeral: true });
+      await interaction.reply({ embeds: [errorEmbed('Could not lock that channel.')], flags: 64 });
     }
   },
 

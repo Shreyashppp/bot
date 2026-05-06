@@ -1,13 +1,20 @@
+const { handleAutomod } = require('./automodHandler');
+
 module.exports = {
   eventName: 'messageCreate',
   async execute(message, client) {
     if (message.author.bot || !message.guild) return;
 
+    await handleAutomod(message, client).catch(() => {});
+
     const guildData = client.db.getGuild(message.guild.id);
     const prefix = guildData.prefix || '.';
 
     if (!message.content.startsWith(prefix)) {
-      const customCmd = client.db.getCustomCommand(message.guild.id, message.content.trim().split(' ')[0]);
+      const customCmd = client.db.getCustomCommand(
+        message.guild.id,
+        message.content.trim().split(' ')[0].toLowerCase()
+      );
       if (customCmd) await message.channel.send(customCmd.response).catch(() => {});
       return;
     }

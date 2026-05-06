@@ -32,7 +32,7 @@ module.exports = {
 
   async execute(interaction, client) {
     if (!interaction.member.permissions.has(PermissionFlagsBits.Administrator))
-      return interaction.reply({ embeds: [errorEmbed('You need Administrator permission.')], ephemeral: true });
+      return interaction.reply({ embeds: [errorEmbed('You need Administrator permission.')], flags: 64 });
 
     const sub = interaction.options.getSubcommand();
     const guildId = interaction.guild.id;
@@ -74,7 +74,7 @@ module.exports = {
         return interaction.reply({ embeds: [new EmbedBuilder().setColor(COLORS.primary).setTitle('🛡️ Anti-Nuke Whitelist').setDescription(wl.length ? wl.map(id => `<@${id}>`).join('\n') : 'No users whitelisted.')] });
       }
       const user = interaction.options.getUser('user');
-      if (!user) return interaction.reply({ embeds: [errorEmbed('Provide a user.')], ephemeral: true });
+      if (!user) return interaction.reply({ embeds: [errorEmbed('Provide a user.')], flags: 64 });
       if (action === 'add') {
         client.db.addAntinukeWhitelist(guildId, user.id);
         return interaction.reply({ embeds: [successEmbed('Whitelist Updated', `**${user.tag}** added to Anti-Nuke whitelist.`)] });

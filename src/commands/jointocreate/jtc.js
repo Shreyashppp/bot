@@ -24,7 +24,7 @@ module.exports = {
     if (sub === 'setup') {
       const channel = interaction.options.getChannel('channel');
       const template = interaction.options.getString('template') || "{user}'s Channel";
-      if (channel.type !== ChannelType.GuildVoice) return interaction.reply({ embeds: [errorEmbed('Please select a voice channel.')], ephemeral: true });
+      if (channel.type !== ChannelType.GuildVoice) return interaction.reply({ embeds: [errorEmbed('Please select a voice channel.')], flags: 64 });
       client.db.setJTC(guildId, channel.id, channel.parentId, template);
       return interaction.reply({ embeds: [successEmbed('JTC Setup', `✅ Join **${channel.name}** to create a temporary voice channel.\n**Template:** \`${template}\``)] });
     }
@@ -36,7 +36,7 @@ module.exports = {
 
     if (sub === 'status') {
       const jtc = client.db.getJTC(guildId);
-      if (!jtc) return interaction.reply({ embeds: [errorEmbed('JTC is not set up.')], ephemeral: true });
+      if (!jtc) return interaction.reply({ embeds: [errorEmbed('JTC is not set up.')], flags: 64 });
       return interaction.reply({ embeds: [new EmbedBuilder().setColor(COLORS.primary).setTitle('🔊 Join to Create').addFields(
         { name: 'Hub Channel', value: `<#${jtc.hub_channel_id}>`, inline: true },
         { name: 'Name Template', value: jtc.name_template, inline: true }

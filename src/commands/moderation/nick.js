@@ -16,12 +16,12 @@ module.exports = {
   async execute(interaction, client) {
     const target = interaction.options.getMember('user');
     const nick = interaction.options.getString('nickname') || null;
-    if (!target) return interaction.reply({ embeds: [errorEmbed('User not in server.')], ephemeral: true });
+    if (!target) return interaction.reply({ embeds: [errorEmbed('User not in server.')], flags: 64 });
     try {
       await target.setNickname(nick);
       await interaction.reply({ embeds: [successEmbed('Nickname Changed', nick ? `Set **${target.user.tag}**'s nickname to **${nick}**.` : `Reset **${target.user.tag}**'s nickname.`)] });
     } catch {
-      await interaction.reply({ embeds: [errorEmbed('Could not change nickname.')], ephemeral: true });
+      await interaction.reply({ embeds: [errorEmbed('Could not change nickname.')], flags: 64 });
     }
   },
 
