@@ -26,14 +26,13 @@ const OTHER_CATS = ['other', 'autorole', 'welcomer', 'selfroles', 'utility', 'vo
 function mainEmbed(client, prefix) {
   const mainList  = MAIN_CATS .map(k => `${CATEGORIES[k].emoji} **: ${CATEGORIES[k].label}**`).join('\n');
   const otherList = OTHER_CATS.map(k => `${CATEGORIES[k].emoji} **: ${CATEGORIES[k].label}**`).join('\n');
-
   return new EmbedBuilder()
     .setColor(0xe74c3c)
     .setAuthor({ name: `${client.user.username} Help`, iconURL: client.user.displayAvatarURL() })
     .setTitle('『 HELP MENU 』')
     .setDescription(`**Prefix** \`${prefix}\`\n**Total Commands:** \`39 slash + prefix\`\n\n\`\`\`${prefix}help <command> for more info!\`\`\``)
     .addFields(
-      { name: '**✦ Main Menu**',  value: mainList,  inline: true },
+      { name: '**✦ Main Menu**',   value: mainList,  inline: true },
       { name: '**✦ Others Menu**', value: otherList, inline: true }
     )
     .setFooter({ text: `Select a category from the dropdown below • ${prefix}help` })
@@ -85,7 +84,7 @@ function buildComponents(disabled = false) {
     .setLabel('Invite Bot')
     .setStyle(ButtonStyle.Link)
     .setEmoji('📨')
-    .setURL('https://discord.com/oauth2/authorize?client_id=CLIENT_ID&permissions=8&scope=bot%20applications.commands');
+    .setURL('https://discord.com/oauth2/authorize?client_id=1368924261483065445&permissions=8&scope=bot%20applications.commands');
 
   return [
     new ActionRowBuilder().addComponents(mainMenu),
@@ -94,9 +93,7 @@ function buildComponents(disabled = false) {
   ];
 }
 
-async function handleHelp(send, userId, client, prefix) {
-  const msg = await send({ embeds: [mainEmbed(client, prefix)], components: buildComponents() });
-
+function setupCollector(msg, userId, client, prefix) {
   const collector = msg.createMessageComponentCollector({ time: 120_000 });
 
   collector.on('collect', async i => {
@@ -110,7 +107,7 @@ async function handleHelp(send, userId, client, prefix) {
     if (i.componentType === ComponentType.StringSelect) {
       const key = i.values[0];
       if (CATEGORIES[key]) {
-        await i.update({ embeds: [categoryEmbed(key, client, prefix)], components: buildComponents() });
+        return i.update({ embeds: [categoryEmbed(key, client, prefix)], components: buildComponents() });
       }
     }
   });
@@ -118,8 +115,6 @@ async function handleHelp(send, userId, client, prefix) {
   collector.on('end', () => {
     msg.edit({ components: buildComponents(true) }).catch(() => {});
   });
-
-  return msg;
 }
 
 module.exports = {
@@ -133,24 +128,14 @@ module.exports = {
 
   async execute(interaction, client) {
     const prefix = client.db.getGuild(interaction.guild.id).prefix || '.';
-    await handleHelp(
-      async (payload) => {
-        const { response } = await interaction.reply({ ...payload, withResponse: true });
-        return response;
-      },
-      interaction.user.id,
-      client,
-      prefix
-    );
+    await interaction.reply({ embeds: [mainEmbed(client, prefix)], components: buildComponents() });
+    const msg = await interaction.fetchReply();
+    setupCollector(msg, interaction.user.id, client, prefix);
   },
 
   async run(message, args, client) {
     const prefix = client.db.getGuild(message.guild.id).prefix || '.';
-    await handleHelp(
-      (payload) => message.reply(payload),
-      message.author.id,
-      client,
-      prefix
-    );
+    const msg = await message.reply({ embeds: [mainEmbed(client, prefix)], components: buildComponents() });
+    setupCollector(msg, message.author.id, client, prefix);
   },
 };
