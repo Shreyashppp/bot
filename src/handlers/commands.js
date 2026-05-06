@@ -13,27 +13,42 @@ async function loadCommands(client) {
         readDir(fullPath);
       } else if (entry.name.endsWith('.js')) {
         try {
+          // Clear require cache so hot-restarts load fresh copies
+          delete require.cache[require.resolve(fullPath)];
           const command = require(fullPath);
-          if (command.data && command.execute) {
-            client.commands.set(command.data.name, command);
-          }
-          if (command.name && command.run) {
-            client.prefixCommands.set(command.name, command);
-            if (command.aliases) {
-              command.aliases.forEach(a => client.prefixCommands.set(a, command));
+
+          if (command.data && typeof command.execute === 'function') {
+            if (client.commands.has(command.data.name)) {
+              logger.warn(`[COMMANDS] Duplicate slash command skipped: ${command.data.name}`);
+            } else {
+              client.commands.set(command.data.name, command);
             }
           }
-          const name = command.data?.name || command.name;
-          if (name) logger.info(`Loaded command: ${name}`);
+
+          if (command.name && typeof command.run === 'function') {
+            if (!client.prefixCommands.has(command.name)) {
+              client.prefixCommands.set(command.name, command);
+            }
+            if (command.aliases) {
+              for (const alias of command.aliases) {
+                if (!client.prefixCommands.has(alias)) {
+                  client.prefixCommands.set(alias, command);
+                }
+              }
+            }
+          }
+
+          const label = command.data?.name || command.name;
+          if (label) logger.info(`Loaded command: ${label}`);
         } catch (err) {
-          logger.error(`Failed to load command ${fullPath}:`, err);
+          logger.error(`Failed to load ${fullPath}: ${err.message}`);
         }
       }
     }
   }
 
   readDir(commandsPath);
-  logger.success(`Slash commands: ${client.commands.size} | Prefix commands: ${client.prefixCommands.size}`);
+  logger.info(`[COMMANDS] Slash: ${client.commands.size} | Prefix: ${client.prefixCommands.size}`);
 }
 
 module.exports = { loadCommands };

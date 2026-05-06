@@ -16,20 +16,18 @@ function acquireLock() {
       if (oldPid && oldPid !== process.pid) {
         try {
           process.kill(oldPid, 0);
-          logger.error(`Another bot instance (PID ${oldPid}) is already running. Killing it...`);
+          logger.warn(`Killing old instance PID ${oldPid}...`);
           process.kill(oldPid, 'SIGTERM');
-          setTimeout(() => {
-            try { process.kill(oldPid, 'SIGKILL'); } catch {}
-          }, 2000);
+          setTimeout(() => { try { process.kill(oldPid, 'SIGKILL'); } catch {} }, 3000);
         } catch {
-          // old process is already dead
+          logger.info(`Old instance PID ${oldPid} already dead.`);
         }
       }
     }
     fs.writeFileSync(LOCK_FILE, String(process.pid));
-    logger.info(`Bot started with PID ${process.pid}`);
+    logger.info(`[BOOT] Bot instance started — PID ${process.pid}`);
   } catch (err) {
-    logger.error('Failed to acquire lock:', err);
+    logger.error('Lock error:', err);
   }
 }
 
@@ -43,7 +41,6 @@ function releaseLock() {
 }
 
 acquireLock();
-
 process.on('exit', releaseLock);
 process.on('SIGTERM', () => { releaseLock(); process.exit(0); });
 process.on('SIGINT',  () => { releaseLock(); process.exit(0); });
@@ -64,6 +61,7 @@ const client = new Client({
 client.commands = new Collection();
 client.prefixCommands = new Collection();
 client.db = new Database();
+client.bootTime = Date.now();
 
 (async () => {
   await loadCommands(client);
@@ -75,6 +73,10 @@ client.db = new Database();
     process.exit(1);
   }
 
+  logger.info('[BOOT] Waiting 4s for old instance to fully disconnect from Discord...');
+  await new Promise(r => setTimeout(r, 4000));
+
+  logger.info('[BOOT] Logging in...');
   await client.login(token);
 })();
 
