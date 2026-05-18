@@ -1,7 +1,8 @@
-const { REST, Routes } = require('discord.js');
-const fs = require('fs');
-const path = require('path');
 require('dotenv').config();
+const { REST, Routes } = require('discord.js');
+const path = require('path');
+const fs = require('fs');
+const logger = require('./src/utils/logger');
 
 const commands = [];
 
@@ -12,38 +13,25 @@ function loadCommandsFromDir(dir) {
     if (entry.isDirectory()) {
       loadCommandsFromDir(fullPath);
     } else if (entry.name.endsWith('.js')) {
-      try {
-        const command = require(fullPath);
-        if (command.data) {
-          commands.push(command.data.toJSON());
-          console.log(`📤 Queued for deploy: /${command.data.name}`);
-        }
-      } catch (err) {
-        console.error(`❌ Failed to load for deploy ${fullPath}:`, err.message);
+      const cmd = require(fullPath);
+      if (cmd.data) {
+        commands.push(cmd.data.toJSON());
+        logger.info(`Queued: ${cmd.data.name}`);
       }
     }
   }
 }
 
-console.log('📁 Loading commands for deployment from src/commands...');
-const commandsPath = path.join(__dirname, 'src', 'commands');
-if (fs.existsSync(commandsPath)) {
-  loadCommandsFromDir(commandsPath);
-}
-
-console.log(`📦 Total commands to register: ${commands.length}`);
+loadCommandsFromDir(path.join(__dirname, 'src/commands'));
 
 const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
 
 (async () => {
   try {
-    console.log('🚀 Started refreshing application (/) commands...');
-    await rest.put(
-      Routes.applicationCommands(process.env.CLIENT_ID),
-      { body: commands }
-    );
-    console.log('✅ Successfully reloaded all slash commands!');
-  } catch (error) {
-    console.error('❌ Failed to deploy commands:', error);
+    logger.info(`Registering ${commands.length} slash commands globally...`);
+    await rest.put(Routes.applicationCommands(process.env.CLIENT_ID), { body: commands });
+    logger.info('All slash commands registered successfully!');
+  } catch (err) {
+    logger.error('Failed to register slash commands:', err);
   }
 })();
