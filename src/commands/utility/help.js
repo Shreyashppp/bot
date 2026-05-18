@@ -2,10 +2,9 @@ const {
   SlashCommandBuilder, EmbedBuilder,
   ActionRowBuilder, StringSelectMenuBuilder, ButtonBuilder, ButtonStyle, ComponentType
 } = require('discord.js');
-const { COLORS } = require('../../utils/embeds');
 
 const CATEGORIES = {
-  antinuke:   { emoji: '🛡️', label: 'Anti Nuke',        commands: ['`antinuke enable` — Enable anti-nuke', '`antinuke disable` — Disable anti-nuke', '`antinuke status` — View settings', '`antinuke whitelist add/remove/list` — Manage whitelist', '`antinuke settings` — Toggle protections (mass ban/kick/ch/role/bot/webhook)'] },
+  antinuke:   { emoji: '🛡️', label: 'Anti Nuke',        commands: ['`antinuke enable` — Enable anti-nuke', '`antinuke disable` — Disable anti-nuke', '`antinuke status` — View settings', '`antinuke whitelist add/remove/list` — Manage whitelist', '`antinuke settings` — Toggle protections'] },
   automod:    { emoji: '🤖', label: 'Auto Mod',          commands: ['`automod enable/disable` — Toggle auto-mod', '`automod status` — View settings', '`automod badword add/remove/list` — Bad words list', '`automod spam/links/caps/invites` — Toggle filters', '`automod action` — Set punishment action', '`automod logchannel` — Set log channel'] },
   roleconfig: { emoji: '⚙️', label: 'Role Config',       commands: ['`role give <user> <role>` — Give role to member', '`role remove <user> <role>` — Remove role', '`role create <name>` — Create a role', '`role delete <role>` — Delete a role', '`role info <role>` — View role info', '`role color <role> <hex>` — Change color', '`role rename <role> <name>` — Rename role', '`role all <role>` — Give role to all members'] },
   moderation: { emoji: '🔨', label: 'Moderation',        commands: ['`ban <user> [reason]` — Ban a member', '`kick <user> [reason]` — Kick a member', '`mute <user> [dur] [reason]` — Timeout member', '`unmute <user>` — Remove timeout', '`warn <user> [reason]` — Warn a member', '`warnings <user>` — View all warnings', '`clearwarnings <user>` — Clear all warnings', '`delwarn <id>` — Delete a warning', '`purge <amount>` — Bulk delete messages', '`unban <id>` — Unban a user', '`softban <user>` — Softban member', '`lock/unlock [channel]` — Lock a channel', '`slowmode <secs>` — Set slowmode', '`nick <user> [name]` — Change nickname'] },
@@ -24,64 +23,65 @@ const MAIN_CATS  = ['antinuke', 'automod', 'roleconfig', 'moderation', 'smartmod
 const OTHER_CATS = ['other', 'autorole', 'welcomer', 'selfroles', 'utility', 'voice'];
 
 function mainEmbed(client, prefix) {
-  const mainList  = MAIN_CATS .map(k => `${CATEGORIES[k].emoji} **: ${CATEGORIES[k].label}**`).join('\n');
-  const otherList = OTHER_CATS.map(k => `${CATEGORIES[k].emoji} **: ${CATEGORIES[k].label}**`).join('\n');
+  const mainList  = MAIN_CATS .map(k => `${CATEGORIES[k].emoji} **${CATEGORIES[k].label}**`).join('\n');
+  const otherList = OTHER_CATS.map(k => `${CATEGORIES[k].emoji} **${CATEGORIES[k].label}**`).join('\n');
+  
   return new EmbedBuilder()
-    .setColor(0xe74c3c)
-    .setAuthor({ name: `${client.user.username} Help`, iconURL: client.user.displayAvatarURL() })
-    .setTitle('『 HELP MENU 』')
-    .setDescription(`**Prefix** \`${prefix}\`\n**Total Commands:** \`39 slash + prefix\`\n\n\`\`\`${prefix}help <command> for more info!\`\`\``)
+    .setColor(0x5865F2)
+    .setAuthor({ name: `${client.user.username} • Pro Help`, iconURL: client.user.displayAvatarURL() })
+    .setTitle('✨  HELP CENTER  ✨')
+    .setDescription(`**Prefix:** \`${prefix}\`\n**Total Commands:** \`39+ slash + prefix\`\n\nUse the dropdown menus below to explore everything`)
     .addFields(
-      { name: '**✦ Main Menu**',   value: mainList,  inline: true },
-      { name: '**✦ Others Menu**', value: otherList, inline: true }
+      { name: '◆  MAIN FEATURES',   value: mainList,  inline: true },
+      { name: '◆  OTHER FEATURES', value: otherList, inline: true }
     )
-    .setFooter({ text: `Select a category from the dropdown below • ${prefix}help` })
+    .setFooter({ text: `AetherBot Pro • Select a category below` })
     .setTimestamp();
 }
 
 function categoryEmbed(key, client, prefix) {
   const cat = CATEGORIES[key];
   return new EmbedBuilder()
-    .setColor(0xe74c3c)
+    .setColor(0x5865F2)
     .setAuthor({ name: `${client.user.username} Help`, iconURL: client.user.displayAvatarURL() })
     .setTitle(`${cat.emoji}  ${cat.label}`)
     .setDescription(cat.commands.join('\n'))
-    .setFooter({ text: `Prefix: ${prefix}  •  Also works as /slash commands` })
+    .setFooter({ text: `Prefix: ${prefix}  •  Slash commands also supported` })
     .setTimestamp();
 }
 
 function buildComponents(disabled = false) {
   const mainMenu = new StringSelectMenuBuilder()
     .setCustomId('help_main')
-    .setPlaceholder('✦ Main Menu')
+    .setPlaceholder('◆  Main Features Menu')
     .setDisabled(disabled)
     .addOptions(MAIN_CATS.map(k => ({
       label: CATEGORIES[k].label,
       value: k,
       emoji: CATEGORIES[k].emoji,
-      description: `View ${CATEGORIES[k].label} commands`,
+      description: `Explore ${CATEGORIES[k].label}`,
     })));
 
   const otherMenu = new StringSelectMenuBuilder()
     .setCustomId('help_other')
-    .setPlaceholder('✦ Others Menu')
+    .setPlaceholder('◆  Other Features Menu')
     .setDisabled(disabled)
     .addOptions(OTHER_CATS.map(k => ({
       label: CATEGORIES[k].label,
       value: k,
       emoji: CATEGORIES[k].emoji,
-      description: `View ${CATEGORIES[k].label} commands`,
+      description: `Explore ${CATEGORIES[k].label}`,
     })));
 
   const backBtn = new ButtonBuilder()
     .setCustomId('help_home')
-    .setLabel('Back to Menu')
+    .setLabel('Back to Home')
     .setEmoji('🏠')
-    .setStyle(ButtonStyle.Danger)
+    .setStyle(ButtonStyle.Secondary)
     .setDisabled(disabled);
 
   const inviteBtn = new ButtonBuilder()
-    .setLabel('Invite Bot')
+    .setLabel('Invite the Bot')
     .setStyle(ButtonStyle.Link)
     .setEmoji('📨')
     .setURL('https://discord.com/oauth2/authorize?client_id=1368924261483065445&permissions=8&scope=bot%20applications.commands');
@@ -94,7 +94,7 @@ function buildComponents(disabled = false) {
 }
 
 function setupCollector(msg, userId, client, prefix) {
-  const collector = msg.createMessageComponentCollector({ time: 120_000 });
+  const collector = msg.createMessageComponentCollector({ time: 180_000 });
 
   collector.on('collect', async i => {
     if (i.user.id !== userId)
