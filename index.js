@@ -15,10 +15,9 @@ const client = new Client({
 
 client.commands = new Collection();
 
-/**
- * Recursively load all slash commands from a directory
- */
+// Load from src/commands (main professional commands)
 function loadCommandsFromDir(dir) {
+  if (!fs.existsSync(dir)) return;
   const entries = fs.readdirSync(dir, { withFileTypes: true });
   for (const entry of entries) {
     const fullPath = path.join(dir, entry.name);
@@ -32,23 +31,40 @@ function loadCommandsFromDir(dir) {
           console.log(`✅ Loaded: /${command.data.name}`);
         }
       } catch (err) {
-        console.error(`❌ Failed to load ${fullPath}:`, err.message);
+        console.error(`❌ Load error ${fullPath}:`, err.message);
       }
     }
   }
 }
 
-function loadAllCommands() {
-  const commandsPath = path.join(__dirname, 'src', 'commands');
-  if (fs.existsSync(commandsPath)) {
-    console.log('📁 Loading commands from src/commands...');
-    loadCommandsFromDir(commandsPath);
+// Load simple commands from flat commands/ folder (these can override)
+function loadSimpleCommands() {
+  const simplePath = path.join(__dirname, 'commands');
+  if (!fs.existsSync(simplePath)) return;
+  const files = fs.readdirSync(simplePath).filter(f => f.endsWith('.js'));
+  for (const file of files) {
+    try {
+      const command = require(path.join(simplePath, file));
+      if (command.data && typeof command.execute === 'function') {
+        client.commands.set(command.data.name, command); // Override if exists
+        console.log(`✅ Simple override: /${command.data.name}`);
+      }
+    } catch (err) {
+      console.error(`❌ Simple load error ${file}:`, err.message);
+    }
   }
-  console.log(`📦 Total commands loaded: ${client.commands.size}`);
+}
+
+function loadAllCommands() {
+  console.log('📁 Loading from src/commands...');
+  loadCommandsFromDir(path.join(__dirname, 'src', 'commands'));
+  console.log('📁 Loading simple commands (overrides)...');
+  loadSimpleCommands();
+  console.log(`📦 Total loaded: ${client.commands.size}`);
 }
 
 client.once('ready', () => {
-  console.log(`🚀 ${client.user.tag} is now online and fresh!`);
+  console.log(`🚀 ${client.user.tag} is now online!`);
   loadAllCommands();
 });
 
@@ -56,42 +72,30 @@ client.on('interactionCreate', async (interaction) => {
   if (!interaction.isChatInputCommand()) return;
 
   const command = client.commands.get(interaction.commandName);
-
-  if (!command) {
-    console.warn(`⚠️ Command not found: ${interaction.commandName}`);
-    return;
-  }
+  if (!command) return;
 
   try {
-    console.log(`▶️ Running /${interaction.commandName} by ${interaction.user.tag}`);
+    console.log(`▶️ /${interaction.commandName} by ${interaction.user.tag}`);
     
     if (!interaction.deferred && !interaction.replied) {
       await interaction.deferReply().catch(() => {});
     }
     
     await command.execute(interaction, client);
-    
   } catch (error) {
-    console.error(`❌ Error in /${interaction.commandName}:`);
-    console.error(error); // Full error object
+    console.error(`❌ CRASH in /${interaction.commandName}:`);
+    console.error(error.stack || error);  // Full stack trace
     
-    const errorMsg = '❌ Something went wrong while running this command.';
-    
+    const msg = { content: '❌ Something went wrong while running this command.', ephemeral: true };
     try {
       if (interaction.deferred || interaction.replied) {
-        await interaction.editReply({ content: errorMsg, ephemeral: true }).catch(() => {});
+        await interaction.editReply(msg).catch(() => {});
       } else {
-        await interaction.reply({ content: errorMsg, ephemeral: true }).catch(() => {});
+        await interaction.reply(msg).catch(() => {});
       }
-    } catch (e) {
-      console.error('Failed to send error message:', e.message);
-    }
+    } catch {}
   }
 });
 
 const token = process.env.DISCORD_TOKEN;
-if (!token) {
-  console.error('❌ DISCORD_TOKEN is missing!');
-} else {
-  client.login(token);
-}
+if (token) client.login(token);
