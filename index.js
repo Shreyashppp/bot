@@ -63,7 +63,7 @@ function loadAllCommands() {
   console.log(`📦 Total loaded: ${client.commands.size}`);
 }
 
-client.once('ready', () => {
+client.once('clientReady', () => {
   console.log(`🚀 ${client.user.tag} is now online!`);
   loadAllCommands();
 });
