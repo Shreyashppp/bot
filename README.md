@@ -1,18 +1,9 @@
-# AetherBot v3.0 - Fresh Professional Discord Bot
+# AetherBot Pro
 
-A clean, modern Discord bot built from scratch with Discord.js v14.
+Clean Discord bot with discord.js v14.
 
 ## Quick Start
-1. Clone the repo
-2. `npm install`
-3. Create `.env` file with your bot token
-4. `npm run deploy`
-5. `npm start`
-
-## Features
-- Slash Commands
-- Event Handlers
-- Modular Design
-- Ready for extensions (Music, Moderation, etc.)
-
-Made with ❤️ using Grok
+1. `npm install`
+2. Copy `.env.example` to `.env` and add tokens
+3. `node deploy-commands.js`
+4. `npm start`
