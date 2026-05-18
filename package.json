@@ -1,15 +1,1 @@
-{
-  "name": "aetherbot",
-  "version": "3.0.0",
-  "description": "Fresh Professional Discord Bot",
-  "main": "index.js",
-  "scripts": {
-    "start": "node index.js",
-    "deploy": "node deploy-commands.js",
-    "dev": "node index.js"
-  },
-  "dependencies": {
-    "discord.js": "^14.15.3",
-    "dotenv": "^16.4.5"
-  }
-}
+{"name": "aetherbot", "version": "3.0.0", "main": "index.js", "scripts": {"start": "node index.js", "deploy": "node deploy-commands.js"}, "dependencies": {"discord.js": "^14.15.3", "dotenv": "^16.4.5"}}}
