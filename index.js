@@ -75,25 +75,33 @@ client.on('interactionCreate', async (interaction) => {
   if (!command) return;
 
   try {
-    console.log(`▶️ /${interaction.commandName} by ${interaction.user.tag}`);
+    console.log(`▶️ Running /${interaction.commandName} by ${interaction.user.tag}`);
     
+    // Defer early to prevent timeout
     if (!interaction.deferred && !interaction.replied) {
       await interaction.deferReply().catch(() => {});
     }
     
     await command.execute(interaction, client);
-  } catch (error) {
-    console.error(`❌ CRASH in /${interaction.commandName}:`);
-    console.error(error.stack || error);  // Full stack trace
     
-    const msg = { content: '❌ Something went wrong while running this command.', ephemeral: true };
+  } catch (error) {
+    console.error(`❌ Error in /${interaction.commandName}:`);
+    console.error(error.stack || error);
+
+    const errorMessage = { 
+      content: 'There was an error while executing this command!', 
+      ephemeral: true 
+    };
+
     try {
-      if (interaction.deferred || interaction.replied) {
-        await interaction.editReply(msg).catch(() => {});
+      if (interaction.replied || interaction.deferred) {
+        await interaction.followUp(errorMessage).catch(() => {});
       } else {
-        await interaction.reply(msg).catch(() => {});
+        await interaction.reply(errorMessage).catch(() => {});
       }
-    } catch {}
+    } catch (e) {
+      console.error('Failed to send error reply:', e.message);
+    }
   }
 });
 
