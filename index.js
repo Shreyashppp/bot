@@ -16,7 +16,7 @@ const client = new Client({
 client.commands = new Collection();
 
 /**
- * Recursively load all slash commands from a directory (supports src/commands structure)
+ * Recursively load all slash commands from a directory
  */
 function loadCommandsFromDir(dir) {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
@@ -43,8 +43,6 @@ function loadAllCommands() {
   if (fs.existsSync(commandsPath)) {
     console.log('📁 Loading commands from src/commands...');
     loadCommandsFromDir(commandsPath);
-  } else {
-    console.log('⚠️ No src/commands folder found');
   }
   console.log(`📦 Total commands loaded: ${client.commands.size}`);
 }
@@ -67,7 +65,6 @@ client.on('interactionCreate', async (interaction) => {
   try {
     console.log(`▶️ Running /${interaction.commandName} by ${interaction.user.tag}`);
     
-    // Always defer early to prevent "application did not respond"
     if (!interaction.deferred && !interaction.replied) {
       await interaction.deferReply().catch(() => {});
     }
@@ -75,21 +72,19 @@ client.on('interactionCreate', async (interaction) => {
     await command.execute(interaction, client);
     
   } catch (error) {
-    console.error(`❌ Error in /${interaction.commandName}:`, error);
+    console.error(`❌ Error in /${interaction.commandName}:`);
+    console.error(error); // Full error object
     
-    const errorPayload = { 
-      content: '❌ Something went wrong while running this command.', 
-      ephemeral: true 
-    };
+    const errorMsg = '❌ Something went wrong while running this command.';
     
     try {
       if (interaction.deferred || interaction.replied) {
-        await interaction.editReply(errorPayload).catch(() => {});
+        await interaction.editReply({ content: errorMsg, ephemeral: true }).catch(() => {});
       } else {
-        await interaction.reply(errorPayload).catch(() => {});
+        await interaction.reply({ content: errorMsg, ephemeral: true }).catch(() => {});
       }
     } catch (e) {
-      console.error('Failed to send error reply:', e.message);
+      console.error('Failed to send error message:', e.message);
     }
   }
 });
